@@ -1,19 +1,18 @@
 <script lang="ts">
+  import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import SectionTitle from "$lib/components/SectionTitle.svelte";
   import Skillbar from "$lib/components/Skillbar.svelte";
   import { formatNumber } from "$lib/shared/helper";
-  import type { ValidStats as StatsType } from "$lib/types/stats";
   import { Avatar, Collapsible } from "bits-ui";
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
-  import { getContext } from "svelte";
 
-  const profile = getContext<StatsType>("profile");
-  const dungeons = profile.dungeons;
+  const { profile } = getProfileCtx();
+  const dungeons = $derived(profile.dungeons);
 </script>
 
 <div class="space-y-4">
@@ -131,7 +130,7 @@
               <Collapsible.Root class="p-5">
                 <Collapsible.Trigger class="group flex items-center gap-0.5">
                   <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
-                  <SectionSubtitle>Floor Stats</SectionSubtitle>
+                  <SectionSubtitle class="my-0">Floor Stats</SectionSubtitle>
                 </Collapsible.Trigger>
                 <Collapsible.Content>
                   {#each Object.entries(catacomb.stats) as [key, value]}
@@ -148,7 +147,7 @@
                 <Collapsible.Root class="px-5 pb-[2.5rem]">
                   <Collapsible.Trigger class="group flex items-center gap-0.5">
                     <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
-                    <SectionSubtitle>Best run</SectionSubtitle>
+                    <SectionSubtitle class="my-0">Best run</SectionSubtitle>
                   </Collapsible.Trigger>
                   <Collapsible.Content>
                     {#each Object.entries(catacomb.best_run) as [key, value]}

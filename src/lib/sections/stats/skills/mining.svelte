@@ -1,20 +1,19 @@
 <script lang="ts">
+  import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Item from "$lib/components/Item.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
   import { getRarityClass } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
-  import type { ValidStats as StatsType } from "$lib/types/stats";
-  import { formatDate, formatDistanceStrict } from "date-fns";
+  import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import { format } from "numerable";
-  import { getContext } from "svelte";
   import { fade } from "svelte/transition";
 
-  const profile = getContext<StatsType>("profile");
+  const { profile } = getProfileCtx();
 
-  const highestPriorityMiningTool = profile.items.mining_tools.highest_priority_tool;
-  const miningTools = profile.items.mining_tools.tools;
+  const highestPriorityMiningTool = $derived(profile.items.mining_tools.highest_priority_tool);
+  const miningTools = $derived(profile.items.mining_tools.tools);
 </script>
 
 <Items>
@@ -42,12 +41,12 @@
       Last purchased:
       <span class="text-text">
         {#if passActive}
-          {formatDistanceStrict(profile.mining.crystalHollows.crystalHollowsLastAccess, Date.now(), {
+          {formatDistanceToNowStrict(profile.mining.crystalHollows.crystalHollowsLastAccess, {
             addSuffix: true
           })}
         {:else}
           {formatDate(profile.mining.crystalHollows.crystalHollowsLastAccess, "dd MMMM yyyy 'at' HH:mm")}
-          ({formatDistanceStrict(profile.mining.crystalHollows.crystalHollowsLastAccess, Date.now(), {
+          ({formatDistanceToNowStrict(profile.mining.crystalHollows.crystalHollowsLastAccess, {
             addSuffix: true
           })})
         {/if}
@@ -143,7 +142,7 @@
   {/if}
   {#each profile.mining.forge as item}
     {@const ended = item.endingTime < Date.now()}
-    <AdditionStat text={`Slot ${item.slot}`} data={`${item.name} - ${ended ? "ended" : `ends ${formatDistanceStrict(item.endingTime, Date(), { addSuffix: true })}`}`} asterisk={true}>
+    <AdditionStat text={`Slot ${item.slot}`} data={`${item.name} - ${ended ? "ended" : `ends ${formatDistanceToNowStrict(item.endingTime, { addSuffix: true })}`}`} asterisk={true}>
       {formatDate(item.endingTime, "dd MMMM yyyy 'at' HH:mm")}
     </AdditionStat>
   {/each}
