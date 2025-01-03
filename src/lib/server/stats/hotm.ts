@@ -34,7 +34,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
       display_name: node.name,
       id: node.itemData.id,
       rarity: node.rarity,
-      damage: node.itemData.Damage,
+      Damage: node.itemData.damage,
       glowing: node.itemData.glowing,
       tag: {
         display: {
@@ -56,7 +56,7 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
       display_name: `Tier ${tier}`,
       rarity: hotm.rarity,
       id: hotm.itemData.id,
-      damage: hotm.itemData.Damage,
+      Damage: hotm.itemData.damage,
       glowing: hotm.itemData.glowing,
       tag: {
         display: {
@@ -75,9 +75,9 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
     const item = new itemClass({
       resources: {
         token_of_the_mountain: calcHotmTokens(hotmLevelData.level, data.nodes?.special_0 ?? 0),
-        mithril_powder: userProfile.mining_core.powder_spent_glacite,
-        gemstone_powder: userProfile.mining_core.powder_spent_gemstone,
-        glacite_powder: userProfile.mining_core.powder_spent_glacite
+        mithril_powder: userProfile.mining_core.powder_mithril_total,
+        gemstone_powder: userProfile.mining_core.powder_gemstone_total,
+        glacite_powder: userProfile.mining_core.powder_glacite_total
       },
       crystals: userProfile.mining_core.crystals,
       last_reset: userProfile.mining_core.last_reset
@@ -87,9 +87,9 @@ export function getHotmItems(userProfile: Member, packs: string[]) {
       display_name: helper.getRawLore(item.displayName),
       rarity: item.rarity,
       id: item.itemData.id,
-      damage: item.itemData.Damage,
+      Damage: item.itemData.damage,
       glowing: item.itemData.glowing,
-      texture_path: item.itemData?.texture_path,
+      texture_path: item.texture_path,
       tag: {
         display: {
           Name: item.displayName,
