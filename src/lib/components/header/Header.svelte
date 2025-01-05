@@ -9,8 +9,6 @@
   import { zodClient } from "sveltekit-superforms/adapters";
   import { schema } from "../../../routes/schema";
 
-  console.log(page);
-
   const form = superForm(page.data.searchForm, {
     validators: zodClient(schema)
   });
