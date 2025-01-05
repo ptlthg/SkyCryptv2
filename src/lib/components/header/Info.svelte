@@ -123,7 +123,7 @@
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[calc(96%-48px)] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
         <div class="mx-auto w-full max-w-md overflow-auto p-6">
           {@render info()}
         </div>
