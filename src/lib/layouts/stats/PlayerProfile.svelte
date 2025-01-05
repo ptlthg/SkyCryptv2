@@ -45,7 +45,7 @@
       </div>
       <span class="pl-4">{profile.displayName}</span>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="z-[99999] min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="z-50 min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.members as member}
         {#if member.username !== profile.username}
           <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">
@@ -63,7 +63,7 @@
       {profile.profile_cute_name}
     </DropdownMenu.Trigger>
 
-    <DropdownMenu.Content class="z-[99999]  min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="z-50  min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.profiles ?? [] as otherProfile}
         {#if otherProfile.profile_id !== profile.profile_id}
           <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">

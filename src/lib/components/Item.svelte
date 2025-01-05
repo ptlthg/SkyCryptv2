@@ -107,8 +107,8 @@
       {@render item()}
     </Drawer.Trigger>
     <Drawer.Portal>
-      <Drawer.Overlay class="fixed inset-0 z-[998] bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-[999] flex max-h-[calc(96%-48px)] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
+      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[calc(96%-48px)] flex-col rounded-t-[10px] bg-background-lore">
         <div class={cn(`flex flex-nowrap items-center justify-center gap-4 rounded-t-[10px] p-5`, bgColor)}>
           <Avatar.Root>
             <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none overflow-hidden" data-enchanted={enchanted} />

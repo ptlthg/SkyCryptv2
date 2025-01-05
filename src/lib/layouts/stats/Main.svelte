@@ -8,6 +8,7 @@
   import Stats from "$lib/layouts/stats/Stats.svelte";
   import Armor from "$lib/sections/stats/Armor.svelte";
   import type { Stats as StatsType, ValidStats } from "$lib/types/stats";
+
   let { profile }: { profile: StatsType } = $props();
 
   $effect.pre(() => {

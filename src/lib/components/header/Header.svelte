@@ -4,7 +4,7 @@
   import { Avatar, Button } from "bits-ui";
 </script>
 
-<header class="fixed left-0 top-0 z-[1000] h-12 w-full overflow-clip bg-header px-2.5 pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container">
+<header class="fixed bottom-0 left-0 z-30 h-12 w-full overflow-clip bg-header px-2.5 pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container sm:top-0">
   <div class="flex h-full w-full justify-center @md:justify-between">
     <div class="flex gap-2">
       <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold">
