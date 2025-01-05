@@ -37,6 +37,9 @@
     <Navbar />
 
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
+      {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
+        <Notice />
+      {/await}
       <section id="Armor" class="scroll-m-32">
         {#if profile.items && profile.items.armor && profile.items.equipment && profile.items.wardrobe}
           <Armor />
