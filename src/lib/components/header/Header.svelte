@@ -9,6 +9,8 @@
   import { zodClient } from "sveltekit-superforms/adapters";
   import { schema } from "../../../routes/schema";
 
+  console.log(page);
+
   const form = superForm(page.data.searchForm, {
     validators: zodClient(schema)
   });
@@ -28,23 +30,27 @@
       </Button.Root>
       <HeaderInfo />
     </div>
-    <div class="mx-auto my-1.5 hidden w-full max-w-lg px-4 @[38rem]:block">
-      <form method="POST" action="/search" use:enhance class="relative flex h-full w-full items-center justify-start overflow-clip rounded-[1.125rem] bg-background/20">
-        <Field {form} name="query">
-          <Control>
-            {#snippet children({ props })}
-              <input {...props} type="search" required placeholder="Enter username" class="flex-shrink flex-grow bg-transparent px-4 pr-14 font-semibold text-text transition-colors duration-300 placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 focus-visible:outline-none" bind:value={$formData.query} />
-            {/snippet}
-          </Control>
-          {#if $formData.query.length > 0 && $tainted?.query && $errors.query}
-            <FieldErrors class="text-center text-sm font-semibold text-text/80" />
-          {/if}
-        </Field>
-        <Button.Root type="submit" class="absolute right-0 z-10 flex h-full items-center justify-center rounded-[1.125rem] bg-background/15 px-4">
-          <Search class="size-6 text-text" />
-        </Button.Root>
-      </form>
-    </div>
+
+    {#if page.url.pathname.startsWith("/stats")}
+      <div class="mx-auto my-1.5 hidden w-full max-w-lg px-4 @[38rem]:block">
+        <form method="POST" action="/search" use:enhance class="relative flex h-full w-full items-center justify-start overflow-clip rounded-[1.125rem] bg-background/20">
+          <Field {form} name="query">
+            <Control>
+              {#snippet children({ props })}
+                <input {...props} type="search" required placeholder="Enter username" class="flex-shrink flex-grow bg-transparent px-4 pr-14 font-semibold text-text transition-colors duration-300 placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 focus-visible:outline-none" bind:value={$formData.query} />
+              {/snippet}
+            </Control>
+            {#if $formData.query.length > 0 && $tainted?.query && $errors.query}
+              <FieldErrors class="text-center text-sm font-semibold text-text/80" />
+            {/if}
+          </Field>
+          <Button.Root type="submit" class="absolute right-0 z-10 flex h-full items-center justify-center rounded-[1.125rem] bg-background/15 px-4">
+            <Search class="size-6 text-text" />
+          </Button.Root>
+        </form>
+      </div>
+    {/if}
+
     <Settings />
   </div>
 </header>
