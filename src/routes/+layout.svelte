@@ -22,4 +22,6 @@
 
 <Header />
 
+<div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen bg-cover bg-scroll bg-center bg-no-repeat [background-image:--bg-url]"></div>
+
 {@render children()}
