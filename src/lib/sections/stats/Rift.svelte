@@ -85,12 +85,14 @@
             </div>
           </div>
           <div slot="tooltip" class="text-sm font-bold">
-            <div>
-              <span class="opacity-85">Obtained:</span>
-              <span class="text-text">
-                {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
-              </span>
-            </div>
+            {#if timecharm.unlockedAt}
+              <div>
+                <span class="opacity-85">Obtained:</span>
+                <span class="text-text">
+                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
+                </span>
+              </div>
+            {/if}
           </div>
         </Chip>
       {/each}
