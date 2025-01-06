@@ -133,10 +133,8 @@
   </Drawer.Root>
 {/snippet}
 
-<div class="contents">
-  {#if isHover.current}
-    {@render tooltip()}
-  {:else}
-    {@render drawer()}
-  {/if}
-</div>
+{#if isHover.current}
+  {@render tooltip()}
+{:else}
+  {@render drawer()}
+{/if}
