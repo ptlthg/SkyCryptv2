@@ -22,23 +22,25 @@
 </script>
 
 <Collapsible.Root bind:open={$expanded} disabled={!isHover.current}>
-  <Collapsible.Trigger class="mt-2 flex flex-col gap-2">
-    {#if !$expanded}
-      {#if highestItem}
-        <Item piece={highestItem} />
+  <Collapsible.Trigger asChild let:builder>
+    <div use:builder.action {...builder} class="mt-2 flex flex-col gap-2">
+      {#if !$expanded}
+        {#if highestItem}
+          <Item piece={highestItem} />
+        {/if}
+      {:else}
+        <Collapsible.Content transition={slide} class="flex flex-col gap-2">
+          {#each wardrobeItems as piece, index}
+            {#if piece && piece.display_name}
+              <Item {piece} />
+            {:else}
+              <Avatar.Root class="rounded-lg bg-background-lore p-2">
+                <Avatar.Image class="size-14" loading="eager" src={`/img/textures/item/empty_armor_slot_${pieces[index]}.png`} />
+              </Avatar.Root>
+            {/if}
+          {/each}
+        </Collapsible.Content>
       {/if}
-    {:else}
-      <Collapsible.Content transition={slide} class="flex flex-col gap-2">
-        {#each wardrobeItems as piece, index}
-          {#if piece && piece.display_name}
-            <Item {piece} />
-          {:else}
-            <Avatar.Root class="rounded-lg bg-background-lore p-2">
-              <Avatar.Image class="size-14" loading="eager" src={`/img/textures/item/empty_armor_slot_${pieces[index]}.png`} />
-            </Avatar.Root>
-          {/if}
-        {/each}
-      </Collapsible.Content>
-    {/if}
+    </div>
   </Collapsible.Trigger>
 </Collapsible.Root>
