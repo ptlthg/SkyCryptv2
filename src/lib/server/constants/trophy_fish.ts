@@ -13,7 +13,7 @@ export const TROPHY_FISH = {
   },
   FLYFISH: {
     display_name: "Flyfish",
-    description: "§7Caught from §a8 §7blocks or higher above lava in the §cBlazing Volcano§7.",
+    description: "§7Caught from §a8 §7blocks or higher above lava in the §6Blazing Volcano§7.",
     textures: {
       bronze: "/api/head/5140c42fc3a1ba2fe77c45b975fa87e8f54a1b1833bc76e6339b4c262304011d",
       diamond: "/api/head/1516c233797626ce5e0132166062ae1cb435c561c00a6fa11b37e2295f8c7c5b",
@@ -33,7 +33,7 @@ export const TROPHY_FISH = {
   },
   GUSHER: {
     display_name: "Gusher",
-    description: "§7Caught within §a7-16 §7minutes after a §cBlazing Volcano §7eruption.",
+    description: "§7Caught within §a7-16 §7minutes after a §6Blazing Volcano §7eruption.",
     textures: {
       bronze: "/api/head/afb8c51bfcd996840010bcce2a3575ae26352e00446d3ec313fcbf1f88108512",
       diamond: "/api/head/577322d86e61df34b2dcbb3fa7f4d03d0e3be56bddac6bdf2e7de61e21f718eb",
@@ -123,7 +123,7 @@ export const TROPHY_FISH = {
   },
   SLUGFISH: {
     display_name: "Slugfish",
-    description: "§7Caught when the bobber has been active for at least §a20 §7seconds.",
+    description: "§7Caught when the bobber has been active for at least §a20 §7seconds. The §6Slug Pet §7reduces this time by up to §a50%§7.",
     textures: {
       bronze: "/api/head/c1de9e49ecc8d6209c783bfd1684a89e624a4e483a86023c6df57f77d5b75890",
       diamond: "/api/head/a5d717aa5c9063181283811d265bfd0ffdc7eda09a0984cee59578b4a5efd4a1",
@@ -143,7 +143,7 @@ export const TROPHY_FISH = {
   },
   STEAMING_HOT_FLOUNDER: {
     display_name: "Steaming-Hot Flounder",
-    description: "§7Caught when the bobber is within §a2 §7blocks of a Geyser in the §cBlazing Volcano§7.",
+    description: "§7Caught when the bobber is within §a2 §7blocks of a Geyser in the §6Blazing Volcano§7.",
     textures: {
       bronze: "/api/head/8b88f88f3053c434660eeb4c7b2344bc21ab52596cea5a66d0f9db8c0e050209",
       diamond: "/api/head/c6602a15cf491f76584179221ed1da25fe6918f9100b864b39ea6493734809d1",
@@ -173,7 +173,7 @@ export const TROPHY_FISH = {
   },
   VOLCANIC_STONEFISH: {
     display_name: "Volcanic Stonefish",
-    description: "§7Caught in the §cBlazing Volcano§7.",
+    description: "§7Caught in the §6Blazing Volcano§7.",
     textures: {
       bronze: "/api/head/38f89cbaa61ecc99a8321d53f070cef8414efc3eac47bf6fe143056fed9ee8",
       diamond: "/api/head/48bec97138419aff0af6fb445cd5f8d68e30698facf46ae956cbda2331fb2284",
