@@ -10,13 +10,13 @@
   import Star from "lucide-svelte/icons/star";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
-  import type { PageServerData } from "./$types";
+  import type { PageData } from "./$types";
   import { Role } from "./enums";
   import { schema } from "./schema";
 
-  let { data }: { data: PageServerData } = $props();
+  let { data }: { data: PageData } = $props();
 
-  const form = superForm(data.form, {
+  const form = superForm(data.searchForm, {
     validators: zodClient(schema)
   });
 
@@ -31,7 +31,7 @@
 </script>
 
 <main class="mx-auto mt-[48px] flex min-h-screen max-w-[68rem] flex-col justify-center gap-6 pb-[max(1.25rem+env(safe-area-inset-bottom))] pl-[max(1.25rem+env(safe-area-inset-left))] pr-[max(1.25rem+env(safe-area-inset-right))] pt-5 @container">
-  <form method="POST" use:enhance class="flex w-full flex-col justify-center gap-6 rounded-lg py-6 text-3xl backdrop-blur-lg backdrop-brightness-50">
+  <form method="POST" action="/search" use:enhance class="flex w-full flex-col justify-center gap-6 rounded-lg py-6 text-3xl backdrop-blur-lg backdrop-brightness-50">
     <div class="flex flex-col justify-center gap-2">
       <Field {form} name="query">
         <Control>

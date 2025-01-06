@@ -10,7 +10,6 @@ Modified and Improved by @DuckySoLucky
 export const CACHE_PATH = helper.getCacheFolderPath();
 
 import { base } from "$app/paths";
-import * as customResources from "$lib/server/custom_resources";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import fs from "fs-extra";
 import sanitize from "mongo-sanitize";
@@ -462,24 +461,14 @@ export async function renderItem(skyblockId: string | undefined, query: ItemQuer
     Object.assign(item, mcData.itemsByName[sbId] ?? mcData.blocksByName[sbId]);
   }
 
-  if ("texture" in item) {
+  helper.applyResourcePack(item, query.packs);
+
+  if (item.texture_path && item.texture_path.includes("/api/")) {
+    outputTexture.image = item.texture_path;
+  } else if (item.texture_path !== undefined && item.texture_path.endsWith("/skull-3.png") === false) {
+    outputTexture.image = await fs.readFile(`static/${item.texture_path}`);
+  } else if (item.texture !== undefined && item.texture) {
     outputTexture.image = await getHead(item.texture);
-  }
-
-  const customTexture = customResources.getTexture(item, {
-    ignore_id: "name" in query,
-    pack_ids: query.pack
-  });
-
-  if (customTexture && customTexture.path?.endsWith("skull.png") === false) {
-    if (customTexture.animated) {
-      outputTexture.mime = "image/gif";
-    }
-
-    outputTexture.path = customTexture.path;
-    outputTexture.debug = customTexture.debug;
-
-    outputTexture.image = await fs.readFile(`static/${customTexture.path}`);
   }
 
   if (!("image" in outputTexture)) {

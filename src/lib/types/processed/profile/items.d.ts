@@ -55,7 +55,7 @@ export type ItemQuery = {
   item_id?: number;
   id?: number;
   damage?: number;
-  pack?: string[];
+  packs?: string[];
   texture?: string;
   texture_path?: string;
 };
@@ -93,6 +93,7 @@ export type ProcessedItem = {
         skin: string | null;
       };
       talisman_enrichment?: string;
+      gems: Record<string, string>;
     };
     SkullOwner: {
       Properties: {
@@ -115,6 +116,7 @@ export type ProcessedItem = {
     price?: number;
   };
   texture_path: string;
+  texture_pack?: string;
   display_name: string;
   rarity: string | null;
   recombobulated?: boolean;
@@ -147,6 +149,7 @@ export type ProcessedSkyBlockItem = {
   texture_path: string;
   containsItems?: ProcessedSkyBlockItem[];
   shiny?: boolean;
+  texture_pack?: string;
   [key: string]: string | boolean;
 };
 
@@ -239,18 +242,18 @@ export type Items = {
   wardrobe: ProcessedSkyBlockItem[][];
   weapons: {
     weapons: ProcessedSkyBlockItem[];
-    highest_priority_weapon: ProcessedSkyBlockItem;
+    highest_priority_weapon?: ProcessedSkyBlockItem;
   };
   farming_tools: {
-    highest_priority_tool: ProcessedSkyBlockItem | null;
+    highest_priority_tool?: ProcessedSkyBlockItem | null;
     tools: ProcessedSkyBlockItem[];
   };
   mining_tools: {
-    highest_priority_tool: ProcessedSkyBlockItem | null;
+    highest_priority_tool?: ProcessedSkyBlockItem | null;
     tools: ProcessedSkyBlockItem[];
   };
   fishing_tools: {
-    highest_priority_tool: ProcessedSkyBlockItem | null;
+    highest_priority_tool?: ProcessedSkyBlockItem | null;
     tools: ProcessedSkyBlockItem[];
   };
   pets: ProcessedSkyBlockItem[];

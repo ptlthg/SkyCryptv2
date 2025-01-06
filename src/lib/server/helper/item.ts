@@ -53,7 +53,7 @@ export function getItemData(query: ItemQuery) {
   }
 
   if ("damage" in dbItem) {
-    item.Damage = query.damage ?? (dbItem.damage as number);
+    item.Damage = dbItem.damage || query.damage || 0;
   }
 
   if ("name" in dbItem) {
