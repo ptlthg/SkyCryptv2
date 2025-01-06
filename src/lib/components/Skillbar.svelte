@@ -9,6 +9,7 @@
 
   export let skill: string;
   export let skillData: Skill;
+  export let APIEnabled: boolean = true;
 
   let className: string | null | undefined = undefined;
   export { className as class };
@@ -18,7 +19,7 @@
   const isMaxed = skillData.maxed;
 </script>
 
-<div class={cn("group relative flex flex-grow basis-full flex-col sm:basis-1/3 sm:last:grow-0 sm:last:basis-1/2", className)} data-hover={$isHovered} data-maxed={isMaxed} use:hoverAction>
+<div class={cn("group relative flex flex-grow basis-full flex-col sm:basis-1/3 sm:last:grow-0 sm:last:basis-1/2", !APIEnabled && "opacity-50", className)} data-hover={$isHovered} data-maxed={isMaxed} use:hoverAction>
   <Tooltip.Root group="skills" openDelay={0} closeDelay={0}>
     <Tooltip.Trigger class="group-data-[maxed=true]:shine absolute bottom-0 left-0 z-20 flex size-9 items-center justify-center rounded-full p-1 drop-shadow group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed">
       <Avatar.Root class="select-none">
@@ -43,7 +44,7 @@
       {skillData.level}
     </span>
   </div>
-  <Progress.Root value={skillData.xpCurrent} max={isMaxed ? skillData.xpCurrent : skillData.xpForNext} class="relative ml-2 h-4 w-full overflow-hidden rounded-full bg-text/30">
+  <Progress.Root value={skillData.xpCurrent} max={isMaxed ? skillData.xpCurrent : skillData.xpForNext} class={cn("relative ml-2 h-4 w-full overflow-hidden rounded-full bg-text/30", !APIEnabled && "opacity-50")}>
     <div class="absolute z-10 flex h-full w-full justify-center">
       <div class="text-xs font-semibold shadow-background/50 text-shadow">
         {#if $isHovered && !isMaxed}
