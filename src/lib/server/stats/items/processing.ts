@@ -1,19 +1,22 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getTexture } from "$lib/server/custom_resources";
-
 import * as constants from "$lib/server/constants/constants";
 import * as helper from "$lib/server/helper";
 
-import type { StatsData } from "$types/processed/profile/stats";
-import type { GemTier, Gemstone, Item, ProcessedItem } from "$types/stats";
+import type { Item, ProcessedItem } from "$types/stats";
 
-import { STATS_DATA } from "$lib/shared/constants/stats";
 import { getItemNetworth } from "skyhelper-networth";
-import { addLevelableEnchantmentsToLore } from "./helper";
+import { addLevelableEnchantmentsToLore, parseItemGems } from "./helper";
 
 export function itemSorter(a: ProcessedItem, b: ProcessedItem) {
   if (a.rarity && b.rarity && a.rarity !== b.rarity) {
     return constants.RARITIES.indexOf(b.rarity) - constants.RARITIES.indexOf(a.rarity);
+  }
+
+  if (a.extra.source === "inventory" && b.extra.source !== "inventory") {
+    return -1;
+  }
+
+  if (a.extra.source !== "inventory" && b.extra.source === "inventory") {
+    return 1;
   }
 
   return a.display_name.localeCompare(b.display_name);
@@ -66,122 +69,11 @@ function getCategories(type: string, item: Item) {
   return [...new Set(categories.concat(constants.TYPE_TO_CATEGORIES[type as keyof typeof constants.TYPE_TO_CATEGORIES]))];
 }
 
-/**
- * @typedef {{slot_type:string,slot_number:number,gem_type:string,gem_tier:string,lore:string}} Gem
- */
-
-/**
- * @param  {{[key:string]:string}} gems item.ExtraAttributes.gems
- * @param  {string} [rarity] item rarity, ex: MYTHIC
- *
- * @returns {object} array of gem objects
- */
-export function parseItemGems(gems: { [key: string]: string }, rarity: string) {
-  const slots = {
-    normal: Object.keys(constants.GEMSTONES),
-    special: ["UNIVERSAL", "COMBAT", "OFFENSIVE", "DEFENSIVE", "MINING", "CHISEL"],
-    ignore: ["unlocked_slots"]
-  };
-
-  const parsed = [] as Gemstone[];
-  for (const [key, value] of Object.entries(gems)) {
-    const slotType = key.split("_")[0];
-
-    if (slots.ignore.includes(key) || (slots.special.includes(slotType) && key.endsWith("_gem"))) {
-      continue;
-    }
-
-    if (slots.special.includes(slotType)) {
-      parsed.push({
-        slot_type: slotType,
-        slot_number: +key.split("_")[1],
-        gem_type: gems[`${key}_gem`],
-        gem_tier: (value as unknown as GemTier)?.quality || value,
-        lore: ""
-      });
-    } else if (slots.normal.includes(slotType)) {
-      parsed.push({
-        slot_type: slotType,
-        slot_number: +key.split("_")[1],
-        gem_type: key.split("_")[0],
-        gem_tier: (value as unknown as GemTier)?.quality || value,
-        lore: ""
-      });
-    } else {
-      console.log(`Error! Unknown gemstone slot key: ${key}`);
-      // throw new Error(`Error! Unknown gemstone slot key: ${key}`);
-    }
-  }
-
-  parsed.forEach((gem) => {
-    gem.lore = generateGemLore(gem.gem_type, gem.gem_tier.toString(), rarity);
-  });
-
-  return parsed;
-}
-
-/**
- * @param  {string} type gem name, ex: RUBY
- * @param  {string} tier gem tier, ex: PERFECT
- * @param  {string} [rarity] item rarity, ex: MYTHIC
- *
- * @returns {string} formatted gem string
- *
- * @example
- * // returns "§cPerfect Ruby §7(§c+25❤§7)"
- * generateGemLore("RUBY", "PERFECT", "MYTHIC");
- */
-export function generateGemLore(type: string, tier: string, rarity: string): string {
-  const lore = [];
-  const stats = [] as string[];
-
-  const gemstoneData = constants.GEMSTONES[type.toUpperCase() as keyof typeof constants.GEMSTONES];
-  if (!gemstoneData) {
-    return "§c§oMISSING GEMSTONE DATA§r";
-  }
-
-  // Gem color
-  const color = `§${gemstoneData.color}`;
-
-  // Gem stats
-  if (rarity) {
-    const gemstoneStats = gemstoneData.stats?.[tier.toUpperCase() as keyof typeof gemstoneData.stats];
-    if (gemstoneStats) {
-      Object.keys(gemstoneStats).forEach((stat) => {
-        let statValue = gemstoneStats[stat as keyof typeof gemstoneStats][helper.rarityNameToInt(rarity)];
-
-        // Fallback since skyblock devs didn't code all gemstone stats for divine rarity yet
-        // ...they didn't expect people to own divine tier items other than divan's drill
-        if (rarity.toUpperCase() === "DIVINE" && statValue === null) {
-          statValue = gemstoneStats[stat as keyof typeof gemstoneStats][helper.rarityNameToInt("MYTHIC")];
-        }
-
-        if (statValue) {
-          const statsData = STATS_DATA[stat as keyof typeof STATS_DATA] as unknown as StatsData;
-
-          stats.push(["§", statsData.color, "+", statValue, " ", statsData.symbol].join(""));
-        } else {
-          stats.push("§c§oMISSING VALUE§r");
-        }
-      });
-    }
-  }
-
-  // Final lore
-  lore.push(color, helper.titleCase(tier), " ", helper.titleCase(type));
-
-  if (stats.length) {
-    lore.push("§7 (", stats.join("§7, "), "§7)");
-  }
-
-  return lore.join("");
-}
-
 // Process items returned by API
-export async function processItems(items: ProcessedItem[], source: string, customTextures = false, packs: string[]): Promise<ProcessedItem[]> {
+export async function processItems(items: ProcessedItem[], source: string, packs: string[]): Promise<ProcessedItem[]> {
   for (const item of items) {
     if (!item.tag?.ExtraAttributes?.id) {
-      continue;
+      // continue;
     }
 
     // POTIONS
@@ -194,43 +86,10 @@ export async function processItems(items: ProcessedItem[], source: string, custo
 
     item.extra = { source };
 
-    if (item.tag.ExtraAttributes.id === "ENCHANTED_BOOK") {
-      item.texture_path = `/api/item/ENCHANTED_BOOK`;
-    } else if (customTextures) {
-      const customTexture = getTexture(item, { pack_ids: packs, hotm: source === "storage_icons" });
-
-      // ? NOTE: we're ignoring Vanilla leather armor because it's render using /leather/ endpoint (Coloring support)
-      const ignoreCustomTexture = customTexture && customTexture.path && customTexture.path.includes("/Vanilla/") && customTexture.path.includes("leather_");
-      if (customTexture?.path && ignoreCustomTexture === false) {
-        // CUSTOM TEXTURES
-        item.texture_path = customTexture.path;
-      } else if (item.tag?.SkullOwner?.Properties?.textures?.length > 0) {
-        // PLAYER SKULLS
-        try {
-          const json = JSON.parse(Buffer.from(item.tag.SkullOwner.Properties.textures[0].Value, "base64").toString());
-          const url = json.textures.SKIN.url;
-          const uuid = url.split("/").pop();
-
-          item.texture_path = `/api/head/${uuid}?v6`;
-        } catch (e) {
-          helper.addToItemLore(item, ["", "§cError: Missing texture"]);
-          item.texture_path = `/api/item/BARRIER`;
-          console.error(e);
-        }
-      } else if (typeof item.id === "number" && item.id >= 298 && item.id <= 301) {
-        // COLORED LEATHER ARMOR
-        const color = (item.tag?.display?.color as unknown as number)?.toString(16).padStart(6, "0") ?? "955e3b";
-        const type = ["helmet", "chestplate", "leggings", "boots"][item.id - 298];
-
-        item.texture_path = `/api/leather/${type}/${color}`;
-      } else if (!item.texture_path) {
-        helper.addToItemLore(item, ["", "§cError: Missing texture"]);
-        item.texture_path = `/api/item/BARRIER`;
-      }
-    }
+    helper.applyResourcePack(item, packs);
 
     if (item.tag?.display?.Name != undefined) {
-      item.display_name = helper.getRawLore(item.tag.display.Name);
+      item.display_name = item.tag.display.Name;
     }
 
     // Lore stuff
@@ -245,6 +104,7 @@ export async function processItems(items: ProcessedItem[], source: string, custo
       const itemType = parseItemTypeFromLore(lore, item);
 
       for (const key in itemType) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         item[key] = itemType[key as keyof typeof itemType];
       }
@@ -257,7 +117,7 @@ export async function processItems(items: ProcessedItem[], source: string, custo
     }
 
     // Set HTML lore to be displayed on the website
-    if (itemLore.length > 0) {
+    if (itemLore.length > 0 && item.tag.ExtraAttributes) {
       if (item.tag.ExtraAttributes.rarity_upgrades) {
         itemLore.push("§8(Recombobulated)");
       }
@@ -269,6 +129,10 @@ export async function processItems(items: ProcessedItem[], source: string, custo
       if (item.tag?.display?.color) {
         const hex = item.tag.display.color.toString().padStart(6, "0");
         itemLore.push("", `§7Color: #${hex.toUpperCase()}`);
+      }
+
+      if (item.tag.ExtraAttributes.gems) {
+        itemLore.push("", "§7Applied Gemstones:", ...parseItemGems(item.tag.ExtraAttributes.gems, item.rarity ?? "common").map((gem) => `§7 - ${gem.lore}`));
       }
 
       if (Object.keys(constants.ENCHANTMENT_LADDERS).some((e) => item.tag.ExtraAttributes[e as keyof typeof item.tag.ExtraAttributes])) {

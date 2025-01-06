@@ -1,8 +1,27 @@
 <script lang="ts">
-  import Header from "$lib/components/Header.svelte";
+  import { page } from "$app/state";
+  import Header from "$lib/components/header/Header.svelte";
+  import { IsHover } from "$lib/hooks/is-hover.svelte";
+  import { IsMobile } from "$lib/hooks/is-mobile.svelte";
+  import { setContext } from "svelte";
   import "../app.css";
+
+  let { children } = $props();
+  let isMobile = $state(new IsMobile());
+  let isHover = $state(new IsHover());
+
+  setContext("isMobile", isMobile);
+  setContext("isHover", isHover);
 </script>
+
+<svelte:head>
+  {#if !page.url.pathname.startsWith("/stats")}
+    <link rel="icon" href="/favicon.png" />
+  {/if}
+</svelte:head>
 
 <Header />
 
-<slot />
+<div class="pointer-events-none fixed inset-0 z-[-1] h-dvh w-screen bg-cover bg-scroll bg-center bg-no-repeat [background-image:--bg-url]"></div>
+
+{@render children()}

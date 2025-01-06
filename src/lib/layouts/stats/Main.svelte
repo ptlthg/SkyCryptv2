@@ -1,6 +1,7 @@
 <script lang="ts">
   import { setProfileCtx } from "$ctx/profile.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
+  import SEO from "$lib/components/SEO.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
@@ -15,15 +16,21 @@
   });
 </script>
 
+<SEO />
+
 <div class="relative @container/parent">
-  <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container min-[1200px]:block">
-    {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
-      <Skin3D class="h-full" />
-    {/await}
+  <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container @[75rem]/parent:block">
+    {#if window && window.innerWidth >= 1200}
+      {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
+        <Skin3D class="h-full" />
+      {/await}
+    {/if}
   </div>
 
-  <div class="fixed right-0 top-0 h-dvh w-full backdrop-blur-lg backdrop-brightness-50 @[75rem]/parent:w-[calc(100%-30vw)]"></div>
-  <main class="relative mx-auto @container @[75rem]/parent:ml-[30vw]">
+  <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
+  <!-- <div class="fixed right-0 top-0 min-h-dvh w-full backdrop-blur-lg group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:w-[calc(100%-30vw)]"></div> -->
+
+  <main data-vaul-drawer-wrapper class="relative mx-auto min-h-dvh backdrop-blur-lg @container group-data-[mode=dark]/html:backdrop-brightness-50 group-data-[mode=light]/html:backdrop-brightness-100 @[75rem]/parent:ml-[30vw]">
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
       <PlayerProfile />
       <Skills />
@@ -34,6 +41,9 @@
     <Navbar />
 
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
+      {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
+        <Notice />
+      {/await}
       <section id="Armor" class="scroll-m-32">
         {#if profile.items && profile.items.armor && profile.items.equipment && profile.items.wardrobe}
           <Armor />

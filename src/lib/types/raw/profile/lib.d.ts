@@ -88,6 +88,7 @@ export type Contest = {
 
 export type Leveling = {
   experience: number;
+  highest_pet_score?: number;
 };
 
 export type MemberProfile = {
@@ -390,6 +391,7 @@ export type Collection = {
 };
 
 export type PlayerStatsRift = {
+  visits: number;
   lifetime_motes_earned: number;
   motes_orb_pickup: number;
 };

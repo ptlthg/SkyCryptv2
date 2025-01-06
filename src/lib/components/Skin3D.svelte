@@ -2,7 +2,7 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import { cn } from "$lib/shared/utils";
   import * as skinview3d from "skinview3d";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
 
   const { profile } = getProfileCtx();
 
@@ -11,39 +11,59 @@
   let minecraftAvatar: HTMLCanvasElement;
   let canvasIsLoading = $state<boolean>(true);
 
-  onMount(async () => {
-    const minecraftAvatarContainerDimensions = minecraftAvatar.getBoundingClientRect();
-    const cape = await fetch(`https://crafatar.com/capes/${profile.uuid}`, {
-      method: "HEAD"
-    }).catch(() => ({ ok: false }));
-    viewer = new skinview3d.SkinViewer({
-      canvas: minecraftAvatar,
-      width: minecraftAvatarContainerDimensions.width,
-      height: minecraftAvatarContainerDimensions.height,
-      skin: `https://crafatar.com/skins/${profile.uuid}`,
-      cape: cape.ok ? `https://crafatar.com/capes/${profile.uuid}` : undefined,
-      animation: new skinview3d.IdleAnimation()
-    });
+  const FIXED_WIDTH = 500;
+  const FIXED_HEIGHT = 1000;
 
-    viewer.camera.position.set(-18, -3, 78);
-    viewer.controls.enableZoom = false;
-    viewer.controls.enablePan = true;
-    viewer.controls.enableRotate = true;
-    viewer.canvas.removeAttribute("tabindex");
+  function updateViewerSize() {
+    if (viewer) {
+      const supersamplingFactor = 4;
+      const pixelRatio = (window.devicePixelRatio || 1) * supersamplingFactor;
 
-    canvasIsLoading = false;
+      viewer.setSize(FIXED_WIDTH * pixelRatio, FIXED_HEIGHT * pixelRatio);
+      viewer.canvas.style.width = FIXED_WIDTH + "px";
+      viewer.canvas.style.height = FIXED_HEIGHT + "px";
+    }
+  }
 
-    return new Promise((resolve) => {
-      resolve(() => {
-        viewer.dispose();
+  onMount(() => {
+    const createSkinviewer = async () => {
+      const cape = await fetch(`https://crafatar.com/capes/${profile.uuid}`, {
+        method: "HEAD"
+      }).catch(() => ({ ok: false }));
+
+      viewer = new skinview3d.SkinViewer({
+        canvas: minecraftAvatar,
+        width: FIXED_WIDTH,
+        height: FIXED_HEIGHT,
+        skin: `https://crafatar.com/skins/${profile.uuid}`,
+        cape: cape.ok ? `https://crafatar.com/capes/${profile.uuid}` : undefined,
+        animation: new skinview3d.IdleAnimation(),
+        preserveDrawingBuffer: true
       });
-    });
-  });
 
-  onDestroy(() => {
-    canvasIsLoading = true;
-    viewer.dispose();
+      viewer.camera.position.set(-18, -3, 78);
+      viewer.controls.enableZoom = false;
+      viewer.controls.enablePan = true;
+      viewer.controls.enableRotate = true;
+      viewer.canvas.removeAttribute("tabindex");
+
+      const resizeObserver = new ResizeObserver(() => {
+        updateViewerSize();
+      });
+      resizeObserver.observe(minecraftAvatar);
+
+      canvasIsLoading = false;
+    };
+
+    createSkinviewer();
+
+    return () => {
+      canvasIsLoading = true;
+      viewer.dispose();
+    };
   });
 </script>
 
-<canvas bind:this={minecraftAvatar} class={cn("size-full transform-gpu overflow-hidden transition-opacity duration-[3s]", className)} class:opacity-100={!canvasIsLoading} class:opacity-0={canvasIsLoading}></canvas>
+<div class="relative h-[400px] w-[300px]">
+  <canvas bind:this={minecraftAvatar} class={cn("absolute inset-0 h-full w-full transform-gpu overflow-hidden transition-opacity duration-[3s] [image-rendering:pixelated]", className)} class:opacity-100={!canvasIsLoading} class:opacity-0={canvasIsLoading}></canvas>
+</div>

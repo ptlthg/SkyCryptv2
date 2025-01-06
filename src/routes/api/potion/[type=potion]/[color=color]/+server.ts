@@ -7,14 +7,12 @@ export const GET: RequestHandler = async ({ params }) => {
   const { type, color } = params;
 
   const potionColor = POTION_COLORS[color];
-
   try {
     const attachment = await getPotion(type, potionColor);
 
     return new Response(attachment, {
       headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=1209600, immutable"
+        "Content-Type": "image/png"
       }
     });
   } catch (errorMsg) {
