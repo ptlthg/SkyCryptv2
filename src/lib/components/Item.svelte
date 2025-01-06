@@ -18,7 +18,6 @@
   const itemNameHtml = renderLore(itemName);
   const isMulticolor = (itemNameHtml.match(/<\/span>/g) || []).length > 1;
   const bgColor = getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg");
-  console.log(bgColor);
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
