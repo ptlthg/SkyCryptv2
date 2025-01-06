@@ -18,6 +18,7 @@
   const itemNameHtml = renderLore(itemName);
   const isMulticolor = (itemNameHtml.match(/<\/span>/g) || []).length > 1;
   const bgColor = getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg");
+  console.log(bgColor);
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
@@ -59,7 +60,7 @@
         <div class="absolute -right-3 -top-3 z-10 size-6 rotate-45 bg-[--color]" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
       {/if}
       {#if showNumbers}
-        <div class="absolute bottom-0.5 right-0.5 text-2xl font-semibold text-white text-shadow-[.1em_.1em_.1em_#000]">
+        <div class="absolute bottom-0.5 right-0.5 text-sm font-semibold text-white text-shadow-[.1em_.1em_.1em_#000] md:text-2xl">
           {skyblockItem.Count ?? 1}
         </div>
       {/if}
@@ -77,7 +78,7 @@
           {@html isMulticolor ? itemNameHtml : removeFormatting(itemNameHtml)}
         </p>
       </div>
-      <div class="nice-colors-auto mx-auto w-full max-w-md overflow-auto p-6 font-semibold leading-snug">
+      <div class="mx-auto w-full max-w-md overflow-auto p-6 font-semibold leading-snug">
         {#each skyblockItem.lore as lore}
           {@html renderLore(lore)}
         {/each}
@@ -122,7 +123,7 @@
           </p>
         </div>
 
-        <div class="nice-colors-auto mx-auto w-full max-w-md overflow-auto p-6 font-semibold leading-snug">
+        <div class="mx-auto w-full max-w-md overflow-auto p-6 font-semibold leading-snug">
           {#each skyblockItem.lore as lore}
             {@html renderLore(lore)}
           {/each}
@@ -132,7 +133,7 @@
   </Drawer.Root>
 {/snippet}
 
-<div class="nice-colors-dark contents">
+<div class="contents">
   {#if isHover.current}
     {@render tooltip()}
   {:else}
