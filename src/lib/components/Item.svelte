@@ -22,7 +22,7 @@
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
-  const packData = packConfigs.find((pack) => pack.id === skyblockItem.texture_pack) ?? null;
+  const packData = packConfigs.find((pack) => pack.id === skyblockItem.texture_pack);
 
   const showNumbers = showCount && (skyblockItem.Count ?? 0) > 1;
 
@@ -99,7 +99,7 @@
           </div>
         {/if}
 
-        {#if packData !== null}
+        {#if packData !== undefined}
           <div class="pt-4">
             <Button.Root href={packData.link} target="_blank">
               <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
