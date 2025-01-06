@@ -7,12 +7,17 @@
   import { format } from "numerable";
   import { createHover } from "svelte-interactions";
 
-  export let skill: string;
-  export let skillData: Skill;
-  export let APIEnabled: boolean = true;
-
-  let className: string | null | undefined = undefined;
-  export { className as class };
+  let {
+    skill,
+    skillData,
+    APIEnabled = true,
+    className = undefined
+  }: {
+    skill: string;
+    skillData: Skill;
+    APIEnabled: boolean;
+    className: string | null | undefined;
+  } = $props();
 
   const { hoverAction, isHovered } = createHover();
 
