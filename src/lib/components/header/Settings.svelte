@@ -29,7 +29,6 @@
     if (!theme) {
       themeStore.set("default");
       document.documentElement.dataset.theme = "default";
-      document.cookie = `theme=default; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
       return;
     }
     if (theme.light) {
@@ -39,7 +38,6 @@
     }
 
     document.documentElement.dataset.theme = theme.id;
-    document.cookie = `theme=${theme.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
   }
 
   onMount(() => {
