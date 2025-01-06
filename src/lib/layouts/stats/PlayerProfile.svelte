@@ -34,7 +34,7 @@
   Stats for
   <DropdownMenu.Root>
     <DropdownMenu.Trigger class="inline-flex items-center whitespace-nowrap rounded-full bg-[#7f7f7f]/20 py-2 pl-2 pr-4 align-middle text-3xl font-semibold">
-      <div class="nice-colors-dark light dark relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
+      <div class="relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
         <div class="relative z-20 inline-flex justify-between gap-3 text-lg font-bold">
           <span>{profile.rank?.rankText}</span>
           {#if profile.rank?.plusText}
