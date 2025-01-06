@@ -23,7 +23,7 @@ export const TROPHY_FISH = {
   },
   GOLDEN_FISH: {
     display_name: "Golden Fish",
-    description: "§7Has a chance to spawn after §a8 §7minutes of fishing, increasing linearly until reaching 100% at 12 minutes. The §6Golden Fish §7is rolled when your fishing hook is thrown out, regardless of if you catch a fish or not. You are not required to Trophy Fish to catch this one.",
+    description: "§7Has a chance to spawn after §a8 §7minutes of fishing, increasing linearly until reaching §f100% §7at §a12 §7minutes. The §6Golden Fish §7is rolled when your fishing hook is thrown out, regardless of if you catch a fish or not. You are not required to Trophy Fish to catch this one.",
     textures: {
       bronze: "/api/head/fcfa31d81eae819936834e6664430daf8affbff30b48a1daa7ca1b4c20e3fe7d",
       diamond: "/api/head/f46cb8cbb60cda60092b3051648dd2db7eec49ae87f3f524c6182797b4109a12",
@@ -73,7 +73,7 @@ export const TROPHY_FISH = {
   },
   MOLDFIN: {
     display_name: "Moldfin",
-    description: "§7Caught in the §5Mystic Marsh§7.",
+    description: "§7Caught in the §dMystic Marsh§7.",
     textures: {
       bronze: "/api/head/54f33dc405ba447b35926b48d90600302aeebb140ad330d885886cb1029a8af",
       diamond: "/api/head/9c99ddc1d711f482305d8f1ffcadd4b444fad1b0b07c5be2b73b1f08ee6cbe5e",
@@ -113,7 +113,7 @@ export const TROPHY_FISH = {
   },
   SKELETON_FISH: {
     display_name: "Skeleton Fish",
-    description: "§7Caught in the §cBurning Desert§7.",
+    description: "§7Caught in the §eBurning Desert§7.",
     textures: {
       bronze: "/api/head/923e0a25048b60a2cc092f72943159ec170063bb235aa79690ef34ab181d691",
       diamond: "/api/head/ed01389874c7be1165d5df633daf27d936bfaf553143cfcbaa50c93c4746f9f3",
@@ -133,7 +133,7 @@ export const TROPHY_FISH = {
   },
   SOUL_FISH: {
     display_name: "Soul Fish",
-    description: "§7Caught in the §2Stronghold§7.",
+    description: "§7Caught in the §5Stronghold§7.",
     textures: {
       bronze: "/api/head/7fe554d346c20c161aa85cfdc1b89779c9f64e726a5bb28ace8078e6594052d7",
       diamond: "/api/head/b63912df6540359774fb5cb4546a2eea1736f3fc7cf2848421697c1be8a5361",
@@ -153,7 +153,7 @@ export const TROPHY_FISH = {
   },
   SULPHUR_SKITTER: {
     display_name: "Sulphur Skitter",
-    description: "§7Caught when standing within §a8 §7blocks of a Sulphur Ore.",
+    description: "§7Caught when standing within §a4 §7blocks of a Sulphur Ore.",
     textures: {
       bronze: "/api/head/4fbf7111609f2ec23d9b3f285e1755b62193bd7c3d770576e2b18c48afeb0e29",
       diamond: "/api/head/4c6eac56808a85b59d48aff59a262922a57cfa766f6c56f69c7d91fea230fa",
