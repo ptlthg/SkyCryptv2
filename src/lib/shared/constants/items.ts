@@ -5,7 +5,7 @@ export const ITEMS = new Map<string, DatabaseItem>();
 export const RARITIES = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "divine", "supreme", "special", "very_special", "admin"];
 
 export const RARITY_COLORS = {
-  common: "7",
+  common: "f",
   uncommon: "a",
   rare: "9",
   epic: "5",

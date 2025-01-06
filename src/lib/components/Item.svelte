@@ -48,7 +48,7 @@
 
 {#snippet tooltip()}
   <Tooltip.Root group="armor" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn(`relative flex aspect-square items-center justify-center overflow-clip rounded-lg`, isInventory ? "p-0" : `p-2 ${bgColor}`, { shine: enchanted })}>
+    <Tooltip.Trigger class={cn(`nice-colors-dark relative flex aspect-square items-center justify-center overflow-clip rounded-lg`, isInventory ? "p-0" : `p-2 ${bgColor}`, { shine: enchanted })}>
       <Avatar.Root>
         <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 select-none" data-enchanted={enchanted} />
         <Avatar.Fallback>
@@ -65,7 +65,7 @@
       {/if}
     </Tooltip.Trigger>
     <Tooltip.Content class="z-50 flex max-h-[calc(96%-3rem)] w-max min-w-96 max-w-[calc(100vw-2.5rem)] select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
-      <div class={cn(`flex flex-nowrap items-center justify-center gap-4 p-5`, bgColor)}>
+      <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 p-5`, bgColor)}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none overflow-hidden" data-enchanted={enchanted} />
           <Avatar.Fallback>
@@ -103,13 +103,13 @@
 
 {#snippet drawer()}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false}>
-    <Drawer.Trigger>
+    <Drawer.Trigger class="nice-colors-dark">
       {@render item()}
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
       <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
-        <div class={cn(`flex flex-nowrap items-center justify-center gap-4 rounded-t-[10px] p-5`, bgColor)}>
+        <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 rounded-t-[10px] p-5`, bgColor)}>
           <Avatar.Root>
             <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none overflow-hidden" data-enchanted={enchanted} />
             <Avatar.Fallback>
