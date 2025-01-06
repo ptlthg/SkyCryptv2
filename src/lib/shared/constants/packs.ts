@@ -1,5 +1,6 @@
 export type PackConfig = {
   id: string;
+  link: string;
   name: string;
   version?: string;
   author: string;
@@ -9,6 +10,7 @@ export type PackConfig = {
 export const packConfigs: PackConfig = [
   {
     id: "FURFSKY_REBORN",
+    link: "https://furfsky.net/",
     name: "FurfSky Reborn",
     version: "v1.7.3",
     author: "The Reborn Team",
@@ -16,6 +18,7 @@ export const packConfigs: PackConfig = [
   },
   {
     id: "HYPIXELPLUS",
+    link: "https://hypixel.net/threads/4174260/",
     name: "Hypixel Plus",
     version: "v0.20.7",
     author: "ic22487",
@@ -23,6 +26,7 @@ export const packConfigs: PackConfig = [
   },
   {
     id: "SKYBLOCK_PACK",
+    link: "https://hypixel.net/threads/2103515",
     name: "Hypixel Skyblock Pack 16x",
     version: "v14",
     author: "Packs HQ",
@@ -30,6 +34,7 @@ export const packConfigs: PackConfig = [
   },
   {
     id: "RNBW_PLUS",
+    link: "https://hypixel.net/threads/3470904",
     name: "RNBW+",
     version: "v0.7",
     author: "rainbowcraft2",
@@ -37,6 +42,7 @@ export const packConfigs: PackConfig = [
   },
   {
     id: "VANILLA_PLUS",
+    link: "https://hypixel.net/threads/2147652",
     name: "Vanilla+",
     version: "v1.441",
     author: "TBlazeWarriorT",
@@ -44,6 +50,7 @@ export const packConfigs: PackConfig = [
   },
   {
     id: "WORLDS_AND_BEYOND",
+    link: "https://hypixel.net/threads/3597207",
     name: "Worlds and Beyond",
     version: "v1.4.1",
     author: "Skeletony_",

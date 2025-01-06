@@ -99,31 +99,33 @@
             </div>
           </div>
         {/if}
-      </div>
 
-      {#if packData !== null}
-        <div class="border-t border-text/10 px-6 py-4">
-          <div class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
-            <div class="flex items-center gap-2">
-              <Avatar.Root class="shrink-0 select-none">
-                <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
-                <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
-                  {packData.name.slice(0, 2)}
-                </Avatar.Fallback>
-              </Avatar.Root>
-              <div class="flex flex-col">
-                <div class="font-semibold text-text/90">
-                  {packData.name}
-                  <span class="text-sm text-text/60">{packData.version}</span>
-                </div>
-                <div class="text-sm text-text/60">
-                  by <span class="text-text/80">{packData.author}</span>
+        {#if packData !== null}
+          <div class="pt-4">
+            <a href={packData.link} target="_blank">
+              <div class="flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors hover:bg-text/[0.08]">
+                <div class="flex items-center gap-2">
+                  <Avatar.Root class="shrink-0 select-none">
+                    <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+                    <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
+                      {packData.name.slice(0, 2)}
+                    </Avatar.Fallback>
+                  </Avatar.Root>
+                  <div class="flex flex-col">
+                    <div class="font-semibold text-link">
+                      {packData.name}
+                      <span class="text-sm text-text/60">{packData.version}</span>
+                    </div>
+                    <div class="text-sm text-text/60">
+                      by <span class="text-text/80">{packData.author}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
     </Tooltip.Content>
   </Tooltip.Root>
 {/snippet}
