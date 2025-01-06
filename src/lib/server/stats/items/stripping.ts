@@ -40,6 +40,10 @@ export function stripItem(item: ProcessedItem | ProcessedPet, keys?: string[]): 
     output.shiny = true;
   }
 
+  if (itemData.texture_pack && itemData.texture_pack !== "VANILLA") {
+    output.texture_pack = itemData.texture_pack;
+  }
+
   if (keys?.length) {
     for (const key of keys) {
       output[key] = getNestedValue(itemData, key);

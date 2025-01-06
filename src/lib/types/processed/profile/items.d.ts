@@ -115,6 +115,7 @@ export type ProcessedItem = {
     price?: number;
   };
   texture_path: string;
+  texture_pack?: string;
   display_name: string;
   rarity: string | null;
   recombobulated?: boolean;

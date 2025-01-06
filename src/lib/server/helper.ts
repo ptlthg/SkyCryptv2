@@ -201,6 +201,7 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
     const hasHeadTexture = customTexture && customTexture.path && customTexture.path.endsWith("skull-3.png") && item.tag?.SkullOwner?.Properties?.textures?.length > 0;
     if (!ignoreCustomTexture && !hasHeadTexture) {
       item.texture_path = customTexture.path;
+      item.texture_pack = customTexture.pack?.config?.id;
     }
   }
 
