@@ -23,7 +23,7 @@ export const TROPHY_FISH = {
   },
   GOLDEN_FISH: {
     display_name: "Golden Fish",
-    description: "§7Has a chance to spawn after §a15 §7minutes of fishing, increasing linearly until reaching 100% at 20 minutes. The §6Golden Fish §7is rolled when your fishing hook is thrown out, regardless of if you catch a fish or not. You are not required to Trophy Fish to catch this one.",
+    description: "§7Has a chance to spawn after §a8 §7minutes of fishing, increasing linearly until reaching 100% at 12 minutes. The §6Golden Fish §7is rolled when your fishing hook is thrown out, regardless of if you catch a fish or not. You are not required to Trophy Fish to catch this one.",
     textures: {
       bronze: "/api/head/fcfa31d81eae819936834e6664430daf8affbff30b48a1daa7ca1b4c20e3fe7d",
       diamond: "/api/head/f46cb8cbb60cda60092b3051648dd2db7eec49ae87f3f524c6182797b4109a12",
