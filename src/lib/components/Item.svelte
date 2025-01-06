@@ -3,6 +3,7 @@
   import ContainedItem from "$lib/components/ContainedItem.svelte";
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { RARITIES, RARITY_COLORS } from "$lib/shared/constants/items";
+  import { packConfigs } from "$lib/shared/constants/packs";
   import { getRarityClass, removeFormatting, renderLore } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
@@ -21,6 +22,8 @@
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
+  const texturePath = skyblockItem.texture_pack;
+  const packData = packConfigs.find((pack) => pack.id === texturePath) ?? null;
 
   const showNumbers = showCount && (skyblockItem.Count ?? 0) > 1;
 
@@ -97,6 +100,30 @@
           </div>
         {/if}
       </div>
+
+      {#if packData !== null}
+        <div class="border-t border-text/10 px-6 py-4">
+          <div class="flex items-center justify-between gap-4 rounded-lg bg-text/[0.05] p-2">
+            <div class="flex items-center gap-2">
+              <Avatar.Root class="shrink-0 select-none">
+                <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+                <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
+                  {packData.name.slice(0, 2)}
+                </Avatar.Fallback>
+              </Avatar.Root>
+              <div class="flex flex-col">
+                <div class="font-semibold text-text/90">
+                  {packData.name}
+                  <span class="text-sm text-text/60">{packData.version}</span>
+                </div>
+                <div class="text-sm text-text/60">
+                  by <span class="text-text/80">{packData.author}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {/if}
     </Tooltip.Content>
   </Tooltip.Root>
 {/snippet}
