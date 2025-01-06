@@ -99,7 +99,7 @@
           </div>
         {/if}
 
-        {#if packData !== undefined}
+        {#if packData}
           <div class="pt-4">
             <Button.Root href={packData.link} target="_blank">
               <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
