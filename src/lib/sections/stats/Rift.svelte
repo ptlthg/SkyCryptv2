@@ -67,7 +67,7 @@
     <div class="flex flex-wrap gap-4">
       {#each rift.timecharms.timecharms as timecharm}
         {@const hasUnlocked = timecharm.unlocked}
-        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant="tooltip">
+        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
           <div class={cn("flex flex-col")}>
             <div class="font-bold">
               <span class="opacity-60">{timecharm.name}</span>
