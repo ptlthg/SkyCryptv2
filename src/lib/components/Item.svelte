@@ -7,7 +7,7 @@
   import { getRarityClass, removeFormatting, renderLore } from "$lib/shared/helper";
   import { cn, flyAndScale } from "$lib/shared/utils";
   import type { ProcessedSkyBlockItem, ProcessedSkyblockPet } from "$lib/types/global";
-  import { Avatar, Tooltip } from "bits-ui";
+  import { Avatar, Button, Tooltip } from "bits-ui";
   import Image from "lucide-svelte/icons/image";
   import { getContext } from "svelte";
   import { Drawer } from "vaul-svelte";
@@ -102,8 +102,8 @@
 
         {#if packData !== null}
           <div class="pt-4">
-            <a href={packData.link} target="_blank">
-              <div class="flex items-center justify-between gap-4 rounded-[0.625rem] p-2 transition-colors hover:bg-text/[0.08]">
+            <Button.Root href={packData.link} target="_blank">
+              <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
                 <div class="flex items-center gap-2">
                   <Avatar.Root class="shrink-0 select-none">
                     <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
@@ -113,7 +113,9 @@
                   </Avatar.Root>
                   <div class="flex flex-col">
                     <div class="font-semibold text-link">
-                      {packData.name}
+                      <span class="underline">
+                        {packData.name}
+                      </span>
                       <span class="text-sm text-text/60">{packData.version}</span>
                     </div>
                     <div class="text-sm text-text/60">
@@ -122,7 +124,7 @@
                   </div>
                 </div>
               </div>
-            </a>
+            </Button.Root>
           </div>
         {/if}
       </div>
