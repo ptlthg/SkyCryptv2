@@ -93,6 +93,7 @@ export type ProcessedItem = {
         skin: string | null;
       };
       talisman_enrichment?: string;
+      gems: Record<string, string>;
     };
     SkullOwner: {
       Properties: {
