@@ -13,8 +13,7 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 
     return new Response(attachment.image, {
       headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=1209600, immutable"
+        "Content-Type": "image/png"
       }
     });
   } catch (errorMsg) {
