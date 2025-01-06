@@ -6,7 +6,8 @@
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const collections = $derived(profile.collections);
 </script>

@@ -6,7 +6,8 @@
   import { quadInOut } from "svelte/easing";
   import { slide } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const stats = $derived(getPlayerStats(profile));
 </script>
 

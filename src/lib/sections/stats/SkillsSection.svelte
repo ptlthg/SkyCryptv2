@@ -6,7 +6,8 @@
   import Fishing from "./skills/fishing.svelte";
   import Mining from "./skills/mining.svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 </script>
 
 <SectionTitle class="pt-4">Skills</SectionTitle>

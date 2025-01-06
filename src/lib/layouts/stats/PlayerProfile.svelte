@@ -13,7 +13,8 @@
   let uuidCopied = $state(false);
   let showMore = $state(false);
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const iconMapper: Record<string, string> = {
     TWITTER: "x-twitter.svg",

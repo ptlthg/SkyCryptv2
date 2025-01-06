@@ -4,7 +4,8 @@
   import * as skinview3d from "skinview3d";
   import { onMount } from "svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   let { class: className }: { class: string | undefined } = $props();
   let viewer: skinview3d.SkinViewer;

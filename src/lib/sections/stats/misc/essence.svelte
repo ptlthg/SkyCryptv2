@@ -5,7 +5,8 @@
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.essence != null}
