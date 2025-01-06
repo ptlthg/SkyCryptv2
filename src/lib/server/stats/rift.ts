@@ -41,6 +41,7 @@ function getPorhtals(userProfile: Member) {
 
 export function getRift(userProfile: Member) {
   return {
+    visits: userProfile.player_stats?.rift?.visits ?? 0,
     motes: {
       purse: Math.floor(userProfile.currencies?.motes_purse ?? 0),
       lifetime: Math.floor(userProfile.player_stats?.rift?.lifetime_motes_earned ?? 0),

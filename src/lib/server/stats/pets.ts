@@ -57,7 +57,14 @@ function getPetSkins() {
 }
 
 function replaceVariables(template: string, variables: Record<string, string>) {
-  return template.replace(/\{(\w+)\}/g, (match, name) => variables[name] ?? match);
+  return template.replace(/\{(\w+)\}/g, (match, name) => {
+    // ? NOTE: Needed because NEU doesn't return + in front of stats
+    if (isNaN(parseFloat(name)) === true) {
+      return `+${variables[name] ?? match}`;
+    }
+
+    return variables[name] ?? match;
+  });
 }
 
 function getPetLevel(petExp: number, type: string, rarity: string) {
@@ -232,6 +239,10 @@ function getProfilePets(userProfile: Member, pets: Pet[]) {
         );
         outputPet.lore.push(`§cCould not find held item in Not Enough Updates repository.`);
       }
+    }
+
+    if (outputPet.lore.at(-1) !== "") {
+      outputPet.lore.push("");
     }
 
     if (outputPet.level.xp >= outputPet.level.xpMaxLevel) {

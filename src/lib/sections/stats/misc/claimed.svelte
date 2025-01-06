@@ -5,7 +5,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.claimed_items != null}

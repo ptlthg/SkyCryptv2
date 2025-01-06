@@ -8,13 +8,15 @@
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import { format } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const rift = $derived(profile.rift);
 </script>
 
 <Items title="Rift" class="flex-col">
   <div slot="text">
+    <AdditionStat text="Visits" data={format(rift.visits)} />
     <AdditionStat text="Motes" data={format(rift.motes.purse)} asterisk={true}>
       <div class="flex flex-col gap-4">
         <div class="text-sm font-bold">
@@ -66,7 +68,7 @@
     <div class="flex flex-wrap gap-4">
       {#each rift.timecharms.timecharms as timecharm}
         {@const hasUnlocked = timecharm.unlocked}
-        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant="tooltip">
+        <Chip image={{ src: timecharm.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked }, "whitespace-nowrap")} variant={hasUnlocked ? "tooltip" : "default"}>
           <div class={cn("flex flex-col")}>
             <div class="font-bold">
               <span class="opacity-60">{timecharm.name}</span>
@@ -84,12 +86,14 @@
             </div>
           </div>
           <div slot="tooltip" class="text-sm font-bold">
-            <div>
-              <span class="opacity-85">Obtained:</span>
-              <span class="text-text">
-                {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
-              </span>
-            </div>
+            {#if timecharm.unlockedAt}
+              <div>
+                <span class="opacity-85">Obtained:</span>
+                <span class="text-text">
+                  {formatDate(timecharm.unlockedAt, "dd MMMM yyyy 'at' HH:mm")}
+                </span>
+              </div>
+            {/if}
           </div>
         </Chip>
       {/each}

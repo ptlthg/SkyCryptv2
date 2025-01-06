@@ -4,9 +4,6 @@ export const GET: RequestHandler = async ({ params }) => {
   const color = atob(params.color) ?? "0, 0%, 0%";
   const invert = params.invert;
 
-  console.log("--- HERE ---");
-  console.log(color, invert);
-
   const background = invert ? "0 0% 100%" : color;
   const foreground = invert ? color : "0 0% 100%";
 

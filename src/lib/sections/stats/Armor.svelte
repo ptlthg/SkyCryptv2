@@ -10,7 +10,8 @@
   import { ScrollArea } from "bits-ui";
   import { getContext } from "svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const isHover = getContext<IsHover>("isHover");
 
@@ -22,7 +23,7 @@
 
 <Items title="Armor">
   <div slot="text" class="contents">
-    {#if armor.armor.length > 0 && armor.armor.every((piece) => piece.display_name)}
+    {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
       {#if armor.set_name}
         <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
           <span>Set:</span>
@@ -32,7 +33,7 @@
     {/if}
   </div>
 
-  {#if armor.armor.length > 0 && armor.armor.every((piece) => piece.display_name)}
+  {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
     {#each armor.armor as piece}
       {#if piece.display_name}
         <Item {piece} />

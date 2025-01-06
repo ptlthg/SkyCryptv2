@@ -391,6 +391,7 @@ export type Collection = {
 };
 
 export type PlayerStatsRift = {
+  visits: number;
   lifetime_motes_earned: number;
   motes_orb_pickup: number;
 };

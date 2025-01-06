@@ -95,7 +95,7 @@ export function renderLore(text: string): string {
       part = part.substring(2);
     }
 
-    if (part.length === 0) {
+    if (part.length === 0 && output.endsWith("<br>") === false) {
       output += "<br>";
       continue;
     }
@@ -230,7 +230,7 @@ export function calculatePercentage(value: number, total: number, decimal: numbe
     return "0";
   }
 
-  return Math.round((value / total) * 100)
+  return Math.floor((value / total) * 100)
     .toFixed(decimal)
     .replace(/\.0+$/, "");
 }

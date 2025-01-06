@@ -29,17 +29,19 @@
     if (!theme) {
       themeStore.set("default");
       document.documentElement.dataset.theme = "default";
-      document.cookie = `theme=default; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
       return;
     }
     if (theme.light) {
       document.documentElement.dataset.mode = "light";
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     } else {
       document.documentElement.dataset.mode = "dark";
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
     }
 
     document.documentElement.dataset.theme = theme.id;
-    document.cookie = `theme=${theme.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
   }
 
   onMount(() => {
@@ -124,7 +126,7 @@
       <Cog class="size-5 transition-all duration-300 data-[is-open=true]:rotate-45" data-is-open={settingsOpen} />
       <p class="hidden @md:block">Settings</p>
     </Popover.Trigger>
-    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-[9999] min-w-[32rem] rounded-lg bg-background-grey/95 px-8 py-4">
+    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-10 min-w-[32rem] rounded-lg bg-background-grey/95 px-8 py-4">
       {@render settings()}
     </Popover.Content>
   </Popover.Root>
@@ -135,8 +137,8 @@
       <p class="hidden @md:block">Settings</p>
     </Drawer.Trigger>
     <Drawer.Portal>
-      <Drawer.Overlay class="fixed inset-0 z-[998] bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-[999] flex max-h-[calc(96%-48px)] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
+      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
         <div class="mx-auto w-full max-w-md overflow-auto p-6">
           {@render settings()}
         </div>

@@ -1,10 +1,22 @@
 <script lang="ts">
+  import { page } from "$app/state";
   import HeaderInfo from "$lib/components/header/Info.svelte";
   import Settings from "$lib/components/header/Settings.svelte";
   import { Avatar, Button } from "bits-ui";
+  import { Control, Field, FieldErrors } from "formsnap";
+  import Search from "lucide-svelte/icons/search";
+  import { superForm } from "sveltekit-superforms";
+  import { zodClient } from "sveltekit-superforms/adapters";
+  import { schema } from "../../../routes/schema";
+
+  const form = superForm(page.data.searchForm, {
+    validators: zodClient(schema)
+  });
+
+  const { form: formData, enhance, errors, tainted } = form;
 </script>
 
-<header class="fixed left-0 top-0 z-[1000] h-12 w-full overflow-clip bg-header px-2.5 pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container">
+<header class="fixed bottom-0 left-0 z-30 h-12 w-full overflow-clip bg-header px-2.5 pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container sm:top-0">
   <div class="flex h-full w-full justify-center @md:justify-between">
     <div class="flex gap-2">
       <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold">
@@ -17,16 +29,25 @@
       <HeaderInfo />
     </div>
 
-    <!-- TODO: Implement player lookup
-  <form class="lookup-player hidden">
-    <input text-text/70="ign" type="search" enterkeyhint="go" placeholder="Enter usertext-text/70" aria-label="usertext-text/70" required />
-    <button type="submit">
-      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-        <title>search</title>
-        <path fill="currentColor" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-      </svg>
-    </button>
-  </form> -->
+    {#if page.url.pathname.startsWith("/stats")}
+      <div class="mx-auto my-1.5 hidden w-full max-w-lg px-4 @[38rem]:block">
+        <form method="POST" action="/search" use:enhance class="relative flex h-full w-full items-center justify-start overflow-clip rounded-[1.125rem] bg-background/20">
+          <Field {form} name="query">
+            <Control>
+              {#snippet children({ props })}
+                <input {...props} type="search" required placeholder="Enter username" class="flex-shrink flex-grow bg-transparent px-4 pr-14 font-semibold text-text transition-colors duration-300 placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 focus-visible:outline-none" bind:value={$formData.query} />
+              {/snippet}
+            </Control>
+            {#if $formData.query.length > 0 && $tainted?.query && $errors.query}
+              <FieldErrors class="text-center text-sm font-semibold text-text/80" />
+            {/if}
+          </Field>
+          <Button.Root type="submit" class="absolute right-0 z-10 flex h-full items-center justify-center rounded-[1.125rem] bg-background/15 px-4">
+            <Search class="size-6 text-text" />
+          </Button.Root>
+        </form>
+      </div>
+    {/if}
 
     <Settings />
   </div>

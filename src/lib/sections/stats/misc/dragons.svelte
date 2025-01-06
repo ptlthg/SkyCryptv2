@@ -6,7 +6,8 @@
   import { formatTime } from "$lib/shared/helper";
   import { format } from "numerable";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.dragons != null}
@@ -27,20 +28,24 @@
           {/if}
         {/each}
       </AdditionStat>
-      <AdditionStat text="Last Hits" data={format(misc.dragons.last_hits.total)} asterisk={true}>
-        {#each Object.entries(misc.dragons.last_hits) as [text, data]}
-          {#if text !== "total"}
-            <AdditionStat {text} data={format(data)} />
-          {/if}
-        {/each}
-      </AdditionStat>
-      <AdditionStat text="Deaths" data={format(misc.dragons.deaths.total)} asterisk={true}>
-        {#each Object.entries(misc.dragons.deaths) as [text, data]}
-          {#if text !== "total"}
-            <AdditionStat {text} data={format(data)} />
-          {/if}
-        {/each}
-      </AdditionStat>
+      {#if misc.dragons.last_hits != null}
+        <AdditionStat text="Last Hits" data={format(misc.dragons.last_hits.total)} asterisk={true}>
+          {#each Object.entries(misc.dragons.last_hits) as [text, data]}
+            {#if text !== "total"}
+              <AdditionStat {text} data={format(data)} />
+            {/if}
+          {/each}
+        </AdditionStat>
+      {/if}
+      {#if misc.dragons.deaths != null}
+        <AdditionStat text="Deaths" data={format(misc.dragons.deaths.total)} asterisk={true}>
+          {#each Object.entries(misc.dragons.deaths) as [text, data]}
+            {#if text !== "total"}
+              <AdditionStat {text} data={format(data)} />
+            {/if}
+          {/each}
+        </AdditionStat>
+      {/if}
     </div>
   </Items>
 {/if}

@@ -109,7 +109,7 @@
       <Info class="size-5 fill-text stroke-header @md:hidden" />
       <span class="hidden @md:inline">About</span>
     </Popover.Trigger>
-    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-[9999]">
+    <Popover.Content transition={flyAndScale} transitionConfig={{ duration: 300, y: -8 }} side="bottom" sideOffset={8} align="center" collisionPadding={8} class="z-50">
       <div class="max-w-[32rem] rounded-lg bg-background-grey/95 px-8 py-4">
         {@render info()}
       </div>
@@ -122,8 +122,8 @@
       <span class="hidden @md:inline">About</span>
     </Drawer.Trigger>
     <Drawer.Portal>
-      <Drawer.Overlay class="fixed inset-0 z-[998] bg-black/80" />
-      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-[999] flex max-h-[calc(96%-48px)] flex-col rounded-t-[10px] bg-background-lore">
+      <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
+      <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
         <div class="mx-auto w-full max-w-md overflow-auto p-6">
           {@render info()}
         </div>

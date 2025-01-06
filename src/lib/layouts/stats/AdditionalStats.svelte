@@ -5,7 +5,8 @@
   import { format as dateFormat, formatDistanceToNowStrict } from "date-fns";
   import { format as numberFormat } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const defaultPatternDecimal: string = "0,0.##";
   const defaultPattern: string = "0,0";

@@ -10,13 +10,13 @@
   import Star from "lucide-svelte/icons/star";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
-  import type { PageServerData } from "./$types";
+  import type { PageData } from "./$types";
   import { Role } from "./enums";
   import { schema } from "./schema";
 
-  let { data }: { data: PageServerData } = $props();
+  let { data }: { data: PageData } = $props();
 
-  const form = superForm(data.form, {
+  const form = superForm(data.searchForm, {
     validators: zodClient(schema)
   });
 
@@ -31,7 +31,7 @@
 </script>
 
 <main class="mx-auto mt-[48px] flex min-h-screen max-w-[68rem] flex-col justify-center gap-6 pb-[max(1.25rem+env(safe-area-inset-bottom))] pl-[max(1.25rem+env(safe-area-inset-left))] pr-[max(1.25rem+env(safe-area-inset-right))] pt-5 @container">
-  <form method="POST" use:enhance class="flex w-full flex-col justify-center gap-6 rounded-lg py-6 text-3xl backdrop-blur-lg backdrop-brightness-50">
+  <form method="POST" action="/search" use:enhance class="flex w-full flex-col justify-center gap-6 rounded-lg py-6 text-3xl backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
     <div class="flex flex-col justify-center gap-2">
       <Field {form} name="query">
         <Control>
@@ -39,7 +39,7 @@
             <div class="flex flex-col gap-6">
               <Label class="m-1 w-full text-center font-semibold">Show SkyBlock stats for</Label>
               <!-- svelte-ignore a11y_autofocus -->
-              <input {...props} type="search" required autofocus placeholder="Enter username" class="relative h-16 flex-grow bg-text/10 text-center font-normal text-text focus-visible:outline-none" bind:value={$formData.query} />
+              <input {...props} type="search" required autofocus placeholder="Enter username" class="relative h-16 flex-grow bg-text/10 text-center font-normal text-text placeholder:text-text/80 focus-visible:outline-none" bind:value={$formData.query} />
             </div>
           {/snippet}
         </Control>
@@ -48,10 +48,10 @@
         {/if}
       </Field>
     </div>
-    <Button.Root type="submit" class="mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl bg-icon px-6 py-3 text-base font-bold uppercase transition-all duration-150 [text-shadow:0_0_3px_rgba(0,0,0,.5)] hover:scale-[1.015]">Show me</Button.Root>
+    <Button.Root type="submit" class="mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl bg-icon px-6 py-3 text-base font-bold uppercase text-white transition-all duration-150 [text-shadow:0_0_3px_rgba(0,0,0,.5)] hover:scale-[1.015] dark:text-text">Show me</Button.Root>
   </form>
 
-  <Button.Root href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer" class="flex items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-50 transition-all duration-300 hover:scale-[1.05]">
+  <Button.Root href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer" class="flex items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] transition-all duration-300 hover:scale-[1.05] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
     <Avatar.Root class="size-12 shrink-0 select-none rounded-lg">
       <Avatar.Image src="/img/icons/patreon.svg" alt="Patreon logo" class="pointer-events-none size-12 rounded-lg" />
       <Avatar.Fallback class="flex h-full items-center justify-center text-lg font-semibold uppercase text-text/60">PA</Avatar.Fallback>
@@ -91,7 +91,7 @@
 
 {#snippet profile(user: { id: string; name: string; quote?: string; role?: Role }, options?: { tip?: boolean; favorite?: boolean })}
   <div class={cn("relative rounded-lg", { "transition-all duration-300 hover:scale-105": !options?.tip })}>
-    <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-50">
+    <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
       <Avatar.Root class="size-16 shrink-0 rounded-lg bg-text/10">
         <Avatar.Image src={options?.tip ? "https://mc-heads.net/avatar/bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40/64" : `https://crafatar.com/avatars/${user.id}?size=64&overlay`} alt={user.name} class="aspect-square size-16 rounded-lg " />
         <Avatar.Fallback class="flex h-full items-center justify-center text-lg font-semibold uppercase text-text/60">
@@ -140,7 +140,7 @@
 {/snippet}
 
 {#snippet profileSkeleton()}
-  <div class="relative flex min-w-0 items-center gap-2 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-50">
+  <div class="relative flex min-w-0 items-center gap-2 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
     <div class="size-16 animate-pulse rounded-lg bg-text/10"></div>
     <div class="flex flex-col gap-1">
       <div class="h-6 w-24 animate-pulse rounded-lg bg-text/10"></div>

@@ -8,7 +8,8 @@
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { fade } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const enchanting = $derived(profile.enchanting.data);
 </script>
 
@@ -16,7 +17,7 @@
 {#if profile.enchanting.unlocked === false}
   <p class="space-x-0.5 leading-6">{profile.username} hasn't unlocked Enchanting yet.</p>
 {:else}
-  <Collapsible.Root open={true}>
+  <Collapsible.Root>
     <Collapsible.Trigger class="group flex items-center gap-0.5">
       <ChevronDown class="size-5 transition-all duration-300 group-data-[state=open]:-rotate-180" />
       <SectionSubtitle class="my-0">Experiments</SectionSubtitle>

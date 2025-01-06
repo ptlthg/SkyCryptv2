@@ -201,6 +201,7 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
     const hasHeadTexture = customTexture && customTexture.path && customTexture.path.endsWith("skull-3.png") && item.tag?.SkullOwner?.Properties?.textures?.length > 0;
     if (!ignoreCustomTexture && !hasHeadTexture) {
       item.texture_path = customTexture.path;
+      item.texture_pack = customTexture.pack?.config?.id;
     }
   }
 
@@ -214,8 +215,6 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
 
         item.texture_path = `/api/head/${uuid}?v6`;
       } catch (e) {
-        addToItemLore(item, ["", "§cError: Missing texture"]);
-        item.texture_path = `/api/item/BARRIER`;
         console.error(e);
       }
     } else if (typeof item.id === "number" && item.id >= 298 && item.id <= 301) {
@@ -224,9 +223,6 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
       const type = ["helmet", "chestplate", "leggings", "boots"][item.id - 298];
 
       item.texture_path = `/api/leather/${type}/${color}`;
-    } else if (!item.texture_path) {
-      addToItemLore(item, ["", "§cError: Missing texture"]);
-      item.texture_path = `/api/item/BARRIER`;
     }
   }
 

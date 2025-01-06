@@ -13,7 +13,8 @@
   let uuidCopied = $state(false);
   let showMore = $state(false);
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const iconMapper: Record<string, string> = {
     TWITTER: "x-twitter.svg",
@@ -33,8 +34,8 @@
 <div class="mt-12 flex flex-wrap items-center gap-x-2 gap-y-3 text-4xl">
   Stats for
   <DropdownMenu.Root>
-    <DropdownMenu.Trigger class="inline-flex items-center rounded-full bg-[#7f7f7f]/20 py-2 pl-2 pr-4 align-middle text-3xl font-semibold">
-      <div class="nice-colors-dark light dark relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
+    <DropdownMenu.Trigger class="inline-flex items-center whitespace-nowrap rounded-full bg-[#7f7f7f]/20 py-2 pl-2 pr-4 align-middle text-3xl font-semibold">
+      <div class="relative flex items-center justify-center overflow-hidden rounded-full bg-[var(--color)] px-2 py-1 text-xl" style={`--color:${profile.rank?.rankColor}`}>
         <div class="relative z-20 inline-flex justify-between gap-3 text-lg font-bold">
           <span>{profile.rank?.rankText}</span>
           {#if profile.rank?.plusText}
@@ -45,7 +46,7 @@
       </div>
       <span class="pl-4">{profile.displayName}</span>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="z-[99999] min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="z-50 min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.members as member}
         {#if member.username !== profile.username}
           <DropdownMenu.Item href={`/stats/${member.username}/${profile.profile_cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">
@@ -63,7 +64,7 @@
       {profile.profile_cute_name}
     </DropdownMenu.Trigger>
 
-    <DropdownMenu.Content class="z-[99999]  min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
+    <DropdownMenu.Content class="z-50  min-w-64 overflow-hidden rounded-lg bg-background-grey/95 text-3xl font-semibold" align="start" side="bottom" transition={flyAndScale} transitionConfig={{ y: -8, duration: 150 }}>
       {#each profile.profiles ?? [] as otherProfile}
         {#if otherProfile.profile_id !== profile.profile_id}
           <DropdownMenu.Item href={`/stats/${profile.username}/${otherProfile.cute_name}`} class="flex items-center p-4 hover:bg-text/20" data-sveltekit-preload-code="viewport">

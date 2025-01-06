@@ -12,8 +12,7 @@ export const GET: RequestHandler = async ({ params }) => {
 
     return new Response(attachment, {
       headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=1209600, immutable"
+        "Content-Type": "image/png"
       }
     });
   } catch (errorMsg) {

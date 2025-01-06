@@ -1,31 +1,39 @@
 <script lang="ts">
-  import { afterNavigate, goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import { setProfileCtx } from "$ctx/profile.svelte";
   import Main from "$lib/layouts/stats/Main.svelte";
+  import type { ValidStats } from "$types/stats";
+  import { untrack } from "svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
 
-  // Update the URL to include the profile if it's missing
-  afterNavigate(async () => {
-    const user = await data.user;
-    if (!user) return;
+  // Initialize the profile context
+  setProfileCtx(data.user as unknown as ValidStats);
 
-    const { username, profile_cute_name } = user;
-    if (!username) return;
+  // Update the profile context when the data changes
+  $effect(() => {
+    setProfileCtx(data.user as unknown as ValidStats);
 
-    const current = page.url.pathname;
-    const wanted = `/stats/${username}/${profile_cute_name || ""}`;
+    untrack(() => {
+      if (!data.user) return;
 
-    if (current !== wanted) {
-      const newUrl = page.url.toString().replace(current, wanted);
-      goto(newUrl, { replaceState: true });
-    }
+      const { username, profile_cute_name } = data.user;
+      if (!username) return;
+
+      const current = page.url.pathname;
+      const wanted = `/stats/${username}/${profile_cute_name || ""}`;
+
+      // Update the URL to match the username and cute name
+      if (current !== wanted) {
+        const newUrl = page.url.toString().replace(current, wanted);
+        goto(newUrl, { replaceState: true });
+      }
+    });
   });
 </script>
 
-{#await data.user then user}
-  {#if user && user.profiles}
-    <Main profile={user} />
-  {/if}
-{/await}
+{#if data.user && data.user.profiles}
+  <Main profile={data.user} />
+{/if}

@@ -238,7 +238,7 @@
 }
 
 .virtual-list-inner {
-  @apply overflow-hidden;
+  @apply overflow-x-auto overflow-y-clip;
 }
 
 /* firefox support */

@@ -10,7 +10,8 @@
   import { format } from "numerable";
   import { fade } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const highestPriorityMiningTool = $derived(profile.items.mining_tools.highest_priority_tool);
   const miningTools = $derived(profile.items.mining_tools.tools);

@@ -11,7 +11,8 @@
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const pets = $derived(profile.pets);
   const activePet = $derived(pets.pets.find((pet) => pet.active === true));
   const uniquePets = $derived(uniqBy(pets.pets, "type"));
