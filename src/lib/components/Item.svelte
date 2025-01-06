@@ -11,7 +11,14 @@
   import { getContext } from "svelte";
   import { Drawer } from "vaul-svelte";
 
-  let { piece, isInventory, showCount, showRecombobulated }: { piece: ProcessedSkyBlockItem | ProcessedSkyblockPet; isInventory?: boolean; showCount?: boolean; showRecombobulated?: boolean } = $props();
+  type Props = {
+    piece: ProcessedSkyBlockItem | ProcessedSkyblockPet;
+    isInventory?: boolean;
+    showCount?: boolean;
+    showRecombobulated?: boolean;
+  };
+
+  let { piece, isInventory, showCount, showRecombobulated }: Props = $props();
 
   const skyblockItem = piece as ProcessedSkyBlockItem;
   const itemName = skyblockItem.display_name ?? "???";
