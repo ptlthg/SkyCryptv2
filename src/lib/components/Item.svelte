@@ -18,7 +18,6 @@
   const itemNameHtml = renderLore(itemName);
   const isMulticolor = (itemNameHtml.match(/<\/span>/g) || []).length > 1;
   const bgColor = getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg");
-  console.log(bgColor);
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
@@ -40,7 +39,7 @@
       <div class="absolute -right-3 -top-3 z-10 size-6 rotate-45 bg-[--color]" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
     {/if}
     {#if showNumbers}
-      <div class="absolute bottom-0.5 right-0.5 text-2xl font-semibold text-white text-shadow-[.1em_.1em_.1em_#000]">
+      <div class="absolute bottom-0.5 right-0.5 text-sm font-semibold text-white text-shadow-[.1em_.1em_.1em_#000] sm:text-2xl">
         {skyblockItem.Count}
       </div>
     {/if}
@@ -49,7 +48,7 @@
 
 {#snippet tooltip()}
   <Tooltip.Root group="armor" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn(`relative flex aspect-square items-center justify-center overflow-clip rounded-lg`, isInventory ? "p-0" : `p-2 ${bgColor}`, { shine: enchanted })}>
+    <Tooltip.Trigger class={cn(`nice-colors-dark relative flex aspect-square items-center justify-center overflow-clip rounded-lg`, isInventory ? "p-0" : `p-2 ${bgColor}`, { shine: enchanted })}>
       <Avatar.Root>
         <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 select-none" data-enchanted={enchanted} />
         <Avatar.Fallback>
@@ -60,13 +59,13 @@
         <div class="absolute -right-3 -top-3 z-10 size-6 rotate-45 bg-[--color]" style="--color: var(--§{RARITY_COLORS[RARITIES[RARITIES.indexOf(piece.rarity ?? 'common') - 1]]})"></div>
       {/if}
       {#if showNumbers}
-        <div class="absolute bottom-0.5 right-0.5 text-sm font-semibold text-white text-shadow-[.1em_.1em_.1em_#000] md:text-2xl">
+        <div class="absolute bottom-0.5 right-0.5 text-sm font-semibold text-white text-shadow-[.1em_.1em_.1em_#000] sm:text-2xl">
           {skyblockItem.Count ?? 1}
         </div>
       {/if}
     </Tooltip.Trigger>
     <Tooltip.Content class="z-50 flex max-h-[calc(96%-3rem)] w-max min-w-96 max-w-[calc(100vw-2.5rem)] select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
-      <div class={cn(`flex flex-nowrap items-center justify-center gap-4 p-5`, bgColor)}>
+      <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 p-5`, bgColor)}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none overflow-hidden" data-enchanted={enchanted} />
           <Avatar.Fallback>
@@ -104,13 +103,13 @@
 
 {#snippet drawer()}
   <Drawer.Root shouldScaleBackground={true} setBackgroundColorOnScale={false}>
-    <Drawer.Trigger>
+    <Drawer.Trigger class="nice-colors-dark">
       {@render item()}
     </Drawer.Trigger>
     <Drawer.Portal>
       <Drawer.Overlay class="fixed inset-0 z-40 bg-black/80" />
       <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 flex max-h-[96%] flex-col rounded-t-[10px] bg-background-lore">
-        <div class={cn(`flex flex-nowrap items-center justify-center gap-4 rounded-t-[10px] p-5`, bgColor)}>
+        <div class={cn(`nice-colors-dark flex flex-nowrap items-center justify-center gap-4 rounded-t-[10px] p-5`, bgColor)}>
           <Avatar.Root>
             <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-8 flex-none overflow-hidden" data-enchanted={enchanted} />
             <Avatar.Fallback>
@@ -133,10 +132,8 @@
   </Drawer.Root>
 {/snippet}
 
-<div class="contents">
-  {#if isHover.current}
-    {@render tooltip()}
-  {:else}
-    {@render drawer()}
-  {/if}
-</div>
+{#if isHover.current}
+  {@render tooltip()}
+{:else}
+  {@render drawer()}
+{/if}
