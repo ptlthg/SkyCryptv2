@@ -19,10 +19,12 @@
 <SEO />
 
 <div class="relative @container/parent">
-  <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container min-[1200px]:block">
-    {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
-      <Skin3D class="h-full" />
-    {/await}
+  <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container @[75rem]/parent:block">
+    {#if window && window.innerWidth >= 1200}
+      {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
+        <Skin3D class="h-full" />
+      {/await}
+    {/if}
   </div>
 
   <!-- ! Enable once 132549134 from https://webkit.org/blog/16186/release-notes-for-safari-technology-preview-206/ is added to stable  -->
