@@ -95,7 +95,7 @@ export function renderLore(text: string): string {
       part = part.substring(2);
     }
 
-    if (part.length === 0) {
+    if (part.length === 0 && output.endsWith("<br>") === false) {
       output += "<br>";
       continue;
     }
