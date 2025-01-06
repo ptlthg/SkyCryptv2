@@ -2,7 +2,8 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import Skillbar from "$lib/components/Skillbar.svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 </script>
 
 <div class="skills space-y-2 pr-2 @md:pr-0">

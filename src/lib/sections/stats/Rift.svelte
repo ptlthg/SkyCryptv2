@@ -8,7 +8,8 @@
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import { format } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const rift = $derived(profile.rift);
 </script>

@@ -5,7 +5,8 @@
   import { formatDistanceToNowStrict } from "date-fns";
   import SvelteSeo from "svelte-seo";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const skillEmojis = {
     alchemy: "⚗️",

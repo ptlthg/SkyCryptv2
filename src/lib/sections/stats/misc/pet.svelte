@@ -6,7 +6,8 @@
   import { titleCase } from "$lib/shared/helper";
   import { format } from "numerable";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.pet_milestones != null}

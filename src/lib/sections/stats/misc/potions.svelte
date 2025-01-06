@@ -5,7 +5,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { format } from "numerable";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.effects != null && Object.values(misc.effects).reduce((acc, val) => acc + val.length, 0) > 0}

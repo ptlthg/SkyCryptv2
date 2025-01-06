@@ -4,7 +4,8 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { renderLore } from "$lib/shared/helper";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 </script>
 
 <Items title="Weapons">

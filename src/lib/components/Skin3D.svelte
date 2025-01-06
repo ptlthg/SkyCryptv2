@@ -2,9 +2,9 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import { cn } from "$lib/shared/utils";
   import * as skinview3d from "skinview3d";
-  import { onMount } from "svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   let { class: className }: { class: string | undefined } = $props();
   let viewer: skinview3d.SkinViewer;
@@ -25,37 +25,37 @@
     }
   }
 
-  onMount(() => {
-    const createSkinviewer = async () => {
-      const cape = await fetch(`https://crafatar.com/capes/${profile.uuid}`, {
-        method: "HEAD"
-      }).catch(() => ({ ok: false }));
+  const createSkinviewer = async (uuid: string) => {
+    const cape = await fetch(`https://crafatar.com/capes/${uuid}`, {
+      method: "HEAD"
+    }).catch(() => ({ ok: false }));
 
-      viewer = new skinview3d.SkinViewer({
-        canvas: minecraftAvatar,
-        width: FIXED_WIDTH,
-        height: FIXED_HEIGHT,
-        skin: `https://crafatar.com/skins/${profile.uuid}`,
-        cape: cape.ok ? `https://crafatar.com/capes/${profile.uuid}` : undefined,
-        animation: new skinview3d.IdleAnimation(),
-        preserveDrawingBuffer: true
-      });
+    viewer = new skinview3d.SkinViewer({
+      canvas: minecraftAvatar,
+      width: FIXED_WIDTH,
+      height: FIXED_HEIGHT,
+      skin: `https://crafatar.com/skins/${uuid}`,
+      cape: cape.ok ? `https://crafatar.com/capes/${uuid}` : undefined,
+      animation: new skinview3d.IdleAnimation(),
+      preserveDrawingBuffer: true
+    });
 
-      viewer.camera.position.set(-18, -3, 78);
-      viewer.controls.enableZoom = false;
-      viewer.controls.enablePan = true;
-      viewer.controls.enableRotate = true;
-      viewer.canvas.removeAttribute("tabindex");
+    viewer.camera.position.set(-18, -3, 78);
+    viewer.controls.enableZoom = false;
+    viewer.controls.enablePan = true;
+    viewer.controls.enableRotate = true;
+    viewer.canvas.removeAttribute("tabindex");
 
-      const resizeObserver = new ResizeObserver(() => {
-        updateViewerSize();
-      });
-      resizeObserver.observe(minecraftAvatar);
+    const resizeObserver = new ResizeObserver(() => {
+      updateViewerSize();
+    });
+    resizeObserver.observe(minecraftAvatar);
 
-      canvasIsLoading = false;
-    };
+    canvasIsLoading = false;
+  };
 
-    createSkinviewer();
+  $effect.pre(() => {
+    createSkinviewer(profile.uuid);
 
     return () => {
       canvasIsLoading = true;

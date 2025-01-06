@@ -5,7 +5,8 @@
   import { format } from "numerable";
   import VirtualList from "svelte-tiny-virtual-list";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.kills != null}

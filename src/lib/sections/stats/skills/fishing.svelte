@@ -12,7 +12,8 @@
   import { format } from "numerable";
   import { fade } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const highestPriorityFishingTool = $derived(profile.items.fishing_tools.highest_priority_tool);
   const fishingTools = $derived(profile.items.fishing_tools.tools);
