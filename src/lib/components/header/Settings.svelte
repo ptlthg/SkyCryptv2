@@ -33,8 +33,12 @@
     }
     if (theme.light) {
       document.documentElement.dataset.mode = "light";
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     } else {
       document.documentElement.dataset.mode = "dark";
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
     }
 
     document.documentElement.dataset.theme = theme.id;
