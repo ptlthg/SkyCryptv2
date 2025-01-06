@@ -2,7 +2,7 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import { cn } from "$lib/shared/utils";
   import * as skinview3d from "skinview3d";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
 
   const { profile } = getProfileCtx();
 
@@ -11,38 +11,49 @@
   let minecraftAvatar: HTMLCanvasElement;
   let canvasIsLoading = $state<boolean>(true);
 
-  onMount(async () => {
-    const minecraftAvatarContainerDimensions = minecraftAvatar.getBoundingClientRect();
-    const cape = await fetch(`https://crafatar.com/capes/${profile.uuid}`, {
-      method: "HEAD"
-    }).catch(() => ({ ok: false }));
-    viewer = new skinview3d.SkinViewer({
-      canvas: minecraftAvatar,
-      width: minecraftAvatarContainerDimensions.width,
-      height: minecraftAvatarContainerDimensions.height,
-      skin: `https://crafatar.com/skins/${profile.uuid}`,
-      cape: cape.ok ? `https://crafatar.com/capes/${profile.uuid}` : undefined,
-      animation: new skinview3d.IdleAnimation()
-    });
+  function onResize() {
+    if (minecraftAvatar && viewer) {
+      if (minecraftAvatar.offsetWidth / minecraftAvatar.offsetHeight < 0.6) {
+        viewer.setSize(minecraftAvatar.offsetWidth, minecraftAvatar.offsetWidth * 2);
+      } else {
+        viewer.setSize(minecraftAvatar.offsetHeight / 2, minecraftAvatar.offsetHeight);
+      }
+    }
+  }
 
-    viewer.camera.position.set(-18, -3, 78);
-    viewer.controls.enableZoom = false;
-    viewer.controls.enablePan = true;
-    viewer.controls.enableRotate = true;
-    viewer.canvas.removeAttribute("tabindex");
-
-    canvasIsLoading = false;
-
-    return new Promise((resolve) => {
-      resolve(() => {
-        viewer.dispose();
+  onMount(() => {
+    const createSkinviewer = async () => {
+      const minecraftAvatarContainerDimensions = minecraftAvatar.getBoundingClientRect();
+      const cape = await fetch(`https://crafatar.com/capes/${profile.uuid}`, {
+        method: "HEAD"
+      }).catch(() => ({ ok: false }));
+      viewer = new skinview3d.SkinViewer({
+        canvas: minecraftAvatar,
+        width: minecraftAvatarContainerDimensions.width,
+        height: minecraftAvatarContainerDimensions.height,
+        skin: `https://crafatar.com/skins/${profile.uuid}`,
+        cape: cape.ok ? `https://crafatar.com/capes/${profile.uuid}` : undefined,
+        animation: new skinview3d.IdleAnimation()
       });
-    });
-  });
 
-  onDestroy(() => {
-    canvasIsLoading = true;
-    viewer.dispose();
+      viewer.camera.position.set(-18, -3, 78);
+      viewer.controls.enableZoom = false;
+      viewer.controls.enablePan = true;
+      viewer.controls.enableRotate = true;
+      viewer.canvas.removeAttribute("tabindex");
+
+      canvasIsLoading = false;
+    };
+
+    createSkinviewer();
+
+    // window.addEventListener("resize", onResize);
+
+    return () => {
+      canvasIsLoading = true;
+      viewer.dispose();
+      // window.removeEventListener("resize", onResize);
+    };
   });
 </script>
 
