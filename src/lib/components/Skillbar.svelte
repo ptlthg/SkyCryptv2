@@ -23,7 +23,7 @@
 
 <div class={cn("group relative flex flex-grow basis-full flex-col sm:basis-1/3 sm:last:grow-0 sm:last:basis-1/2", !apiEnabled && "opacity-50 grayscale", className)} data-hover={$isHovered} data-maxed={isMaxed} use:hoverAction>
   <Tooltip.Root group="skills" openDelay={0} closeDelay={0}>
-    <Tooltip.Trigger class={cn("group-data-[maxed=true]:shine absolute bottom-0 left-0 z-20 flex size-9 items-center justify-center rounded-full p-1 drop-shadow group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed", apiEnabled ? "" : "bg-gray-600")}>
+    <Tooltip.Trigger class={cn("group-data-[maxed=true]:shine absolute bottom-0 left-0 z-10 flex size-9 items-center justify-center rounded-full p-1 drop-shadow group-data-[maxed=false]:bg-icon group-data-[maxed=true]:bg-maxed", apiEnabled ? "" : "bg-gray-600")}>
       <Avatar.Root class="select-none">
         <Avatar.Image loading="lazy" class={cn("pointer-events-none size-[1.625rem]", !apiEnabled && "grayscale")} src={skillData.texture} alt={skill} />
         <Avatar.Fallback>
