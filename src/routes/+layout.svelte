@@ -57,7 +57,7 @@
   {/if}
 </svelte:head>
 
-<Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-6" />
+<Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-8" />
 
 <Header />
 
