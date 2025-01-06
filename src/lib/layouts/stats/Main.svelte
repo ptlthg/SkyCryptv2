@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { setProfileCtx } from "$ctx/profile.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
@@ -7,13 +6,9 @@
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
   import Armor from "$lib/sections/stats/Armor.svelte";
-  import type { Stats as StatsType, ValidStats } from "$lib/types/stats";
+  import type { Stats as StatsType } from "$lib/types/stats";
 
   let { profile }: { profile: StatsType } = $props();
-
-  $effect.pre(() => {
-    setProfileCtx(profile as unknown as ValidStats);
-  });
 </script>
 
 <SEO />
