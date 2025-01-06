@@ -6,7 +6,7 @@ export function addLevelableEnchantmentsToLore(
   },
   itemLore: string[]
 ) {
-  itemLore.push("", `§7${constant.name}: §c${amount.toLocaleString()}`);
+  itemLore.push("", `§7${constant.name}: §c${Math.floor(amount).toLocaleString()}`);
   if (amount >= (constant.ladder.at(-1) ?? 100)) {
     itemLore.push(`§8MAXED OUT!`);
   } else {

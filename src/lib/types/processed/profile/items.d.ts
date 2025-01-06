@@ -148,6 +148,7 @@ export type ProcessedSkyBlockItem = {
   texture_path: string;
   containsItems?: ProcessedSkyBlockItem[];
   shiny?: boolean;
+  texture_pack?: string;
   [key: string]: string | boolean;
 };
 
