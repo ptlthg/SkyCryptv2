@@ -230,7 +230,7 @@ export function calculatePercentage(value: number, total: number, decimal: numbe
     return "0";
   }
 
-  return Math.round((value / total) * 100)
+  return Math.floor((value / total) * 100)
     .toFixed(decimal)
     .replace(/\.0+$/, "");
 }

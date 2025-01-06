@@ -27,7 +27,7 @@
 
     <div class="flex flex-wrap gap-4">
       {#each data.items as item}
-        {@const hasUnlocked = item.amount}
+        {@const hasUnlocked = item.totalAmount}
         {@const hasMaxed = item.tier === item.maxTier}
         <Chip image={{ src: item.texture }} class={cn("h-fit w-fit", { "opacity-50": !hasUnlocked })} variant="tooltip">
           <div class={cn("flex flex-col")}>
@@ -55,7 +55,7 @@
             {/if}
             <div>
               <span class="opacity-85"> Total: </span>
-              <span class="text-text opacity-100">{format(item.amount)}</span>
+              <span class="text-text opacity-100">{format(item.totalAmount)}</span>
             </div>
           </div>
         </Chip>
