@@ -11,6 +11,7 @@
   let minecraftAvatar: HTMLCanvasElement;
   let canvasIsLoading = $state<boolean>(true);
 
+  /*
   function onResize() {
     if (minecraftAvatar && viewer) {
       if (minecraftAvatar.offsetWidth / minecraftAvatar.offsetHeight < 0.6) {
@@ -20,6 +21,7 @@
       }
     }
   }
+  */
 
   onMount(() => {
     const createSkinviewer = async () => {
