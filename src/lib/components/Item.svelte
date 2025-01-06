@@ -22,8 +22,7 @@
   const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
   const enchanted = skyblockItem.shiny;
   const shine = enchanted || skyblockItem.shiny;
-  const texturePath = skyblockItem.texture_pack;
-  const packData = packConfigs.find((pack) => pack.id === texturePath) ?? null;
+  const packData = packConfigs.find((pack) => pack.id === skyblockItem.texture_pack) ?? null;
 
   const showNumbers = showCount && (skyblockItem.Count ?? 0) > 1;
 
