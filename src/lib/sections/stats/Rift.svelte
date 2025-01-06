@@ -15,6 +15,7 @@
 
 <Items title="Rift" class="flex-col">
   <div slot="text">
+    <AdditionStat text="Visits" data={format(rift.visits)} />
     <AdditionStat text="Motes" data={format(rift.motes.purse)} asterisk={true}>
       <div class="flex flex-col gap-4">
         <div class="text-sm font-bold">

@@ -1,4 +1,5 @@
 export type Rift = {
+  visits: number;
   motes: {
     purse: number;
     lifetime: number;
