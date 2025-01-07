@@ -8,7 +8,8 @@
   import { Avatar, Button } from "bits-ui";
   import ExternalLink from "lucide-svelte/icons/external-link";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const minions = $derived(profile.minions);
 

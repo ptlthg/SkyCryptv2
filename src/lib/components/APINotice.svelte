@@ -7,8 +7,10 @@
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
 
-  const { profile } = getProfileCtx();
-  const apiSettings = Object.entries(profile.apiSettings).filter(([_, value]) => !value);
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
+
+  const apiSettings = $derived(Object.entries(profile.apiSettings).filter(([_, value]) => !value));
   const isHover = getContext<IsHover>("isHover");
 </script>
 

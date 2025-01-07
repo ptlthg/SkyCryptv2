@@ -8,7 +8,8 @@
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const slayer = $derived(profile.slayer);
 </script>
 

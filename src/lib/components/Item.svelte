@@ -21,17 +21,16 @@
 
   let { piece, isInventory, showCount, showRecombobulated }: Props = $props();
 
-  const skyblockItem = piece as ProcessedSkyBlockItem;
-  const itemName = skyblockItem.display_name ?? "???";
-  const itemNameHtml = renderLore(itemName);
-  const isMulticolor = (itemNameHtml.match(/<\/span>/g) || []).length > 1;
-  const bgColor = getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg");
-  const recombobulated = showRecombobulated && (skyblockItem.recombobulated ?? false);
-  const enchanted = skyblockItem.shiny;
-  const shine = enchanted || skyblockItem.shiny;
-  const packData = packConfigs.find((pack) => pack.id === skyblockItem.texture_pack);
-
-  const showNumbers = showCount && (skyblockItem.Count ?? 0) > 1;
+  const skyblockItem = $derived(piece as ProcessedSkyBlockItem);
+  const itemName = $derived(skyblockItem.display_name ?? "???");
+  const itemNameHtml = $derived(renderLore(itemName));
+  const isMulticolor = $derived((itemNameHtml.match(/<\/span>/g) || []).length > 1);
+  const bgColor = $derived(getRarityClass(piece.rarity ?? ("common".toLowerCase() as string), "bg"));
+  const recombobulated = $derived(showRecombobulated && (skyblockItem.recombobulated ?? false));
+  const enchanted = $derived(skyblockItem.shiny);
+  const shine = $derived(enchanted || skyblockItem.shiny);
+  const packData = $derived(packConfigs.find((pack) => pack.id === skyblockItem.texture_pack));
+  const showNumbers = $derived(showCount && (skyblockItem.Count ?? 0) > 1);
 
   const isHover = getContext<IsHover>("isHover");
 </script>

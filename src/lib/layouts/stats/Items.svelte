@@ -23,7 +23,5 @@
     <slot />
   </div>
 
-  <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
-    <slot name="info" />
-  </p>
+  <slot name="info" />
 </div>

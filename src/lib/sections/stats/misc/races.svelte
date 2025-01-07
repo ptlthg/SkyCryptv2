@@ -4,7 +4,8 @@
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import { format } from "numerable";
 
-  const { misc } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const misc = $derived(ctx.misc);
 </script>
 
 {#if misc.races != null}

@@ -10,7 +10,8 @@
   import { ScrollArea } from "bits-ui";
   import { getContext } from "svelte";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const isHover = getContext<IsHover>("isHover");
 

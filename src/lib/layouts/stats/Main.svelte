@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setProfileCtx } from "$ctx/profile.svelte";
+  import { browser } from "$app/environment";
   import Navbar from "$lib/components/Navbar.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
@@ -7,22 +7,20 @@
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
   import Armor from "$lib/sections/stats/Armor.svelte";
-  import type { Stats as StatsType, ValidStats } from "$lib/types/stats";
+  import type { Stats as StatsType } from "$lib/types/stats";
 
   let { profile }: { profile: StatsType } = $props();
-
-  $effect.pre(() => {
-    setProfileCtx(profile as unknown as ValidStats);
-  });
 </script>
 
 <SEO />
 
 <div class="relative @container/parent">
   <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container @[75rem]/parent:block">
-    {#if window && window.innerWidth >= 1200}
+    {#if browser && window.innerWidth >= 1200}
       {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
-        <Skin3D class="h-full" />
+        {#key profile}
+          <Skin3D class="h-full" />
+        {/key}
       {/await}
     {/if}
   </div>

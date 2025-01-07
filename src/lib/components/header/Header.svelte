@@ -3,20 +3,23 @@
   import HeaderInfo from "$lib/components/header/Info.svelte";
   import Settings from "$lib/components/header/Settings.svelte";
   import { Avatar, Button } from "bits-ui";
-  import { Control, Field, FieldErrors } from "formsnap";
+  import { Control, Field } from "formsnap";
+  import CircleAlert from "lucide-svelte/icons/circle-alert";
+  import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import Search from "lucide-svelte/icons/search";
   import { superForm } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import { schema } from "../../../routes/schema";
 
   const form = superForm(page.data.searchForm, {
-    validators: zodClient(schema)
+    validators: zodClient(schema),
+    validationMethod: "oninput"
   });
 
-  const { form: formData, enhance, errors, tainted } = form;
+  const { form: formData, enhance, errors, tainted, submitting, isTainted } = form;
 </script>
 
-<header class="fixed bottom-0 left-0 z-30 h-12 w-full overflow-clip bg-header px-2.5 pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container sm:top-0">
+<header class="fixed left-0 top-0 z-30 h-12 w-full overflow-clip bg-header px-2.5 pb-[env(safe-area-inset-bottom,0)] pl-[max(0.625rem,env(safe-area-inset-left))] pr-[max(0.625rem,env(safe-area-inset-right))] pt-[env(safe-area-inset-top,0)] leading-[3rem] @container">
   <div class="flex h-full w-full justify-center @md:justify-between">
     <div class="flex gap-2">
       <Button.Root href="/" class="flex items-center justify-center gap-2 font-bold">
@@ -30,20 +33,23 @@
     </div>
 
     {#if page.url.pathname.startsWith("/stats")}
-      <div class="mx-auto my-1.5 hidden w-full max-w-lg px-4 @[38rem]:block">
-        <form method="POST" action="/search" use:enhance class="relative flex h-full w-full items-center justify-start overflow-clip rounded-[1.125rem] bg-background/20">
+      <div class="mx-auto my-1.5 w-full max-w-lg px-4 @[38rem]:block">
+        <form method="POST" action="/search" use:enhance class="relative flex h-full w-4/5 items-center justify-start overflow-clip rounded-[1.125rem] bg-background/20 @[38rem]:w-full">
           <Field {form} name="query">
             <Control>
               {#snippet children({ props })}
-                <input {...props} type="search" required placeholder="Enter username" class="flex-shrink flex-grow bg-transparent px-4 pr-14 font-semibold text-text transition-colors duration-300 placeholder:text-text/80 hover:bg-background/20 focus-visible:bg-background/20 focus-visible:outline-none" bind:value={$formData.query} />
+                <input {...props} type="search" required placeholder="Enter username" class="peer h-full w-full flex-shrink rounded-r-3xl bg-transparent pl-2 pr-0 text-xs font-semibold text-text outline-none transition-[colors_border-radius_opacity] duration-300 placeholder:text-text/80 hover:rounded-r-none hover:bg-background/20 focus-visible:rounded-r-none focus-visible:bg-background/20 focus-visible:outline-none focus-visible:ring-transparent @[38rem]:flex-grow @[38rem]:pl-4 @[38rem]:text-base" bind:value={$formData.query} />
               {/snippet}
             </Control>
-            {#if $formData.query.length > 0 && $tainted?.query && $errors.query}
-              <FieldErrors class="text-center text-sm font-semibold text-text/80" />
-            {/if}
           </Field>
-          <Button.Root type="submit" class="absolute right-0 z-10 flex h-full items-center justify-center rounded-[1.125rem] bg-background/15 px-4">
-            <Search class="size-6 text-text" />
+          <Button.Root type="submit" class="flex aspect-square h-full items-center justify-center rounded-full bg-background/15 transition-all duration-300 peer-hover:rounded-l-none peer-hover:bg-background/20 peer-focus-visible:rounded-l-none peer-focus-visible:bg-background/20 @[38rem]:px-4">
+            {#if $formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined}
+              <CircleAlert class="size-4 text-text @[38rem]:size-6" />
+            {:else if $submitting}
+              <LoaderCircle class="size-4 animate-spin text-text @[38rem]:size-6" />
+            {:else}
+              <Search class="size-4 text-text @[38rem]:size-6" />
+            {/if}
           </Button.Root>
         </form>
       </div>

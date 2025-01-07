@@ -11,7 +11,8 @@
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const dungeons = $derived(profile.dungeons);
 </script>
 
@@ -46,7 +47,7 @@
       </AdditionStat>
       <AdditionStat text="Highest Floor Beaten (Normal)" data={format(dungeons.stats.highestFloorBeatenNormal)} maxed={dungeons.stats.highestFloorBeatenNormal === 7} />
       <AdditionStat text="Highest Floor Beaten (Master)" data={format(dungeons.stats.highestFloorBeatenMaster)} maxed={dungeons.stats.highestFloorBeatenMaster === 7} />
-      <AdditionStat text="Secrets Found" data={format(dungeons.stats.secrets.found)} subData="({format(dungeons.stats.secrets.secretsPerRun.toFixed(2))} S/R)" />
+      <AdditionStat text="Secrets Found" data={format(dungeons.stats?.secrets?.found ?? 0)} subData="({format((dungeons.stats?.secrets?.secretsPerRun ?? 0).toFixed(2))} S/R)" />
     </div>
     <div>
       <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Catacombs</h4>

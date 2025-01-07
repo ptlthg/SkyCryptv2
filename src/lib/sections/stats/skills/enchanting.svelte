@@ -8,7 +8,8 @@
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { fade } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
   const enchanting = $derived(profile.enchanting.data);
 </script>
 

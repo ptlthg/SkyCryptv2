@@ -9,7 +9,8 @@
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const highestPriorityFarmingTool = $derived(profile.items.farming_tools.highest_priority_tool);
   const farmingTools = $derived(profile.items.farming_tools.tools);

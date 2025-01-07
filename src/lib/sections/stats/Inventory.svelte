@@ -9,7 +9,8 @@
   import { writable } from "svelte/store";
   import { crossfade, fade } from "svelte/transition";
 
-  const { profile } = getProfileCtx();
+  const ctx = getProfileCtx();
+  const profile = $derived(ctx.profile);
 
   const inventory = $derived(profile.items.inventory.slice(9).concat(profile.items.inventory.slice(0, 9)));
   const backpack = $derived(profile.items.backpack);

@@ -20,6 +20,7 @@ function getBossCollections(userProfile: Member) {
       id: floor,
       texture: constants.BOSS_COLLECTIONS[index].texture,
       amount: amount,
+      totalAmount: amount,
       tier: constants.BOSS_COLLECTIONS[index].collections.filter((t) => t <= amount).length,
       maxTier: constants.BOSS_COLLECTIONS[index].collections.length,
       amounts: [
