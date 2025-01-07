@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { replaceState } from "$app/navigation";
+  import { page } from "$app/state";
   import { Button, ScrollArea } from "bits-ui";
   import { onMount } from "svelte";
 
@@ -91,7 +93,10 @@
           if (isIntersecting) {
             let newHash;
             newHash = "#" + element.id;
-            history.replaceState({}, document.title, newHash);
+            replaceState(newHash, {
+              ...page,
+              url: { ...page.url, hash: newHash }
+            });
             for (const link of navBarLinks) {
               if (link.hash === newHash) {
                 activeSection = link.hash.slice(1);
