@@ -18,7 +18,9 @@
   <div class="fixed left-0 top-1/2 z-10 hidden h-dvh w-[30vw] -translate-y-1/2 @container @[75rem]/parent:block">
     {#if browser && window.innerWidth >= 1200}
       {#await import('$lib/components/Skin3D.svelte') then { default: Skin3D }}
-        <Skin3D class="h-full" />
+        {#key profile}
+          <Skin3D class="h-full" />
+        {/key}
       {/await}
     {/if}
   </div>
