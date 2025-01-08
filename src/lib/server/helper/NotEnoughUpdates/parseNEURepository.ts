@@ -1,7 +1,7 @@
 import { building, dev } from "$app/environment";
 import type { NEUItem } from "$types/processed/NotEnoughUpdates/NotEnoughUpdates";
 import fs from "node:fs";
-import simpleGit from "simple-git";
+import { GitError, simpleGit } from "simple-git";
 import { NBTParser } from "./NBTParser";
 import { formatBestiaryConstants } from "./parsers/bestiary";
 import { updateNotEnoughUpdatesRepository } from "./updateNEURepository";
@@ -27,7 +27,15 @@ export async function intializeNEURepository() {
 
   if (!dev || !fs.existsSync("NotEnoughUpdates-REPO/.git")) {
     console.log(`[NOT-ENOUGH-UPDATES] Cloning NEU repository.`);
-    await simpleGit().clone("https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO", "NotEnoughUpdates-REPO");
+    try {
+      await simpleGit().clone("https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO", "NotEnoughUpdates-REPO");
+    } catch (error) {
+      if (error instanceof GitError && error.message.includes("already exists")) {
+        console.log("[NOT-ENOUGH-UPDATES] Repository already exists.");
+      }
+
+      console.error("[NOT-ENOUGH-UPDATES] Error cloning repository:", error);
+    }
   }
 }
 
