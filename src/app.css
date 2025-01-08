@@ -212,7 +212,7 @@
   }
 
   [data-tooltip-content] {
-    @apply max-w-[min(20rem,100vw-2.5rem)] text-pretty text-sm;
+    @apply text-pretty text-sm;
   }
 }
 
