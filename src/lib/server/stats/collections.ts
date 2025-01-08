@@ -1,5 +1,6 @@
 import * as constants from "$lib/server/constants/constants";
 import { COLLECTIONS } from "$lib/server/constants/update-collections";
+import { titleCase } from "$lib/server/helper";
 import { getUsername } from "$lib/server/lib";
 import type { CategoryItem, Collections, Member, Profile } from "$types/global";
 import { getKuudraCompletions } from "./crimson_isle";
@@ -46,7 +47,13 @@ function getBossCollections(userProfile: Member) {
       amount: kuudraCompletions,
       totalAmount: kuudraCompletions,
       tier: kuudraCollection.collections.filter((t) => t <= kuudraCompletions).length,
-      maxTier: kuudraCollection.collections.length
+      maxTier: kuudraCollection.collections.length,
+      amounts: Object.keys(constants.KUUDRA_TIERS).map((tier) => {
+        return {
+          username: titleCase(tier),
+          amount: userProfile.nether_island_player_data?.kuudra_completed_tiers?.[tier] ?? 0
+        };
+      })
     });
   }
 
