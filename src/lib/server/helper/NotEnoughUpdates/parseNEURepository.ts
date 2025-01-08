@@ -32,9 +32,9 @@ export async function intializeNEURepository() {
     } catch (error) {
       if (error instanceof GitError && error.message.includes("already exists")) {
         console.log("[NOT-ENOUGH-UPDATES] Repository already exists.");
+      } else {
+        console.error("[NOT-ENOUGH-UPDATES] Error cloning repository:", error);
       }
-
-      console.error("[NOT-ENOUGH-UPDATES] Error cloning repository:", error);
     }
   }
 }
