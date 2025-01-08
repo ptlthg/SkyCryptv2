@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { replaceState } from "$app/navigation";
+  import { page } from "$app/state";
   import { Button, ScrollArea } from "bits-ui";
   import { onMount } from "svelte";
 
@@ -91,7 +93,7 @@
           if (isIntersecting) {
             let newHash;
             newHash = "#" + element.id;
-            history.replaceState({}, document.title, newHash);
+            replaceState(newHash, page.state);
             for (const link of navBarLinks) {
               if (link.hash === newHash) {
                 activeSection = link.hash.slice(1);
@@ -124,7 +126,7 @@
   });
 </script>
 
-<ScrollArea.Root type="scroll" class="navbar group sticky top-0 z-20 sm:top-[calc(3rem+env(safe-area-inset-top,0))]" data-pinned={pinned}>
+<ScrollArea.Root type="scroll" class="navbar group sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20" data-pinned={pinned}>
   <ScrollArea.Viewport>
     <ScrollArea.Content class="!flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap pb-2 font-semibold text-text/80">
       <div class="absolute bottom-[0.4375rem] z-[1] h-[2px] w-[calc(100%+0.5rem)] bg-icon"></div>

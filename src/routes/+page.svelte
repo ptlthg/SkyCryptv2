@@ -6,6 +6,7 @@
   import { Control, Field, FieldErrors, Label } from "formsnap";
   import CodeXml from "lucide-svelte/icons/code-xml";
   import GitPullRequestArrow from "lucide-svelte/icons/git-pull-request-arrow";
+  import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import Server from "lucide-svelte/icons/server";
   import Star from "lucide-svelte/icons/star";
   import { superForm } from "sveltekit-superforms";
@@ -17,10 +18,11 @@
   let { data }: { data: PageData } = $props();
 
   const form = superForm(data.searchForm, {
-    validators: zodClient(schema)
+    validators: zodClient(schema),
+    validationMethod: "oninput"
   });
 
-  const { form: formData, enhance, errors, tainted } = form;
+  const { form: formData, enhance, errors, tainted, submitting, isTainted } = form;
 
   const iconMapper: Record<Role, typeof CodeXml | typeof Server | typeof GitPullRequestArrow | typeof Star> = {
     [Role.MAINTAINER]: CodeXml,
@@ -43,12 +45,18 @@
             </div>
           {/snippet}
         </Control>
-        {#if $formData.query.length > 0 && $tainted?.query && $errors.query}
+        {#if $formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined}
           <FieldErrors class="text-center text-sm font-semibold text-text/80" />
         {/if}
       </Field>
     </div>
-    <Button.Root type="submit" class="mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl bg-icon px-6 py-3 text-base font-bold uppercase text-white transition-all duration-150 [text-shadow:0_0_3px_rgba(0,0,0,.5)] hover:scale-[1.015] dark:text-text">Show me</Button.Root>
+    <Button.Root type="submit" class="mx-auto flex w-full max-w-fit items-center justify-center rounded-3xl bg-icon px-6 py-3 text-base font-bold uppercase text-white transition-all duration-150 [text-shadow:0_0_3px_rgba(0,0,0,.5)] hover:scale-[1.015] disabled:opacity-50 dark:text-text" disabled={($formData.query.length > 0 && isTainted($tainted?.query) && $errors.query !== undefined) || $submitting}>
+      {#if $submitting}
+        <LoaderCircle class="size-6 animate-spin" />
+      {:else}
+        Show me
+      {/if}
+    </Button.Root>
   </form>
 
   <Button.Root href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer" class="flex items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] transition-all duration-300 hover:scale-[1.05] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
