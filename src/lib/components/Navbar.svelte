@@ -126,7 +126,7 @@
   });
 </script>
 
-<ScrollArea.Root type="scroll" class="navbar group sticky top-0 z-20 sm:top-[calc(3rem+env(safe-area-inset-top,0))]" data-pinned={pinned}>
+<ScrollArea.Root type="scroll" class="navbar group sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20" data-pinned={pinned}>
   <ScrollArea.Viewport>
     <ScrollArea.Content class="!flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap pb-2 font-semibold text-text/80">
       <div class="absolute bottom-[0.4375rem] z-[1] h-[2px] w-[calc(100%+0.5rem)] bg-icon"></div>
