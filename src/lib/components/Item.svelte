@@ -132,7 +132,7 @@
 {/snippet}
 
 {#snippet tooltip()}
-  <Tooltip.Root group="armor" openDelay={0} closeDelay={999999}>
+  <Tooltip.Root group="armor" openDelay={0} closeDelay={0}>
     <Tooltip.Trigger class="nice-colors-dark" onclick={() => showDialog.set(!$showDialog)}>
       {@render itemIcon()}
     </Tooltip.Trigger>
