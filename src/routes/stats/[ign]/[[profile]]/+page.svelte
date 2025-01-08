@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
+  import { replaceState } from "$app/navigation";
   import { page } from "$app/state";
   import { setProfileCtx } from "$ctx/profile.svelte";
   import Main from "$lib/layouts/stats/Main.svelte";
   import type { ValidStats } from "$types/stats";
-  import { untrack } from "svelte";
+  import { tick, untrack } from "svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
@@ -28,7 +28,8 @@
       // Update the URL to match the username and cute name
       if (current !== wanted) {
         const newUrl = page.url.toString().replace(current, wanted);
-        goto(newUrl, { replaceState: true });
+        // Tick to wait for the router to initialize
+        tick().then(() => replaceState(newUrl, page.state));
       }
     });
   });

@@ -93,10 +93,7 @@
           if (isIntersecting) {
             let newHash;
             newHash = "#" + element.id;
-            replaceState(newHash, {
-              ...page,
-              url: { ...page.url, hash: newHash }
-            });
+            replaceState(newHash, page.state);
             for (const link of navBarLinks) {
               if (link.hash === newHash) {
                 activeSection = link.hash.slice(1);
