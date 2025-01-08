@@ -41,34 +41,8 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
-  es-lint:
-    name: Check linting (es-lint)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v3
-
-      - name: PNPM Install
-        uses: ./.github/actions/pnpm-install
-
-      - name: Check ESlint
-        run: pnpm lint
-
-  prettier:
-    name: Check formatting (prettier)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v3
-
-      - name: PNPM Install
-        uses: ./.github/actions/pnpm-install
-
-      - name: Check Prettier
-        run: pnpm prettier --check .
-
-  sveltecheck:
-    name: Svelte Check
+  formatting-checks:
+    name: Check linting (es-lint), formatting (prettier), and svelte checks (svelte-check)
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
@@ -83,8 +57,8 @@ jobs:
           ls -a .
           mv .env.example .env
 
-      - name: Check Svelte
-        run: pnpm run check
+      - name: Check linting, formatting, and svelte checks
+        run: pnpm lint
 
   build:
     name: Svelte Build

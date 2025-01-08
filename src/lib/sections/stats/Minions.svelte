@@ -27,7 +27,7 @@
 
   <Button.Root href="https://minionah.com" target="_blank" class="flex h-fit w-fit max-w-fit items-center gap-2 rounded-lg bg-background/30 p-2 transition-all duration-300 hover:scale-105">
     <Avatar.Root class="size-12 shrink-0">
-      <Avatar.Image src="/img/icons/minionah.png" alt="MinionAH" class="aspect-square size-12" />
+      <Avatar.Image loading="lazy" src="/img/icons/minionah.png" alt="MinionAH" class="aspect-square size-12" />
       <Avatar.Fallback class="flex size-12 items-center justify-center rounded-lg bg-background/10 font-semibold">MA</Avatar.Fallback>
     </Avatar.Root>
     <div>
