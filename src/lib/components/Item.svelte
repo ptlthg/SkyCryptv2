@@ -123,7 +123,7 @@
               <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
                 <div class="flex items-center gap-2">
                   <Avatar.Root class="shrink-0 select-none">
-                    <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+                    <Avatar.Image loading="lazy" src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
                     <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
                       {packData.name.slice(0, 2)}
                     </Avatar.Fallback>
@@ -192,7 +192,7 @@
                 <div class="flex items-center justify-between gap-4 rounded-[0.625rem] bg-text/[0.05] p-2 transition-colors hover:bg-text/[0.08]">
                   <div class="flex items-center gap-2">
                     <Avatar.Root class="shrink-0 select-none">
-                      <Avatar.Image src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
+                      <Avatar.Image loading="lazy" src="/resourcepacks/{packData.folder}/pack.png" alt={packData.name} class="pointer-events-none aspect-square size-10 h-full select-none rounded-lg" />
                       <Avatar.Fallback class="flex size-10 items-center justify-center rounded-lg bg-icon/90 text-center font-semibold uppercase">
                         {packData.name.slice(0, 2)}
                       </Avatar.Fallback>

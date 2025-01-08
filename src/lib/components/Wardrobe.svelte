@@ -14,7 +14,7 @@
       <Item {piece} />
     {:else}
       <Avatar.Root class="rounded-lg bg-background-lore p-2">
-        <Avatar.Image class="size-14" loading="eager" src={`/img/textures/item/empty_armor_slot_${pieces[index]}.png`} />
+        <Avatar.Image loading="lazy" class="size-14" src={`/img/textures/item/empty_armor_slot_${pieces[index]}.png`} />
       </Avatar.Root>
     {/if}
   {/each}

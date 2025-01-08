@@ -61,7 +61,7 @@
 
   <Button.Root href="https://www.patreon.com/shiiyu" target="_blank" rel="noreferrer" class="flex items-center gap-4 rounded-lg p-4 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] transition-all duration-300 hover:scale-[1.05] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
     <Avatar.Root class="size-12 shrink-0 select-none rounded-lg">
-      <Avatar.Image src="/img/icons/patreon.svg" alt="Patreon logo" class="pointer-events-none size-12 rounded-lg" />
+      <Avatar.Image loading="lazy" src="/img/icons/patreon.svg" alt="Patreon logo" class="pointer-events-none size-12 rounded-lg" />
       <Avatar.Fallback class="flex h-full items-center justify-center text-lg font-semibold uppercase text-text/60">PA</Avatar.Fallback>
     </Avatar.Root>
     <div>
@@ -101,7 +101,7 @@
   <div class={cn("relative rounded-lg", { "transition-all duration-300 hover:scale-105": !options?.tip })}>
     <Button.Root href={options?.tip ? "#" : `/stats/${user.id}`} class="relative flex min-w-0 items-center gap-4 rounded-lg p-5 backdrop-blur-lg backdrop-brightness-150 backdrop-contrast-[60%] dark:backdrop-brightness-50 dark:backdrop-contrast-100">
       <Avatar.Root class="size-16 shrink-0 rounded-lg bg-text/10">
-        <Avatar.Image src={options?.tip ? "https://mc-heads.net/avatar/bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40/64" : `https://crafatar.com/avatars/${user.id}?size=64&overlay`} alt={user.name} class="aspect-square size-16 rounded-lg " />
+        <Avatar.Image loading="lazy" src={options?.tip ? "https://mc-heads.net/avatar/bc8ea1f51f253ff5142ca11ae45193a4ad8c3ab5e9c6eec8ba7a4fcb7bac40/64" : `https://crafatar.com/avatars/${user.id}?size=64&overlay`} alt={user.name} class="aspect-square size-16 rounded-lg " />
         <Avatar.Fallback class="flex h-full items-center justify-center text-lg font-semibold uppercase text-text/60">
           {user.name.slice(0, 2)}
         </Avatar.Fallback>
