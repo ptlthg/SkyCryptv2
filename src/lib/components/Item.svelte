@@ -115,7 +115,7 @@
 {#snippet itemIcon()}
   <div class={cn(`relative flex aspect-square items-center justify-center overflow-clip rounded-lg`, isInventory ? "p-0" : `p-2 ${bgColor}`, { shine: shine })}>
     <Avatar.Root>
-      <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path + "asdjasdj"} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} />
+      <Avatar.Image loading="lazy" src={$page.url.origin + piece.texture_path} alt={piece.display_name} class="data-[enchanted=true]:enchanted h-auto w-14 select-none [image-rendering:pixelated]" data-enchanted={enchanted} />
       <Avatar.Fallback>
         <Image class={cn(isInventory ? "size-8 sm:size-14" : "size-14")} />
       </Avatar.Fallback>
