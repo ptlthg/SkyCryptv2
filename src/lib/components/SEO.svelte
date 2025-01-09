@@ -37,11 +37,11 @@
     vampire: "🩸"
   } as Record<string, string>;
 
-  function getDescription() {
+  function getLongDescription() {
     let output = "";
 
     // Skyblock Level
-    if (profile.skyblock_level.xp !== 0 && profile.skyblock_level.level !== 0) {
+    if (profile.skyblock_level.xp !== 0 && profile.skyblock_level?.level !== 0) {
       output += `🌟 Skyblock Level: ${formatNumber(profile.skyblock_level.levelWithProgress)}\n`;
     }
 
@@ -160,7 +160,7 @@
     return metaTitle;
   }
 
-  function getMetaDescription() {
+  function getShortDescription() {
     let description = "";
 
     // Base
@@ -189,11 +189,11 @@
 
 <SvelteSeo
   title="{profile.displayName} | SkyCrypt"
-  description={getDescription()}
+  description={getShortDescription()}
   canonical="https://sky.shiiyu.moe/stats/{profile.uuid}/{profile.profile_id}"
   openGraph={{
     title: getMetaTitle(),
-    description: getMetaDescription(),
+    description: getLongDescription(),
     type: "profile",
     profile: {
       username: profile.username
