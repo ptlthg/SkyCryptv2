@@ -44,6 +44,22 @@
       {@html renderLore(lore)}
     {/each}
 
+    {#if Array.isArray(skyblockItem.containsItems) && !skyblockItem.containsItems.every((item) => Object.keys(item).length === 0)}
+      <div class="mt-4 border-t border-text/10 pt-4">
+        <div class="grid grid-cols-9 gap-1">
+          {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem}
+            {#if containedItem.texture_path}
+              <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]">
+                <ContainedItem piece={containedItem} isInventory={true} />
+              </div>
+            {:else}
+              <div class="aspect-square rounded bg-text/[0.04]"></div>
+            {/if}
+          {/each}
+        </div>
+      </div>
+    {/if}
+
     {#if packData}
       <div class="pt-4">
         <Button.Root href={packData.link} target="_blank">
@@ -69,22 +85,6 @@
             </div>
           </div>
         </Button.Root>
-      </div>
-    {/if}
-
-    {#if skyblockItem.containsItems && skyblockItem.containsItems.length > 0}
-      <div class="mt-4 border-t border-text/10 pt-4">
-        <div class="grid grid-cols-9 gap-1">
-          {#each skyblockItem.containsItems.slice(0, Math.min(skyblockItem.containsItems.length, 54)) as containedItem}
-            {#if containedItem.texture_path}
-              <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]">
-                <ContainedItem piece={containedItem} />
-              </div>
-            {:else}
-              <div class="aspect-square rounded bg-text/[0.04]"></div>
-            {/if}
-          {/each}
-        </div>
       </div>
     {/if}
   </div>
