@@ -34,6 +34,7 @@
   <Tooltip.Trigger
     class="nice-colors-dark"
     onclick={() => {
+      if (skyblockItem.containsItems) return;
       itemContent.set(piece);
       showItem.set(true);
     }}>
