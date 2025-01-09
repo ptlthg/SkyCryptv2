@@ -26,8 +26,7 @@
   const shine = $derived(enchanted || skyblockItem.shiny);
   const showNumbers = $derived(showCount && (skyblockItem.Count ?? 0) > 1);
 
-  const isHoverContext = getContext<IsHover>("isHover");
-  const isHover = $derived(isHoverContext.current);
+  const isHover = getContext<IsHover>("isHover");
 </script>
 
 <Tooltip.Root group="armor" disableHoverableContent={true} openDelay={0} closeDelay={0}>
@@ -55,7 +54,7 @@
       {/if}
     </div>
   </Tooltip.Trigger>
-  {#if isHover}
+  {#if isHover.current}
     <Tooltip.Content class="z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
       <Content {piece} {isInventory} {showCount} {showRecombobulated} />
     </Tooltip.Content>

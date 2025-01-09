@@ -19,8 +19,7 @@
 
   let { profile }: { profile: StatsType } = $props();
 
-  const isHoverContext = getContext<IsHover>("isHover");
-  const isHover = $derived(isHoverContext.current);
+  const isHover = getContext<IsHover>("isHover");
 </script>
 
 <SEO />
@@ -175,7 +174,7 @@
   </main>
 </div>
 
-{#if isHover}
+{#if isHover.current}
   <Dialog.Root
     bind:open={$showItem}
     onOpenChange={(open) => {
