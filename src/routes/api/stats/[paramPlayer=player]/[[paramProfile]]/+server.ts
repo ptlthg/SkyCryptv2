@@ -6,7 +6,7 @@ import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ params, cookies }) => {
   const timeNow = Date.now();
-  const { paramPlayer, paramProfile } = params;
+  const { paramPlayer, paramProfile = null } = params;
 
   const [profile, player] = await Promise.all([getProfile(paramPlayer, paramProfile, { cache: true }), fetchPlayer(paramPlayer, { cache: true })]);
   const museum = await fetchMuseum(profile.profile_id);
@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
   const stats = await getStats(profile, player, { museum, packs: packs });
 
   if (dev) {
-    console.log(`/api/stats/${paramPlayer}${paramProfile !== "undefined" ? `/${paramProfile}` : ""} took ${Date.now() - timeNow}ms`);
+    console.log(`/api/stats/${paramPlayer}${paramProfile ? `/${paramProfile}` : ""} took ${Date.now() - timeNow}ms`);
   }
 
   return json(stats);
