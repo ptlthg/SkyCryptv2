@@ -1,7 +1,7 @@
 import { getBonusStat } from "$lib/shared/constants/stats";
-import type { ValidStats } from "$types/global";
+import type { Stats } from "$types/global";
 
-export function getPlayerStats(profile: ValidStats) {
+export function getPlayerStats(profile: Stats) {
   const stats = {
     health: { base: 100 },
     defense: { base: 0 },
@@ -58,12 +58,12 @@ export function getPlayerStats(profile: ValidStats) {
     fear: { base: 0 }
   } as Record<string, { base: number; [string: string]: number }>;
 
-  if (profile.skyblock_level.level > 0) {
+  if (profile.skyblock_level && profile.skyblock_level.level > 0) {
     stats.health.skyblock_level = profile.skyblock_level.level * 5;
     stats.strength.skyblock_level = Math.floor(profile.skyblock_level.level / 5);
   }
 
-  if (profile.items.armor.stats) {
+  if (profile.items && profile.items.armor.stats) {
     const armorStats = profile.items.armor.stats;
     for (const key of Object.keys(armorStats)) {
       if (key in stats) {
@@ -72,7 +72,7 @@ export function getPlayerStats(profile: ValidStats) {
     }
   }
 
-  if (profile.items.equipment.stats) {
+  if (profile.items && profile.items.equipment.stats) {
     const equipmentStats = profile.items.equipment.stats;
     for (const key of Object.keys(equipmentStats)) {
       if (key in stats === false) {
@@ -83,7 +83,7 @@ export function getPlayerStats(profile: ValidStats) {
     }
   }
 
-  if (profile.skills.skills) {
+  if (profile.skills && profile.skills.skills) {
     for (const [skill, data] of Object.entries(profile.skills.skills)) {
       const bonusStats = getBonusStat(data.level, `skill_${skill}`, data.maxLevel);
 
@@ -98,7 +98,7 @@ export function getPlayerStats(profile: ValidStats) {
     }
   }
 
-  if (profile.pets.pets) {
+  if (profile.pets && profile.pets.pets) {
     const activePet = profile.pets.pets.find((pet) => pet.active);
     if (activePet) {
       for (const [stat, value] of Object.entries(activePet.stats ?? {})) {
@@ -138,15 +138,15 @@ export function getPlayerStats(profile: ValidStats) {
     }
   }
 
-  if (profile.bestiary.level > 0) {
+  if (profile.bestiary && profile.bestiary.level > 0) {
     stats.health.bestiary = Math.floor(profile.bestiary.level);
   }
 
-  if (profile.pets.petScore && profile.pets.petScore.stats.magic_find > 0) {
+  if (profile.pets && profile.pets.petScore && profile.pets.petScore.stats.magic_find > 0) {
     stats.magic_find.pet_score = profile.pets.petScore.stats.magic_find;
   }
 
-  if (profile.accessories.stats) {
+  if (profile.accessories && profile.accessories.stats) {
     const accessoryStats = profile.accessories.stats;
     for (const key of Object.keys(accessoryStats)) {
       if (key in stats === false) {

@@ -32,8 +32,9 @@ async function processStats<T>(player: Player, profile: Profile, stats: Array<[s
 
 export async function getStats(profile: Profile, player: Player, extra: { museum?: MuseumRawResponse; packs?: string[] } = {}) {
   const timeNow = Date.now();
-  const cache = await REDIS.get(`STATS:${profile.uuid}`);
-  if (cache && process.env.NODE_ENV !== "development") {
+  const cacheId = `STATS:${profile.uuid}:${extra.packs?.join(",") ?? "NONE"}`;
+  const cache = await REDIS.get(cacheId);
+  if (cache && dev) {
     console.log(`[CACHE] Found cache for ${profile.uuid} in ${Date.now() - timeNow}ms`);
     return JSON.parse(cache);
   }
@@ -86,7 +87,7 @@ export async function getStats(profile: Profile, player: Player, extra: { museum
     errors
   };
 
-  REDIS.SETEX(`STATS:${profile.uuid}`, 60 * 5, JSON.stringify(output));
+  REDIS.SETEX(cacheId, 60 * 5, JSON.stringify(output));
 
   return output;
 }

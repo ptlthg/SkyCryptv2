@@ -30,7 +30,7 @@ export type Stats = {
   game_mode: string;
   selected: boolean;
   members: { uuid: string; username: string }[];
-  skills: Skills;
+  skills: Skills | null;
   rank: Rank | undefined;
   social: Record<string, string>;
   profiles: { profile_id: string; cute_name: string; game_mode: string; selected: boolean }[] | null;
