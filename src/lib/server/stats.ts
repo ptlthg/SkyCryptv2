@@ -34,7 +34,7 @@ export async function getStats(profile: Profile, player: Player, extra: { museum
   const timeNow = Date.now();
   const cacheId = `STATS:${profile.uuid}:${extra.packs?.join(",") ?? "NONE"}`;
   const cache = await REDIS.get(cacheId);
-  if (cache && dev) {
+  if (cache && !dev) {
     console.log(`[CACHE] Found cache for ${profile.uuid} in ${Date.now() - timeNow}ms`);
     return JSON.parse(cache);
   }
