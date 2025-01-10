@@ -2,13 +2,14 @@
   import { getProfileCtx } from "$ctx/profile.svelte";
   import Stat from "$lib/components/Stat.svelte";
   import { getPlayerStats } from "$lib/shared/player_stats";
+  import type { Stats } from "$types/stats";
   import { Collapsible } from "bits-ui";
   import { quadInOut } from "svelte/easing";
   import { slide } from "svelte/transition";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
-  const stats = $derived(getPlayerStats(profile));
+  const stats = $derived(getPlayerStats(profile as unknown as Stats));
 </script>
 
 <div class="stats flex flex-col">
