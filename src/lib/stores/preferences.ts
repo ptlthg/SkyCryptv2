@@ -5,3 +5,5 @@ import { persisted } from "svelte-persisted-store";
 export const internalPreferences = persisted("internalPreferences", {
   hasSeenv2Toast: false
 });
+
+export const collapsePreferences = persisted<Record<string, boolean>>("collapsePreferences", {});

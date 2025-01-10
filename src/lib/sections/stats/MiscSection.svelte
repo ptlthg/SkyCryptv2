@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SectionTitle from "$lib/components/SectionTitle.svelte";
+  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Auctions from "./misc/auctions.svelte";
   import Claimed from "./misc/claimed.svelte";
   import Damage from "./misc/damage.svelte";
@@ -17,21 +17,21 @@
   import Upgrades from "./misc/upgrades.svelte";
 </script>
 
-<SectionTitle class="mb-4">Miscellaneous</SectionTitle>
-
-<Essence />
-<!-- TODO: Essence Shop -->
-<Kills />
-<Races />
-<Gifts />
-<Jerry />
-<Dragons />
-<Endstone />
-<Damage />
-<Pet />
-<Mythological />
-<Potions />
-<Upgrades />
-<Auctions />
-<Claimed />
-<Uncategorized />
+<CollapsibleSection id="Miscellaneous" class="mb-4">
+  <Essence />
+  <!-- TODO: Essence Shop -->
+  <Kills />
+  <Races />
+  <Gifts />
+  <Jerry />
+  <Dragons />
+  <Endstone />
+  <Damage />
+  <Pet />
+  <Mythological />
+  <Potions />
+  <Upgrades />
+  <Auctions />
+  <Claimed />
+  <Uncategorized />
+</CollapsibleSection>

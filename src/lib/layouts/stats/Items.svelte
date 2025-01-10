@@ -1,9 +1,7 @@
 <script lang="ts">
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
-  import SectionTitle from "$lib/components/SectionTitle.svelte";
   import { cn } from "$lib/shared/utils";
 
-  export let title: string | undefined = undefined;
   export let subtitle: string | undefined = undefined;
 
   let className: string | undefined = undefined;
@@ -11,9 +9,6 @@
 </script>
 
 <div class="space-y-4">
-  {#if title}
-    <SectionTitle>{title}</SectionTitle>
-  {/if}
   {#if subtitle}
     <SectionSubtitle>{subtitle}</SectionSubtitle>
   {/if}
