@@ -153,9 +153,9 @@ export function getFloorCompletions(dungeonsData: Member["dungeons"]) {
       .map((key) => [key, normalCompletions[key]])
   );
   const master = Object.fromEntries(
-    Object.entries(masterCompletions ?? {})
+    Object.keys(masterCompletions ?? {})
       .filter(([key]) => key !== "0" && key !== "total")
-      .map(([key, value]) => [key, (masterCompletions[key] || 0) + value * 2])
+      .map((key) => [key, masterCompletions[key] * 2])
   );
   const total = Object.fromEntries(Object.keys(normal).map((key) => [key, (normal[key] || 0) + (master[key] || 0)]));
 

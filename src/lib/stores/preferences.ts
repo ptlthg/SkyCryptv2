@@ -1,3 +1,5 @@
+import { sections } from "$lib/sections/constants";
+import type { SectionID } from "$lib/sections/types";
 import { persisted } from "svelte-persisted-store";
 
 // First param `internalPreferences` is the local storage key.
@@ -5,3 +7,7 @@ import { persisted } from "svelte-persisted-store";
 export const internalPreferences = persisted("internalPreferences", {
   hasSeenv2Toast: false
 });
+
+export const collapsePreferences = persisted<Record<string, boolean>>("collapsePreferences", {});
+
+export const sectionOrderPreferences = persisted<SectionID[]>("sectionOrderPreferences", sections);

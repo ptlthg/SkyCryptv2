@@ -12,10 +12,12 @@
 {#if misc.endstone_protector != null}
   <SectionSubtitle class="!uppercase">Endstone Protector</SectionSubtitle>
   <Items>
-    <div slot="text">
-      {#each Object.entries(misc.endstone_protector) as [text, data]}
-        <AdditionStat text={text.replaceAll("_", " ")} data={format(data)} />
-      {/each}
-    </div>
+    {#snippet text()}
+      <div>
+        {#each Object.entries(misc.endstone_protector) as [text, data]}
+          <AdditionStat text={text.replaceAll("_", " ")} data={format(data)} />
+        {/each}
+      </div>
+    {/snippet}
   </Items>
 {/if}

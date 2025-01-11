@@ -55,7 +55,7 @@
     </div>
   </Tooltip.Trigger>
   {#if isHover.current}
-    <Tooltip.Content class="z-50 flex max-h-[calc(96%-3rem)] max-w-[calc(100vw-2.5rem)] select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
+    <Tooltip.Content class="z-50 flex max-h-[calc(96%-3rem)] max-w-lg select-text flex-col overflow-hidden rounded-lg bg-background-lore font-icomoon" transition={flyAndScale} transitionConfig={{ x: -8, duration: 150 }} sideOffset={8} side="right" align="center">
       <Content {piece} {isInventory} {showCount} {showRecombobulated} />
     </Tooltip.Content>
   {/if}

@@ -12,10 +12,12 @@
 {#if misc.damage != null}
   <SectionSubtitle class="!uppercase">Damage</SectionSubtitle>
   <Items>
-    <div slot="text">
-      {#each Object.entries(misc.damage) as [text, data]}
-        <AdditionStat text={text.replaceAll("_", " ")} data={format(data.toFixed(3))} />
-      {/each}
-    </div>
+    {#snippet text()}
+      <div>
+        {#each Object.entries(misc.damage) as [text, data]}
+          <AdditionStat text={text.replaceAll("_", " ")} data={format(data.toFixed(3))} />
+        {/each}
+      </div>
+    {/snippet}
   </Items>
 {/if}

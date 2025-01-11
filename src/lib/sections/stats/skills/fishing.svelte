@@ -33,14 +33,16 @@
 <SectionSubtitle>Fishing Rods</SectionSubtitle>
 {#if fishingTools.length > 0}
   <Items>
-    <div slot="text" class="space-y-2">
-      {#if highestPriorityFishingTool && highestPriorityFishingTool.display_name}
-        <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
-          <span>Active Rod:</span>
-          {@html renderLore(highestPriorityFishingTool.display_name)}
-        </p>
-      {/if}
-    </div>
+    {#snippet text()}
+      <div class="space-y-2">
+        {#if highestPriorityFishingTool && highestPriorityFishingTool.display_name}
+          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+            <span>Active Rod:</span>
+            {@html renderLore(highestPriorityFishingTool.display_name)}
+          </p>
+        {/if}
+      </div>
+    {/snippet}
     {#each fishingTools as tool}
       <Item piece={tool} />
     {/each}
