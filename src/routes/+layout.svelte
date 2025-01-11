@@ -7,6 +7,8 @@
   import themes from "$lib/shared/constants/themes";
   import { internalPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
+  import Wifi from "lucide-svelte/icons/wifi";
+  import WifiOff from "lucide-svelte/icons/wifi-off";
   import { onMount, setContext } from "svelte";
   import SvelteSeo from "svelte-seo";
   import type { ToasterProps } from "svelte-sonner";
@@ -20,13 +22,14 @@
   let { children } = $props();
   let isMobile = $state(new IsMobile());
   let isHover = $state(new IsHover());
+  let toastId: string | number = $state(0);
 
   setContext("isMobile", isMobile);
   setContext("isHover", isHover);
 
   themeStore.subscribe((newTheme) => theme.set(themes.find((theme) => theme.id === newTheme)?.light ? "light" : "dark"));
 
-  onMount(async () => {
+  onMount(() => {
     if (!$internalPreferences.hasSeenv2Toast) {
       // @ts-expect-error - Not updated for Svelte 5 yet
       toast.custom(V2Toast, {
@@ -40,6 +43,34 @@
     if (window.innerWidth <= 600) {
       position.set("bottom-center");
     }
+
+    function updateOnlineStatus() {
+      toastId = toast.loading("Checking connection status...");
+      setTimeout(() => {
+        if (navigator.onLine) {
+          toastId = toast.success("You are now online!", {
+            id: toastId,
+            icon: Wifi,
+            description: "Connection has been restored!",
+            duration: 5000
+          });
+        } else {
+          toastId = toast.error("You are now offline!", {
+            id: toastId,
+            icon: WifiOff,
+            description: "Please check your connection and try again.",
+            duration: 5000
+          });
+        }
+      }, 1000);
+    }
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
   });
 </script>
 
