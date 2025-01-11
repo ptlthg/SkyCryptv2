@@ -66,7 +66,7 @@
   };
 </script>
 
-{#each $sectionOrderPreferences as sectionId}
+{#each $sectionOrderPreferences as sectionId (sectionId.id)}
   {#if sectionComponents[sectionId.name as SectionName]}
     {@const section = sectionComponents[sectionId.name as SectionName]}
     {#if section.condition()}
