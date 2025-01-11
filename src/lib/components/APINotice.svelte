@@ -3,6 +3,7 @@
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { Dialog } from "bits-ui";
+  import X from "lucide-svelte/icons/x";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
@@ -51,8 +52,11 @@
     <Dialog.Trigger class="text-link underline">See here</Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay transition={fade} transitionConfig={{ duration: 150 }} class="fixed inset-0 z-40 bg-black/80" />
-      <Dialog.Content transition={flyAndScale} class="fixed left-[50%] top-[50%] z-50 w-full -translate-x-1/2 -translate-y-1/2 p-5">
+      <Dialog.Content transition={flyAndScale} class="fixed left-[50%] top-[50%] z-50 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 p-5">
         {@render video()}
+        <Dialog.Close class="absolute right-6 top-6 p-2 text-text/80">
+          <X class="size-6" />
+        </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>
