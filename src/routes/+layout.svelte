@@ -8,6 +8,7 @@
   import { internalPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
   import { onMount, setContext } from "svelte";
+  import SvelteSeo from "svelte-seo";
   import type { ToasterProps } from "svelte-sonner";
   import { Toaster, toast } from "svelte-sonner";
   import { writable } from "svelte/store";
@@ -56,6 +57,20 @@
     <link rel="icon" href="/favicon.png" />
   {/if}
 </svelte:head>
+
+<SvelteSeo
+  title="SkyCrypt"
+  description="A beautiful site for sharing your SkyBlock profile 🍣"
+  canonical="https://sky.shiiyu.moe/"
+  openGraph={{
+    title: "SkyBlock Stats",
+    description: "A beautiful site for sharing your SkyBlock profile 🍣",
+    site_name: "SkyCrypt",
+    // @ts-expect-error It accepts any property
+    image: "/img/app-icons/svg.svg"
+  }}
+  themeColor={themes.find((theme) => theme.id === $themeStore)?.light ? "#dbdbdb" : "#282828"}
+  manifest="/manifest.webmanifest" />
 
 <Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-8" />
 
