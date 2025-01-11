@@ -8,9 +8,9 @@
   import ExternalLink from "lucide-svelte/icons/external-link";
   import Link from "lucide-svelte/icons/link";
   import Star from "lucide-svelte/icons/star";
+  import { toast } from "svelte-sonner";
 
-  let urlCopied = $state(false);
-  let uuidCopied = $state(false);
+  let toastId: string | number = $state(0);
   let showMore = $state(false);
 
   const ctx = getProfileCtx();
@@ -28,6 +28,8 @@
 
   function copyToClipboard(value: string) {
     navigator.clipboard.writeText(value);
+    toast.dismiss(toastId);
+    toastId = toast.success(`Copied ${value} to your clipboard!`);
   }
 </script>
 
@@ -95,8 +97,12 @@
         onclick={() => {
           if (!$favorites.includes(profile.uuid)) {
             favorites.set([...$favorites, profile.uuid]);
+            toast.dismiss(toastId);
+            toastId = toast.success(`Added ${profile.username} to your favorites!`);
           } else {
             favorites.set($favorites.filter((uuid) => uuid !== profile.uuid));
+            toast.dismiss(toastId);
+            toastId = toast.success(`Removed ${profile.username} from your favorites!`);
           }
         }}>
         {#if $favorites.includes(profile.uuid)}
@@ -116,31 +122,13 @@
     </Tooltip.Content>
   </Tooltip.Root>
 
-  <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false}>
-    <Tooltip.Trigger asChild let:builder>
-      <button
-        use:builder.action
-        {...builder}
-        class="aspect-square rounded-full bg-icon/90 p-2 transition-opacity duration-150 hover:bg-icon"
-        onclick={() => {
-          copyToClipboard(window.location.href);
-          urlCopied = true;
-          setTimeout(() => {
-            urlCopied = false;
-          }, 2000);
-        }}>
-        <Link class="size-4" />
-      </button>
-    </Tooltip.Trigger>
-    <Tooltip.Content class="z-50 rounded-lg bg-background-grey p-4 font-semibold text-text/80" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-      <Tooltip.Arrow />
-      {#if urlCopied}
-        <p>Copied!</p>
-      {:else}
-        <p>Copy URL</p>
-      {/if}
-    </Tooltip.Content>
-  </Tooltip.Root>
+  <Button.Root
+    class="aspect-square rounded-full bg-icon/90 p-2 transition-opacity duration-150 hover:bg-icon"
+    onclick={() => {
+      copyToClipboard(window.location.href);
+    }}>
+    <Link class="size-4" />
+  </Button.Root>
 
   <Button.Root href={`https://plancke.io/hypixel/player/stats/${profile.username}`} target="_blank" class="flex items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon">
     Plancke <ExternalLink class="size-4" />
@@ -150,42 +138,25 @@
     Elite <ExternalLink class="size-4" />
   </Button.Root>
 
-  <Tooltip.Root openDelay={0} closeDelay={0} closeOnPointerDown={false}>
-    <Tooltip.Trigger asChild let:builder>
-      <button
-        use:builder.action
-        {...builder}
-        class="hidden items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex"
-        data-visible={showMore}
-        onclick={() => {
-          copyToClipboard(profile.uuid);
-          uuidCopied = true;
-          setTimeout(() => {
-            uuidCopied = false;
-          }, 2000);
-        }}>
-        Copy UUID
-      </button>
-    </Tooltip.Trigger>
-    <Tooltip.Content class="z-50 rounded-lg bg-background-grey p-4 font-semibold text-text/80" transition={flyAndScale} transitionConfig={{ y: 8, duration: 150 }} sideOffset={6} side="top" align="center">
-      <Tooltip.Arrow />
-      {#if uuidCopied}
-        <p>Copied!</p>
-      {:else}
-        <p>Copy UUID</p>
-      {/if}
-    </Tooltip.Content>
-  </Tooltip.Root>
+  <Button.Root
+    class="hidden items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex"
+    data-visible={showMore}
+    onclick={() => {
+      copyToClipboard(profile.uuid);
+    }}>
+    Copy UUID
+  </Button.Root>
 
   {#each Object.entries(profile.social) as [key, value]}
     {#if key === "DISCORD"}
-      <Button.Root class="hidden aspect-square items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex" data-visible={showMore} on:click={() => navigator.clipboard.writeText(value)}>
+      <Button.Root class="hidden items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex" data-visible={showMore} on:click={() => copyToClipboard(value)}>
         <Avatar.Root>
           <Avatar.Image loading="lazy" src="/img/icons/{iconMapper[key]}" alt="{profile.username}'s {key.toLocaleLowerCase()}" class="size-4 text-white" />
           <Avatar.Fallback>
             {profile.username.slice(0, 2)}
           </Avatar.Fallback>
         </Avatar.Root>
+        {value}
       </Button.Root>
     {:else}
       <Button.Root href={value} target="_blank" class="hidden aspect-square items-center justify-center gap-1.5 rounded-full bg-icon/90 px-2 py-1 font-semibold transition-opacity duration-150 hover:bg-icon data-[visible=true]:flex" data-visible={showMore}>

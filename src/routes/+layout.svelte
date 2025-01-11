@@ -7,7 +7,10 @@
   import themes from "$lib/shared/constants/themes";
   import { internalPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
+  import Wifi from "lucide-svelte/icons/wifi";
+  import WifiOff from "lucide-svelte/icons/wifi-off";
   import { onMount, setContext } from "svelte";
+  import SvelteSeo from "svelte-seo";
   import type { ToasterProps } from "svelte-sonner";
   import { Toaster, toast } from "svelte-sonner";
   import { writable } from "svelte/store";
@@ -19,13 +22,14 @@
   let { children } = $props();
   let isMobile = $state(new IsMobile());
   let isHover = $state(new IsHover());
+  let toastId: string | number = $state(0);
 
   setContext("isMobile", isMobile);
   setContext("isHover", isHover);
 
   themeStore.subscribe((newTheme) => theme.set(themes.find((theme) => theme.id === newTheme)?.light ? "light" : "dark"));
 
-  onMount(async () => {
+  onMount(() => {
     if (!$internalPreferences.hasSeenv2Toast) {
       // @ts-expect-error - Not updated for Svelte 5 yet
       toast.custom(V2Toast, {
@@ -39,6 +43,35 @@
     if (window.innerWidth <= 600) {
       position.set("bottom-center");
     }
+
+    function updateOnlineStatus() {
+      toast.dismiss(toastId);
+      toastId = toast.loading("Checking connection status...");
+      setTimeout(() => {
+        if (navigator.onLine) {
+          toast.dismiss(toastId);
+          toastId = toast.success("You are now online!", {
+            icon: Wifi,
+            description: "Connection has been restored!",
+            duration: 5000
+          });
+        } else {
+          toast.dismiss(toastId);
+          toastId = toast.error("You are now offline!", {
+            icon: WifiOff,
+            description: "Please check your connection and try again.",
+            duration: 5000
+          });
+        }
+      }, 1000);
+    }
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
   });
 </script>
 
@@ -57,7 +90,35 @@
   {/if}
 </svelte:head>
 
-<Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-8" />
+{#if !page.url.pathname.startsWith("/stats")}
+  <SvelteSeo
+    title="SkyCrypt"
+    description="A beautiful site for sharing your SkyBlock profile 🍣"
+    canonical="https://sky.shiiyu.moe/"
+    openGraph={{
+      title: "SkyBlock Stats",
+      description: "A beautiful site for sharing your SkyBlock profile 🍣",
+      site_name: "SkyCrypt",
+      // @ts-expect-error It accepts any property
+      image: "/img/app-icons/svg.svg"
+    }}
+    themeColor={themes.find((theme) => theme.id === $themeStore)?.light ? "#dbdbdb" : "#282828"}
+    manifest="/manifest.webmanifest" />
+{/if}
+
+<Toaster
+  theme={$theme}
+  closeButton={isHover.current}
+  position={$position}
+  class="sm:mr-8"
+  toastOptions={{
+    class: "bg-background-grey gap-2 font-semibold group rounded-lg text-text/80 border-none",
+    classes: {
+      closeButton: "bg-background-grey text-text/80 border-none hover:!bg-background-grey hover:opacity-60",
+      description: "text-pretty font-medium",
+      title: "text-pretty font-semibold"
+    }
+  }} />
 
 <Header />
 

@@ -37,7 +37,7 @@ export async function getMainStats(userProfile: Member, profile: Profile, items:
     bank: profile.banking?.balance ?? 0,
     fairySouls: {
       found: userProfile.fairy_soul?.total_collected ?? 0,
-      total: FAIRY_SOULS[profile.game_mode ?? "normal"] ?? 0
+      total: FAIRY_SOULS[profile.game_mode ?? "normal"] ?? FAIRY_SOULS["normal"]
     },
     networth: predecodedNetworth
   };

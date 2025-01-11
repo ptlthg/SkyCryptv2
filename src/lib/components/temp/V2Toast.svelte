@@ -18,7 +18,7 @@
   </Button.Root>
 {/snippet}
 
-<div class="w-full select-none space-y-4 text-pretty rounded-lg bg-background-lore p-5 font-medium text-text">
+<div class="w-full select-none space-y-4 text-pretty p-5 font-medium text-text">
   <h3 class="whitespace-nowrap text-2xl font-bold sm:text-3xl">Welcome to <span class="text-link">SkyCrypt v2</span></h3>
   <p>We have written SkyCrypt from the ground up to be faster, more reliable, and more feature-rich than ever before using the latest web technologies</p>
   <p>

@@ -140,7 +140,7 @@
         This feature is currently in <span class="rounded-md bg-text/[0.05] p-1 font-semibold">BETA</span>. Please report any bugs.
       </div>
       <div
-        class="flex flex-col gap-4"
+        class="flex max-h-96 flex-col gap-4 overflow-y-auto overflow-x-clip"
         use:dndzone={{ items: sectionOrder, flipDurationMs: 300, dropTargetStyle: {} }}
         onconsider={(e) => (sectionOrder = e.detail.items)}
         onfinalize={(e) => {

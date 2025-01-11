@@ -1,6 +1,8 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
+  import themes from "$lib/shared/constants/themes";
   import { formatNumber, removeFormatting, titleCase } from "$lib/shared/helper";
+  import { theme as themeStore } from "$lib/stores/themes";
   import type { Skill } from "$types/stats";
   import { formatDistanceToNowStrict } from "date-fns";
   import SvelteSeo from "svelte-seo";
@@ -213,4 +215,6 @@
     image: `https://crafatar.com/avatars/${profile.uuid}?size=512&overlay`,
     imageAlt: profile.displayName,
     title: getMetaTitle()
-  }} />
+  }}
+  themeColor={themes.find((theme) => theme.id === $themeStore)?.light ? "#dbdbdb" : "#282828"}
+  manifest="/manifest.webmanifest" />
