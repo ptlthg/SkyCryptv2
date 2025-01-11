@@ -58,19 +58,21 @@
   {/if}
 </svelte:head>
 
-<SvelteSeo
-  title="SkyCrypt"
-  description="A beautiful site for sharing your SkyBlock profile 🍣"
-  canonical="https://sky.shiiyu.moe/"
-  openGraph={{
-    title: "SkyBlock Stats",
-    description: "A beautiful site for sharing your SkyBlock profile 🍣",
-    site_name: "SkyCrypt",
-    // @ts-expect-error It accepts any property
-    image: "/img/app-icons/svg.svg"
-  }}
-  themeColor={themes.find((theme) => theme.id === $themeStore)?.light ? "#dbdbdb" : "#282828"}
-  manifest="/manifest.webmanifest" />
+{#if !page.url.pathname.startsWith("/stats")}
+  <SvelteSeo
+    title="SkyCrypt"
+    description="A beautiful site for sharing your SkyBlock profile 🍣"
+    canonical="https://sky.shiiyu.moe/"
+    openGraph={{
+      title: "SkyBlock Stats",
+      description: "A beautiful site for sharing your SkyBlock profile 🍣",
+      site_name: "SkyCrypt",
+      // @ts-expect-error It accepts any property
+      image: "/img/app-icons/svg.svg"
+    }}
+    themeColor={themes.find((theme) => theme.id === $themeStore)?.light ? "#dbdbdb" : "#282828"}
+    manifest="/manifest.webmanifest" />
+{/if}
 
 <Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-8" />
 
