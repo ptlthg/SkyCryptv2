@@ -15,9 +15,11 @@
 
 <CollapsibleSection id="Collections">
   <Items class="flex-col">
-    <div slot="text">
-      <AdditionStat text="Maxed Collections" data="{collections.maxedCollections} / {collections.totalCollections}" maxed={collections.maxedCollections === collections.totalCollections} />
-    </div>
+    {#snippet text()}
+      <div>
+        <AdditionStat text="Maxed Collections" data="{collections.maxedCollections} / {collections.totalCollections}" maxed={collections.maxedCollections === collections.totalCollections} />
+      </div>
+    {/snippet}
     {#each Object.entries(collections.categories) as [_, data]}
       <div class="flex items-center gap-1 text-base font-semibold uppercase">
         <h3 class="text-xl">{data.name}</h3>

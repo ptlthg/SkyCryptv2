@@ -12,10 +12,12 @@
 {#if misc.gifts != null}
   <SectionSubtitle class="!uppercase">Gifts</SectionSubtitle>
   <Items>
-    <div slot="text">
-      {#each Object.entries(misc.gifts) as [text, data]}
-        <AdditionStat text={text.replaceAll("_", " ")} data={format(data)} />
-      {/each}
-    </div>
+    {#snippet text()}
+      <div>
+        {#each Object.entries(misc.gifts) as [text, data]}
+          <AdditionStat text={text.replaceAll("_", " ")} data={format(data)} />
+        {/each}
+      </div>
+    {/snippet}
   </Items>
 {/if}

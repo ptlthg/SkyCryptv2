@@ -1,22 +1,28 @@
 <script lang="ts">
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import { cn } from "$lib/shared/utils";
+  import type { Snippet } from "svelte";
 
-  export let subtitle: string | undefined = undefined;
+  type Props = {
+    subtitle?: string;
+    class?: string;
+    text?: Snippet;
+    children?: Snippet;
+    info?: Snippet;
+  };
 
-  let className: string | undefined = undefined;
-  export { className as class };
+  let { subtitle, class: className, text, children, info }: Props = $props();
 </script>
 
 <div class="space-y-4">
   {#if subtitle}
     <SectionSubtitle>{subtitle}</SectionSubtitle>
   {/if}
-  <slot name="text" />
+  {@render text?.()}
 
   <div class={cn("flex flex-wrap gap-3", className)}>
-    <slot />
+    {@render children?.()}
   </div>
 
-  <slot name="info" />
+  {@render info?.()}
 </div>

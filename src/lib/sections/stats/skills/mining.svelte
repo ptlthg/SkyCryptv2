@@ -20,14 +20,16 @@
 <SectionSubtitle>Mining Tools</SectionSubtitle>
 {#if miningTools.length > 0}
   <Items>
-    <div slot="text" class="space-y-2">
-      {#if highestPriorityMiningTool && highestPriorityMiningTool.display_name}
-        <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
-          <span>Active Tool:</span>
-          {@html renderLore(highestPriorityMiningTool.display_name)}
-        </p>
-      {/if}
-    </div>
+    {#snippet text()}
+      <div class="space-y-2">
+        {#if highestPriorityMiningTool && highestPriorityMiningTool.display_name}
+          <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
+            <span>Active Tool:</span>
+            {@html renderLore(highestPriorityMiningTool.display_name)}
+          </p>
+        {/if}
+      </div>
+    {/snippet}
     {#each miningTools as tool}
       <Item piece={tool} />
     {/each}

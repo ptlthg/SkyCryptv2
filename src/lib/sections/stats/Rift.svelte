@@ -17,37 +17,39 @@
 
 <CollapsibleSection id="Rift">
   <Items class="flex-col">
-    <div slot="text">
-      <AdditionStat text="Visits" data={format(rift.visits)} />
-      <AdditionStat text="Motes" data={format(rift.motes.purse)} asterisk={true}>
-        <div class="flex flex-col gap-4">
-          <div class="text-sm font-bold">
-            <span class="text-text/85">Lifetime Motes:</span>
-            <span class="text-text">
-              {format(rift.motes.lifetime)}
-            </span>
-            <span class="block font-normal">Total Motes earned in Rift.</span>
+    {#snippet text()}
+      <div>
+        <AdditionStat text="Visits" data={format(rift.visits)} />
+        <AdditionStat text="Motes" data={format(rift.motes.purse)} asterisk={true}>
+          <div class="flex flex-col gap-4">
+            <div class="text-sm font-bold">
+              <span class="text-text/85">Lifetime Motes:</span>
+              <span class="text-text">
+                {format(rift.motes.lifetime)}
+              </span>
+              <span class="block font-normal">Total Motes earned in Rift.</span>
+            </div>
+            <div class="text-sm font-bold">
+              <span class="text-text/85">Motes Orbs:</span>
+              <span class="text-text">
+                {rift.motes.orbs}
+              </span>
+              <span class="block font-normal">Amount of Mote Orbs player has picked up inside of the Rift.</span>
+            </div>
           </div>
+        </AdditionStat>
+        <AdditionStat text="Enigma Souls" data="{rift.enigma.souls} / {rift.enigma.totalSouls}" maxed={rift.enigma.souls === rift.enigma.totalSouls} asterisk={true}>
           <div class="text-sm font-bold">
-            <span class="text-text/85">Motes Orbs:</span>
+            <span class="text-text/85">Progress:</span>
             <span class="text-text">
-              {rift.motes.orbs}
+              {((rift.enigma.souls / rift.enigma.totalSouls) * 100).toFixed(2)}%
             </span>
-            <span class="block font-normal">Amount of Mote Orbs player has picked up inside of the Rift.</span>
+            <span class="block font-normal"> Percentage of Enigma Souls found. </span>
           </div>
-        </div>
-      </AdditionStat>
-      <AdditionStat text="Enigma Souls" data="{rift.enigma.souls} / {rift.enigma.totalSouls}" maxed={rift.enigma.souls === rift.enigma.totalSouls} asterisk={true}>
-        <div class="text-sm font-bold">
-          <span class="text-text/85">Progress:</span>
-          <span class="text-text">
-            {((rift.enigma.souls / rift.enigma.totalSouls) * 100).toFixed(2)}%
-          </span>
-          <span class="block font-normal"> Percentage of Enigma Souls found. </span>
-        </div>
-      </AdditionStat>
-      <AdditionStat text="McGrubber's Burgers" data="{rift.castle.grubberStacks} / {rift.castle.maxBurgers}" maxed={rift.castle.grubberStacks === rift.castle.maxBurgers} />
-    </div>
+        </AdditionStat>
+        <AdditionStat text="McGrubber's Burgers" data="{rift.castle.grubberStacks} / {rift.castle.maxBurgers}" maxed={rift.castle.grubberStacks === rift.castle.maxBurgers} />
+      </div>
+    {/snippet}
     <div class="space-y-4">
       <SectionSubtitle class="my-0">Porthals</SectionSubtitle>
       <AdditionStat text="Porthals Unlocked" data={rift.porhtal.porhtalsFound} maxed={rift.porhtal.porhtalsFound === 7} />

@@ -12,17 +12,19 @@
 {#if misc.claimed_items != null}
   <SectionSubtitle class="!uppercase">Claimed Items</SectionSubtitle>
   <Items>
-    <div slot="text">
-      {#each Object.entries(misc.claimed_items) as [item, time]}
-        <AdditionStat
-          text={item.replaceAll("_", " ")}
-          data={formatDistanceToNowStrict(time, {
-            addSuffix: true
-          })}
-          asterisk={true}>
-          {formatDate(time, "'Claimed on' dd MMMM yyyy 'at' HH:mm")}
-        </AdditionStat>
-      {/each}
-    </div>
+    {#snippet text()}
+      <div>
+        {#each Object.entries(misc.claimed_items) as [item, time]}
+          <AdditionStat
+            text={item.replaceAll("_", " ")}
+            data={formatDistanceToNowStrict(time, {
+              addSuffix: true
+            })}
+            asterisk={true}>
+            {formatDate(time, "'Claimed on' dd MMMM yyyy 'at' HH:mm")}
+          </AdditionStat>
+        {/each}
+      </div>
+    {/snippet}
   </Items>
 {/if}

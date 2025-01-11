@@ -20,7 +20,7 @@
 
 <CollapsibleSection id="Armor">
   <Items>
-    <div slot="text" class="contents">
+    {#snippet text()}
       {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
         {#if armor.set_name}
           <p class="space-x-0.5 font-bold capitalize leading-6 text-text/60">
@@ -29,7 +29,7 @@
           </p>
         {/if}
       {/if}
-    </div>
+    {/snippet}
 
     {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}
       {#each armor.armor as piece}
@@ -40,7 +40,9 @@
     {:else}
       <p class="space-x-0.5 leading-6">{profile.username} has no armor equipped</p>
     {/if}
-    <Bonus slot="info" stats={armor.stats} />
+    {#snippet info()}
+      <Bonus stats={armor.stats} />
+    {/snippet}
   </Items>
 
   <Items subtitle="Equipment">
@@ -51,8 +53,9 @@
     {:else}
       <p class="space-x-0.5 leading-6">{profile.username} has no equipment equipped</p>
     {/if}
-
-    <Bonus slot="info" stats={equipment.stats} />
+    {#snippet info()}
+      <Bonus stats={equipment.stats} />
+    {/snippet}
   </Items>
 
   {#if wardrobe.length > 0}

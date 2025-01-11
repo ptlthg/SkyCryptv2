@@ -23,30 +23,32 @@
 {#if pets.pets?.length}
   <CollapsibleSection id="Pets">
     <Items>
-      <div slot="text">
-        <AdditionStat text="Unique Pets" data={`${pets.amount} / ${pets.total}`} maxed={pets.amount === pets.total} />
-        <AdditionStat text="Unique Pet Skins" data={`${pets.amountSkins} / ${pets.totalSkins}`} maxed={pets.amountSkins === pets.totalSkins} />
-        {#if pets.petScore != null}
-          <AdditionStat text="Pet Score" data={`${pets.petScore.amount} (+${pets.petScore.stats.magic_find} MF) `} asterisk={true}>
-            <div class="max-w-xs space-y-6 font-bold">
-              <h3 class="text-text/85">Pet score is calculated based on how many unique pets you have and the rarity of these pets.</h3>
-              <h3 class="text-text/85">You gain an additional score for each max level pet you have!</h3>
-              <div class="flex flex-col">
-                {#each pets.petScore.reward as { score, bonus, unlocked }}
-                  <div>
-                    {score} Score: <span style="color: var(--§b)">+{bonus} Magic Find</span>
-                    {#if unlocked}
-                      <span style="color: var(--§5);"> «</span>
-                    {/if}
-                  </div>
-                {/each}
+      {#snippet text()}
+        <div>
+          <AdditionStat text="Unique Pets" data={`${pets.amount} / ${pets.total}`} maxed={pets.amount === pets.total} />
+          <AdditionStat text="Unique Pet Skins" data={`${pets.amountSkins} / ${pets.totalSkins}`} maxed={pets.amountSkins === pets.totalSkins} />
+          {#if pets.petScore != null}
+            <AdditionStat text="Pet Score" data={`${pets.petScore.amount} (+${pets.petScore.stats.magic_find} MF) `} asterisk={true}>
+              <div class="max-w-xs space-y-6 font-bold">
+                <h3 class="text-text/85">Pet score is calculated based on how many unique pets you have and the rarity of these pets.</h3>
+                <h3 class="text-text/85">You gain an additional score for each max level pet you have!</h3>
+                <div class="flex flex-col">
+                  {#each pets.petScore.reward as { score, bonus, unlocked }}
+                    <div>
+                      {score} Score: <span style="color: var(--§b)">+{bonus} Magic Find</span>
+                      {#if unlocked}
+                        <span style="color: var(--§5);"> «</span>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
-          </AdditionStat>
-        {/if}
-        <AdditionStat text="Total Candies Used" data={pets.totalCandyUsed} maxed={pets.totalCandyUsed === 0} />
-        <AdditionStat text="Total Pet XP" data={formatNumber(pets.totalPetExp)} />
-      </div>
+            </AdditionStat>
+          {/if}
+          <AdditionStat text="Total Candies Used" data={pets.totalCandyUsed} maxed={pets.totalCandyUsed === 0} />
+          <AdditionStat text="Total Pet XP" data={formatNumber(pets.totalPetExp)} />
+        </div>
+      {/snippet}
       <div class="mb-4">
         {#if activePet != null}
           <SectionSubtitle class="mt-2">Active Pet</SectionSubtitle>

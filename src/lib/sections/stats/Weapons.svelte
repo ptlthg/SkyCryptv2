@@ -11,14 +11,16 @@
 
 <CollapsibleSection id="Weapons">
   <Items>
-    <div slot="text">
-      {#if profile.items.weapons?.highest_priority_weapon?.display_name}
-        <p class="font-bold">
-          <span class="text-text/60">Active Weapon: </span>
-          {@html renderLore(profile.items.weapons.highest_priority_weapon.display_name)}
-        </p>
-      {/if}
-    </div>
+    {#snippet text()}
+      <div>
+        {#if profile.items.weapons?.highest_priority_weapon?.display_name}
+          <p class="font-bold">
+            <span class="text-text/60">Active Weapon: </span>
+            {@html renderLore(profile.items.weapons.highest_priority_weapon.display_name)}
+          </p>
+        {/if}
+      </div>
+    {/snippet}
 
     {#if profile.items.weapons.weapons.length}
       {#each profile.items.weapons.weapons as weapon}
