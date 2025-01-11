@@ -16,7 +16,7 @@
   <section id={transormedID} use:builder.action {...builder} class={cn("scroll-m-32", className)}>
     <Collapsible.Trigger class="flex items-center justify-between">
       <SectionTitle>{id}</SectionTitle>
-      <ChevronDown class={cn("h-6 w-6 text-text/60 transition-all duration-300", { "rotate-180": $collapsePreferences[id.toLowerCase()] ?? true })} />
+      <ChevronDown class={cn("h-6 w-6 text-text/60 transition-all duration-300", { "rotate-180": $collapsePreferences[transormedID.toLowerCase()] ?? true })} />
     </Collapsible.Trigger>
     <Collapsible.Content transition={slide}>
       {@render children?.()}
