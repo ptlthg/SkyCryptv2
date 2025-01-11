@@ -1,70 +1,16 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { replaceState } from "$app/navigation";
   import { page } from "$app/state";
+  import { sections } from "$lib/sections/constants";
+  import type { SectionName } from "$lib/sections/types";
+  import { sectionOrderPreferences } from "$lib/stores/preferences";
   import { Button, ScrollArea } from "bits-ui";
   import { onMount } from "svelte";
 
-  const sections = [
-    {
-      title: "Armor",
-      id: "Armor"
-    },
-    {
-      title: "Weapons",
-      id: "Weapons"
-    },
-    {
-      title: "Accessories",
-      id: "Accessories"
-    },
-    {
-      title: "Pets",
-      id: "Pets"
-    },
-    {
-      title: "Inventory",
-      id: "Inventory"
-    },
-    {
-      title: "Skills",
-      id: "Skills"
-    },
-    {
-      title: "Dungeons",
-      id: "Dungeons"
-    },
-    {
-      title: "Slayer",
-      id: "Slayer"
-    },
-    {
-      title: "Minions",
-      id: "Minions"
-    },
-    {
-      title: "Bestiary",
-      id: "Bestiary"
-    },
-    {
-      title: "Collections",
-      id: "Collections"
-    },
-    {
-      title: "Crimson Isle",
-      id: "Crimson_Isle"
-    },
-    {
-      title: "Rift",
-      id: "Rift"
-    },
-    {
-      title: "Misc",
-      id: "Misc"
-    }
-  ];
   const intersectingElements = new Map();
 
-  let activeSection = $state(sections[0].id);
+  let activeSection: SectionName = $state(sections[0].name);
   let pinned = $state(false);
 
   function scrollToTab(smooth = true, element?: HTMLElement) {
@@ -96,7 +42,7 @@
             replaceState(newHash, page.state);
             for (const link of navBarLinks) {
               if (link.hash === newHash) {
-                activeSection = link.hash.slice(1);
+                activeSection = link.hash.slice(1) as SectionName;
                 scrollToTab(true, link);
               }
             }
@@ -126,19 +72,21 @@
   });
 </script>
 
-<ScrollArea.Root type="scroll" class="navbar group sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20" data-pinned={pinned}>
-  <ScrollArea.Viewport>
-    <ScrollArea.Content class="!flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap pb-2 font-semibold text-text/80">
-      <div class="absolute bottom-[0.4375rem] z-[1] h-[2px] w-[calc(100%+0.5rem)] bg-icon"></div>
-      <div class="group-data-[mode=light]/html:group-data-[pinned=true]:bg-[#f0f0f0]/92 absolute inset-0 bottom-2 group-data-[mode=dark]/html:group-data-[pinned=true]:bg-[#141414]/90"></div>
-      {#each sections as section}
-        <Button.Root href="#{section.id}" class="relative px-2 py-3 after:absolute after:left-0 after:top-full after:h-0 after:w-full after:origin-top after:rounded-full after:bg-icon after:transition-all after:duration-100 hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:text-text data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-active={section.id === activeSection}>
-          {section.title}
-        </Button.Root>
-      {/each}
-    </ScrollArea.Content>
-  </ScrollArea.Viewport>
-  <ScrollArea.Scrollbar orientation="horizontal">
-    <ScrollArea.Thumb />
-  </ScrollArea.Scrollbar>
-</ScrollArea.Root>
+{#if browser}
+  <ScrollArea.Root type="scroll" class="navbar group sticky top-[calc(3rem+env(safe-area-inset-top,0))] z-20" data-pinned={pinned}>
+    <ScrollArea.Viewport>
+      <ScrollArea.Content class="!flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap pb-2 font-semibold text-text/80">
+        <div class="absolute bottom-[0.4375rem] z-[1] h-[2px] w-[calc(100%+0.5rem)] bg-icon"></div>
+        <div class="group-data-[mode=light]/html:group-data-[pinned=true]:bg-[#f0f0f0]/92 absolute inset-0 bottom-2 group-data-[mode=dark]/html:group-data-[pinned=true]:bg-[#141414]/90"></div>
+        {#each $sectionOrderPreferences as section}
+          <Button.Root href="#{section.name}" class="relative px-2 py-3 after:absolute after:left-0 after:top-full after:h-0 after:w-full after:origin-top after:rounded-full after:bg-icon after:transition-all after:duration-100 hover:after:top-[calc(100%-4px)] hover:after:h-2 data-[active=true]:text-text data-[active=true]:after:top-[calc(100%-4px)] data-[active=true]:after:h-2" data-active={section.name === activeSection}>
+            {section.name?.replaceAll("_", " ")}
+          </Button.Root>
+        {/each}
+      </ScrollArea.Content>
+    </ScrollArea.Viewport>
+    <ScrollArea.Scrollbar orientation="horizontal">
+      <ScrollArea.Thumb />
+    </ScrollArea.Scrollbar>
+  </ScrollArea.Root>
+{/if}

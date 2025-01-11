@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
-  import type { SectionId } from "$lib/sections/types";
   import { packConfigs } from "$lib/shared/constants/packs";
   import type { Theme } from "$lib/shared/constants/themes";
   import themes from "$lib/shared/constants/themes";
@@ -32,8 +31,12 @@
     return JSON.stringify($disabledPacks.sort()) !== JSON.stringify(initialPackConfig.sort());
   });
 
-  // add isDndShadowItem property to every section
-  let sectionOrder = $state(get(sectionOrderPreferences));
+  const initialSectionOrderPreferences = get(sectionOrderPreferences);
+  const hasSectionOrderPreferencesChanged = derived(sectionOrderPreferences, ($sectionOrderPreferences) => {
+    return JSON.stringify($sectionOrderPreferences) !== JSON.stringify(initialSectionOrderPreferences);
+  });
+
+  let sectionOrder = $state(initialSectionOrderPreferences);
 
   function changeTheme(themeId: Theme["id"]) {
     const theme = themes.find((theme) => theme.id === themeId);
@@ -61,7 +64,7 @@
 </script>
 
 {#snippet settings()}
-  <Tabs.Root value="order">
+  <Tabs.Root value="packs">
     <Tabs.List class="mb-4 flex gap-4 rounded-lg bg-text/30 p-2 font-semibold text-text">
       <Tabs.Trigger value="packs" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
         <PackageOpen class="size-5" />
@@ -149,7 +152,7 @@
           <div animate:flip={{ duration: 300 }} class="relative flex items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold">
             <GripVertical class="size-5 text-text/60" />
             {normalizedName}
-            {#if (section as SectionId)[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+            {#if SHADOW_ITEM_MARKER_PROPERTY_NAME in section && section[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
               <div in:fade={{ duration: 300, easing: cubicIn }} class="visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold opacity-30">
                 <GripVertical class="size-5 text-text/60" />
                 {normalizedName}
@@ -158,6 +161,15 @@
           </div>
         {/each}
       </div>
+      {#if $hasSectionOrderPreferencesChanged}
+        <Button.Root
+          class="mt-4 w-full rounded-lg bg-text/65 p-1.5 text-sm font-semibold uppercase text-background/80 transition-colors hover:bg-text/80"
+          on:click={() => {
+            window.location.reload();
+          }}>
+          Reload to apply changes
+        </Button.Root>
+      {/if}
     </Tabs.Content>
   </Tabs.Root>
 {/snippet}
