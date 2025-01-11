@@ -45,18 +45,19 @@
     }
 
     function updateOnlineStatus() {
+      toast.dismiss(toastId);
       toastId = toast.loading("Checking connection status...");
       setTimeout(() => {
         if (navigator.onLine) {
+          toast.dismiss(toastId);
           toastId = toast.success("You are now online!", {
-            id: toastId,
             icon: Wifi,
             description: "Connection has been restored!",
             duration: 5000
           });
         } else {
+          toast.dismiss(toastId);
           toastId = toast.error("You are now offline!", {
-            id: toastId,
             icon: WifiOff,
             description: "Please check your connection and try again.",
             duration: 5000
@@ -105,7 +106,19 @@
     manifest="/manifest.webmanifest" />
 {/if}
 
-<Toaster theme={$theme} closeButton={isHover.current} position={$position} class="sm:mr-8" />
+<Toaster
+  theme={$theme}
+  closeButton={isHover.current}
+  position={$position}
+  class="sm:mr-8"
+  toastOptions={{
+    class: "bg-background-grey gap-2 font-semibold group rounded-lg text-text/80 border-none",
+    classes: {
+      closeButton: "bg-background-grey text-text/80 border-none hover:!bg-background-grey hover:opacity-60",
+      description: "text-pretty font-medium",
+      title: "text-pretty font-semibold"
+    }
+  }} />
 
 <Header />
 
