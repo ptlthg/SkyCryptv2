@@ -49,8 +49,10 @@
         <AdditionStat text="Highest Floor Beaten (Master)" data={format(dungeons.stats.highestFloorBeatenMaster)} maxed={dungeons.stats.highestFloorBeatenMaster === 7} />
         <AdditionStat text="Secrets Found" data={format(dungeons.stats?.secrets?.found ?? 0)} subData="({format((dungeons.stats?.secrets?.secretsPerRun ?? 0).toFixed(2))} S/R)" />
       </div>
-      <div>
-        <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Catacombs</h4>
+      <CollapsibleSection id="Catacombs">
+        {#snippet subtitle()}
+          <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Catacombs</h4>
+        {/snippet}
         <div class="flex flex-wrap gap-5">
           {#if dungeons.catacombs}
             {#each dungeons.catacombs as catacomb}
@@ -112,10 +114,12 @@
             This player has not played any Catacombs.
           {/if}
         </div>
-      </div>
+      </CollapsibleSection>
 
-      <div>
-        <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Master Catacombs</h4>
+      <CollapsibleSection id="Master Catacombs">
+        {#snippet subtitle()}
+          <h4 class="my-5 text-xl font-semibold capitalize text-text/90">Master Catacombs</h4>
+        {/snippet}
         <div class="flex flex-wrap gap-5">
           {#if dungeons.master_catacombs}
             {#each dungeons.master_catacombs as catacomb}
@@ -177,7 +181,7 @@
             This player has not played any Master Catacombs.
           {/if}
         </div>
-      </div>
+      </CollapsibleSection>
     {/if}
   </div>
 </CollapsibleSection>
