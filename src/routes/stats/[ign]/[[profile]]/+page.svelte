@@ -36,5 +36,5 @@
 </script>
 
 {#if data.user && data.user.profiles}
-  <Main profile={data.user} />
+  <Main />
 {/if}

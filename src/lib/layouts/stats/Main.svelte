@@ -8,16 +8,13 @@
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
-  import Armor from "$lib/sections/stats/Armor.svelte";
+  import Sections from "$lib/sections/Sections.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
-  import type { Stats as StatsType } from "$lib/types/stats";
   import { Dialog } from "bits-ui";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
-
-  let { profile }: { profile: StatsType } = $props();
 
   const isHover = getContext<IsHover>("isHover");
 </script>
@@ -50,98 +47,7 @@
       {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
         <Notice />
       {/await}
-      {#if profile.items && profile.items.armor && profile.items.equipment && profile.items.wardrobe}
-        <Armor />
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.items && profile.items.weapons}
-        {#await import('$lib/sections/stats/Weapons.svelte') then { default: Weapons }}
-          <Weapons />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.accessories}
-        {#await import('$lib/sections/stats/Accessories.svelte') then { default: Accessories }}
-          <Accessories />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.pets}
-        {#await import('$lib/sections/stats/Pets.svelte') then { default: Pets }}
-          <Pets />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.items}
-        {#await import('$lib/sections/stats/Inventory.svelte') then { default: Inventory }}
-          <Inventory />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#await import('$lib/sections/stats/SkillsSection.svelte') then { default: SkillsSection }}
-        <SkillsSection />
-      {/await}
-      {#if profile.dungeons}
-        {#await import('$lib/sections/stats/Dungeons.svelte') then { default: Dungeons }}
-          <Dungeons />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.slayer}
-        {#await import('$lib/sections/stats/Slayer.svelte') then { default: Slayer }}
-          <Slayer />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.minions}
-        {#await import('$lib/sections/stats/Minions.svelte') then { default: Minions }}
-          <Minions />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.bestiary}
-        {#await import('$lib/sections/stats/Bestiary.svelte') then { default: Bestiary }}
-          <Bestiary />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.collections}
-        {#await import('$lib/sections/stats/Collections.svelte') then { default: Collections }}
-          <Collections />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.crimson_isle}
-        {#await import('$lib/sections/stats/CrimsonIsle.svelte') then { default: CrimsonIsle }}
-          <CrimsonIsle />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.rift}
-        {#await import('$lib/sections/stats/Rift.svelte') then { default: Rift }}
-          <Rift />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
-      {#if profile.misc}
-        {#await import('$lib/sections/stats/MiscSection.svelte') then { default: MiscSection }}
-          <MiscSection />
-        {/await}
-      {:else}
-        <p>Something went wrong</p>
-      {/if}
+      <Sections />
     </div>
   </main>
 </div>

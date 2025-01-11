@@ -1,18 +1,26 @@
 <script lang="ts">
   import type { IsHover } from "$lib/hooks/is-hover.svelte";
+  import type { SectionId } from "$lib/sections/types";
   import { packConfigs } from "$lib/shared/constants/packs";
   import type { Theme } from "$lib/shared/constants/themes";
   import themes from "$lib/shared/constants/themes";
   import { flyAndScale } from "$lib/shared/utils";
   import { disabledPacks } from "$lib/stores/packs";
+  import { sectionOrderPreferences } from "$lib/stores/preferences";
   import { theme as themeStore } from "$lib/stores/themes";
   import { Avatar, Button, Label, Popover, RadioGroup, Switch, Tabs } from "bits-ui";
   import Check from "lucide-svelte/icons/check";
   import Cog from "lucide-svelte/icons/cog";
+  import GripVertical from "lucide-svelte/icons/grip-vertical";
+  import ListOrdered from "lucide-svelte/icons/list-ordered";
   import PackageOpen from "lucide-svelte/icons/package-open";
   import PaintBucket from "lucide-svelte/icons/paint-bucket";
   import { getContext, onMount } from "svelte";
+  import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from "svelte-dnd-action";
+  import { flip } from "svelte/animate";
+  import { cubicIn } from "svelte/easing";
   import { derived, get } from "svelte/store";
+  import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
 
   let settingsOpen = $state(false);
@@ -23,6 +31,9 @@
   const hasPackConfigChanged = derived(disabledPacks, ($disabledPacks) => {
     return JSON.stringify($disabledPacks.sort()) !== JSON.stringify(initialPackConfig.sort());
   });
+
+  // add isDndShadowItem property to every section
+  let sectionOrder = $state(get(sectionOrderPreferences));
 
   function changeTheme(themeId: Theme["id"]) {
     const theme = themes.find((theme) => theme.id === themeId);
@@ -50,7 +61,7 @@
 </script>
 
 {#snippet settings()}
-  <Tabs.Root value="packs">
+  <Tabs.Root value="order">
     <Tabs.List class="mb-4 flex gap-4 rounded-lg bg-text/30 p-2 font-semibold text-text">
       <Tabs.Trigger value="packs" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
         <PackageOpen class="size-5" />
@@ -59,6 +70,10 @@
       <Tabs.Trigger value="themes" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
         <PaintBucket class="size-5" />
         Themes
+      </Tabs.Trigger>
+      <Tabs.Trigger value="order" class="flex shrink items-center justify-center gap-1 rounded-lg px-2.5 py-1 text-sm font-semibold data-[state=active]:bg-icon">
+        <ListOrdered class="size-5" />
+        Order
       </Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="packs" class="flex flex-col gap-4">
@@ -116,6 +131,33 @@
           </Label.Root>
         {/each}
       </RadioGroup.Root>
+    </Tabs.Content>
+    <Tabs.Content value="order" class="space-y-6">
+      <div>
+        This feature is currently in <span class="rounded-md bg-text/[0.05] p-1 font-semibold">BETA</span>. Please report any bugs.
+      </div>
+      <div
+        class="flex flex-col gap-4"
+        use:dndzone={{ items: sectionOrder, flipDurationMs: 300, dropTargetStyle: {} }}
+        onconsider={(e) => (sectionOrder = e.detail.items)}
+        onfinalize={(e) => {
+          sectionOrderPreferences.set(e.detail.items);
+          sectionOrder = e.detail.items;
+        }}>
+        {#each sectionOrder as section (section.id)}
+          {@const normalizedName = section.name.replaceAll("_", " ")}
+          <div animate:flip={{ duration: 300 }} class="relative flex items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold">
+            <GripVertical class="size-5 text-text/60" />
+            {normalizedName}
+            {#if (section as SectionId)[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+              <div in:fade={{ duration: 300, easing: cubicIn }} class="visible absolute inset-0 flex animate-pulse items-center gap-2 rounded-lg bg-text/[0.05] p-2 font-semibold opacity-30">
+                <GripVertical class="size-5 text-text/60" />
+                {normalizedName}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
     </Tabs.Content>
   </Tabs.Root>
 {/snippet}
