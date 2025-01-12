@@ -10,6 +10,7 @@
   let navbarElement = $state<HTMLDivElement>()!;
   let allLinks = $state<Record<string, HTMLAnchorElement>>({});
   let observer: IntersectionObserver;
+  let firstActive = $derived(Object.entries($inviewportSections).find(([, v]: [string, boolean]) => v === true)?.[0]);
 
   function scrollToTab(smooth = true, element?: HTMLElement | null) {
     const link = element ?? document.querySelector<HTMLAnchorElement>(`[href="${location.hash}"]`);
@@ -50,10 +51,9 @@
   });
 
   $effect(() => {
-    const sectionKey = Object.entries($inviewportSections).find(([, v]: [string, boolean]) => v)?.[0] ?? "";
-    if (sectionKey) {
-      scrollToTab(true, allLinks[sectionKey]);
-      replaceState("#" + sectionKey, page.state);
+    if (firstActive) {
+      scrollToTab(true, allLinks[firstActive]);
+      replaceState("#" + firstActive, page.state);
     }
   });
 </script>
