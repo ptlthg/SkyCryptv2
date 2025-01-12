@@ -58,6 +58,7 @@
 
   $effect(() => {
     updateSkinViewer(uuid);
+    updateViewerSize();
   });
 
   onDestroy(() => {
