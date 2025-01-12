@@ -3,12 +3,6 @@
   import type { SectionComponents, SectionName } from "$lib/sections/types";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
 
-  type Props = {
-    sectionsInitialized: (v: boolean) => void;
-  };
-
-  let { sectionsInitialized }: Props = $props();
-
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
@@ -31,7 +25,13 @@
 
   $effect(() => {
     Promise.allSettled(Object.values(sectionComponents)).then(() => {
-      sectionsInitialized(true);
+      // scroll to the hash if it exists
+      if (location.hash) {
+        const el = document.querySelector(location.hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
     });
   });
 </script>

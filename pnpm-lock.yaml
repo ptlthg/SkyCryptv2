@@ -181,6 +181,9 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.9
         version: 0.6.9(prettier-plugin-svelte@3.3.2(prettier@3.4.2)(svelte@5.17.3))(prettier@3.4.2)
+      runed:
+        specifier: ^0.23.0
+        version: 0.23.0(svelte@5.17.3)
       svelte:
         specifier: 5.17.3
         version: 5.17.3
@@ -2322,6 +2325,11 @@ packages:
 
   runed@0.22.0:
     resolution: {integrity: sha512-ZWVXWhOr0P5xdNgtviz6D1ivLUDWKLCbeC5SUEJ3zBkqLReVqWHenFxMNFeFaiC5bfxhFxyxzyzB+98uYFtwdA==}
+    peerDependencies:
+      svelte: ^5.7.0
+
+  runed@0.23.0:
+    resolution: {integrity: sha512-WrZcFneb3CkFvujgss6WIvKmlSUvX2z8nYsH+zrd8eo55zO6nkEJ6fRL2QZW+2lAD4DVvAK/8x0dotIRVrnPJQ==}
     peerDependencies:
       svelte: ^5.7.0
 
@@ -4722,6 +4730,11 @@ snapshots:
       svelte: 5.17.3
 
   runed@0.22.0(svelte@5.17.3):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.17.3
+
+  runed@0.23.0(svelte@5.17.3):
     dependencies:
       esm-env: 1.2.2
       svelte: 5.17.3
