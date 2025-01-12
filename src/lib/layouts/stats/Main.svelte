@@ -1,6 +1,5 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import { getProfileCtx } from "$ctx/profile.svelte";
   import ItemContent from "$lib/components/item/item-content.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import { IsHover } from "$lib/hooks/is-hover.svelte";
@@ -8,27 +7,15 @@
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
-  import Sections from "$lib/sections/Sections.svelte";
+  import SectionsLazy from "$lib/sections/SectionsLazy.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
   import { Dialog } from "bits-ui";
-  import LoaderCircle from "lucide-svelte/icons/loader-circle";
   import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import { Drawer } from "vaul-svelte";
 
-  let componentsLoaded = $state(false);
-
   const isHover = getContext<IsHover>("isHover");
-
-  const ctx = getProfileCtx();
-  const profile = $derived(ctx.profile);
-
-  $effect(() => {
-    if (profile) {
-      componentsLoaded = false;
-    }
-  });
 </script>
 
 <SEO />
@@ -54,7 +41,7 @@
     </div>
 
     {#await import('$lib/components/Navbar.svelte') then { default: Navbar }}
-      <Navbar {componentsLoaded} />
+      <Navbar />
     {/await}
 
     <div class="space-y-5 p-4 @[75rem]/parent:p-8">
@@ -62,10 +49,9 @@
         <Notice />
       {/await}
 
-      <Sections
-        sectionsInitialized={(v: boolean) => {
-          componentsLoaded = v;
-        }} />
+      <SectionsLazy />
+
+      <!-- <SectionsEager /> -->
     </div>
   </main>
 </div>
@@ -102,13 +88,6 @@
       </Drawer.Content>
     </Drawer.Portal>
   </Drawer.Root>
-{/if}
-
-{#if !componentsLoaded}
-  <div transition:fade class="pointer-events-none fixed top-0 z-[99999] flex h-screen w-screen items-center justify-center bg-black/50">
-    <LoaderCircle class="h-12 w-12 animate-spin text-white" />
-    <span class="sr-only">Loading...</span>
-  </div>
 {/if}
 
 <svg xmlns="http://www.w3.org/2000/svg" height="0" width="0" style="position: fixed;">
