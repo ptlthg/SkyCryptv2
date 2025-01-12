@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { replaceState } from "$app/navigation";
+  import { page } from "$app/state";
   import { inviewportSections } from "$lib/stores/internal";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import { Button, ScrollArea } from "bits-ui";
@@ -49,7 +51,10 @@
 
   $effect(() => {
     const sectionKey = Object.entries($inviewportSections).find(([, v]: [string, boolean]) => v)?.[0] ?? "";
-    scrollToTab(true, allLinks[sectionKey]);
+    if (sectionKey) {
+      scrollToTab(true, allLinks[sectionKey]);
+      replaceState("#" + sectionKey, page.state);
+    }
   });
 </script>
 
