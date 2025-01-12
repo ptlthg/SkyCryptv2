@@ -7,12 +7,18 @@
   import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { IsInViewport } from "runed";
   import type { Snippet } from "svelte";
+  import { get } from "svelte/store";
   import { slide } from "svelte/transition";
 
   let { id, class: className, children, subtitle }: { id: string; class?: string; children?: Snippet; subtitle?: Snippet } = $props();
   let sectionElement = $state<HTMLElement>();
 
-  let transormedID = $derived(id.replaceAll(" ", "_"));
+  let transormedID = $derived.by(() => {
+    if (id === "Miscellaneous") {
+      return "Misc";
+    }
+    return id.replaceAll(" ", "_");
+  });
   const inViewport = new IsInViewport(() => sectionElement);
 
   $effect(() => {
@@ -22,6 +28,7 @@
         [transormedID]: inViewport.current
       };
     });
+    console.log(get(inviewportSections));
   });
 </script>
 
