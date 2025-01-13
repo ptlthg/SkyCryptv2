@@ -5,11 +5,13 @@
   import Items from "$lib/layouts/stats/Items.svelte";
   import { renderLore } from "$lib/shared/helper";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 </script>
 
-<CollapsibleSection id="Weapons">
+<CollapsibleSection id="Weapons" {order}>
   <Items>
     {#snippet text()}
       <div>

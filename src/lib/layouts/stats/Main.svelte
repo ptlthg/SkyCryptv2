@@ -7,7 +7,7 @@
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
-  import SectionsLazy from "$lib/sections/SectionsLazy.svelte";
+  import SectionsEager from "$lib/sections/SectionsEager.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
   import { Dialog } from "bits-ui";
@@ -44,14 +44,12 @@
       <Navbar />
     {/await}
 
-    <div class="space-y-5 p-4 @[75rem]/parent:p-8">
+    <div class="flex flex-col flex-nowrap gap-y-5 p-4 @[75rem]/parent:p-8">
       {#await import('$lib/components/APINotice.svelte') then { default: Notice }}
         <Notice />
       {/await}
 
-      <SectionsLazy />
-
-      <!-- <SectionsEager /> -->
+      <SectionsEager />
     </div>
   </main>
 </div>

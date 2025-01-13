@@ -1,16 +1,17 @@
 <script lang="ts">
+  import { getProfileCtx } from "$ctx/profile.svelte";
   import AdditionStat from "$lib/components/AdditionStat.svelte";
   import Bonus from "$lib/components/Bonus.svelte";
+  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import Item from "$lib/components/Item.svelte";
   import SectionSubtitle from "$lib/components/SectionSubtitle.svelte";
   import Items from "$lib/layouts/stats/Items.svelte";
-
-  import { getProfileCtx } from "$ctx/profile.svelte";
-  import CollapsibleSection from "$lib/components/CollapsibleSection.svelte";
   import { formatNumber, getRarityClass, renderLore, uniqBy } from "$lib/shared/helper";
   import { cn } from "$lib/shared/utils";
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
+
+  let { order }: { order: number } = $props();
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
@@ -21,7 +22,7 @@
 </script>
 
 {#if pets.pets?.length}
-  <CollapsibleSection id="Pets">
+  <CollapsibleSection id="Pets" {order}>
     <Items>
       {#snippet text()}
         <div>

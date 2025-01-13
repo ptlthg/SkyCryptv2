@@ -9,6 +9,9 @@
   import { writable } from "svelte/store";
   import { crossfade, fade } from "svelte/transition";
 
+  let { order }: { order: number } = $props();
+  let openStorageTab = writable<string>("0");
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
@@ -83,7 +86,11 @@
     ].filter((tab) => tab.items.length > 0)
   );
 
-  let openStorageTab = writable<string>("0");
+  const [send, receive] = crossfade({
+    duration: 300,
+    easing: cubicInOut
+  });
+
   $effect(() => {
     if ($openTab === "storage") {
       openStorageTab.set("0");
@@ -91,14 +98,9 @@
       openStorageTab.set("19");
     }
   });
-
-  const [send, receive] = crossfade({
-    duration: 300,
-    easing: cubicInOut
-  });
 </script>
 
-<CollapsibleSection id="Inventory">
+<CollapsibleSection id="Inventory" {order}>
   {#if tabs.length > 0}
     <Tabs.Root bind:value={$openTab} class="relative mb-0 rounded-lg bg-background/30 p-5 pt-4 @container">
       <Tabs.List>

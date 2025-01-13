@@ -6,11 +6,13 @@
   import Fishing from "./skills/fishing.svelte";
   import Mining from "./skills/mining.svelte";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 </script>
 
-<CollapsibleSection id="Skills" class="pt-4">
+<CollapsibleSection id="Skills" class="pt-4" {order}>
   {#if profile.items && profile.items.mining_tools && profile.mining}
     <Mining />
   {:else}

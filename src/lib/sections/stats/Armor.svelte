@@ -9,6 +9,8 @@
   import { cn } from "$lib/shared/utils";
   import { ScrollArea } from "bits-ui";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
@@ -18,7 +20,7 @@
   const firstWardrobeItems = $derived(wardrobe.map((wardrobeItems) => wardrobeItems.find((piece) => piece)));
 </script>
 
-<CollapsibleSection id="Armor">
+<CollapsibleSection id="Armor" {order}>
   <Items>
     {#snippet text()}
       {#if armor.armor.length > 0 && !armor.armor.every((piece) => !piece.display_name)}

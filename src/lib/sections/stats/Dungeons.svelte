@@ -12,12 +12,14 @@
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
   const dungeons = $derived(profile.dungeons);
 </script>
 
-<CollapsibleSection id="Dungeons">
+<CollapsibleSection id="Dungeons" {order}>
   <div class="space-y-4">
     {#if dungeons.unlocked === false}
       <p class="space-x-0.5 leading-6">{profile.username} hasn't unlocked Dungeons yet.</p>

@@ -8,12 +8,14 @@
   import Image from "lucide-svelte/icons/image";
   import { format } from "numerable";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
   const slayer = $derived(profile.slayer);
 </script>
 
-<CollapsibleSection id="Slayer">
+<CollapsibleSection id="Slayer" {order}>
   <div class="space-y-4">
     {#if slayer.unlocked === false}
       <p class="space-x-0.5 leading-6">{profile.username} hasn't unlocked Slayers yet.</p>

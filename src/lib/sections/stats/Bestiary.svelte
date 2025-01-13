@@ -7,13 +7,15 @@
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
   const bestiary = $derived(profile.bestiary);
 </script>
 
-<CollapsibleSection id="Bestiary">
+<CollapsibleSection id="Bestiary" {order}>
   <Items class="flex-col">
     {#snippet text()}
       <div>

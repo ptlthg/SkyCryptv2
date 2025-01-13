@@ -9,13 +9,15 @@
   import { cn } from "$lib/shared/utils";
   import { format } from "numerable";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
   const isle = $derived(profile.crimson_isle);
 </script>
 
-<CollapsibleSection id="Crimson Isle">
+<CollapsibleSection id="Crimson Isle" {order}>
   <Items class="flex-col">
     {#snippet text()}
       <div>
