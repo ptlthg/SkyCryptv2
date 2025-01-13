@@ -33,55 +33,55 @@
         id: "inv",
         icon: `https://crafatar.com/renders/head/${profile.uuid}?overlay`,
         items: inventory,
-        hr: 27
+        gap: 27
       },
       {
         id: "storage",
         icon: "/api/item/chest",
         items: backpack,
-        hr: 45
+        gap: 45
       },
       {
         id: "ender",
         icon: "/api/item/ender_chest",
         items: enderchest,
-        hr: 45
+        gap: 45
       },
       {
         id: "vault",
         icon: "/api/head/f7aadff9ddc546fdcec6ed5919cc39dfa8d0c07ff4bc613a19f2e6d7f2593",
         items: vault,
-        hr: 45
+        gap: 45
       },
       {
         id: "accs",
         icon: "/api/head/961a918c0c49ba8d053e522cb91abc74689367b4d8aa06bfc1ba9154730985ff",
         items: accs,
-        hr: 45
+        gap: 45
       },
       {
         id: "pots",
         icon: "/api/head/9f8b82427b260d0a61e6483fc3b2c35a585851e08a9a9df372548b4168cc817c",
         items: pots,
-        hr: 45
+        gap: 45
       },
       {
         id: "fish",
         icon: "/api/head/eb8e297df6b8dffcf135dba84ec792d420ad8ecb458d144288572a84603b1631",
         items: fish,
-        hr: 45
+        gap: 45
       },
       {
         id: "quiver",
         icon: "/api/head/4cb3acdc11ca747bf710e59f4c8e9b3d949fdd364c6869831ca878f0763d1787",
         items: quiver,
-        hr: 45
+        gap: 45
       },
       {
         id: "museum",
         icon: "/api/head/438cf3f8e54afc3b3f91d20a49f324dca1486007fe545399055524c17941f4dc",
         items: museum,
-        hr: 54
+        gap: 54
       }
     ].filter((tab) => tab.items.length > 0)
   );
@@ -142,9 +142,6 @@
                     {#each tab.items as item, index}
                       <Tabs.Trigger let:builder asChild value={item.texture_path ? index.toString() : "undefined"}>
                         <div use:builder.action {...builder} class="group">
-                          {#if tab.hr === index}
-                            <hr class="col-start-1 col-end-10 h-4 border-0" />
-                          {/if}
                           {#if item.texture_path}
                             <div class="flex aspect-square items-center justify-center rounded group-data-[state=active]:bg-text/10 group-data-[state=inactive]:bg-text/[0.04]" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}>
                               <Item piece={item} isInventory={true} showRecombobulated={false} />
@@ -158,8 +155,13 @@
                   </Tabs.List>
                   {#if tab.items[Number($openStorageTab)]?.containsItems}
                     {@const containedItems = (tab.items[Number($openStorageTab)].containsItems as ProcessedSkyBlockItem[]) || []}
-                    <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
+                    <div class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-8 @md:gap-1.5 @xl:gap-2">
                       {#each containedItems as containedItem, index}
+                        {#if index > 0}
+                          {#if index % 54 === 0}
+                            <hr class="col-span-full h-4 border-0" />
+                          {/if}
+                        {/if}
                         <Tabs.Content value={$openStorageTab.toString()}>
                           {#key $openStorageTab}
                             {#if containedItem.texture_path}
@@ -179,8 +181,10 @@
             {:else}
               <div use:builder.action {...builder} class="grid grid-cols-[repeat(9,minmax(1.875rem,4.875rem))] place-content-center gap-1 pt-5 @md:gap-1.5 @xl:gap-2">
                 {#each tab.items as item, index}
-                  {#if tab.hr === index}
-                    <hr class="col-start-1 col-end-10 h-4 border-0" />
+                  {#if index > 0}
+                    {#if index % tab.gap === 0}
+                      <hr class="col-start-1 col-end-10 h-4 border-0" />
+                    {/if}
                   {/if}
                   {#if item.texture_path}
                     <div class="flex aspect-square items-center justify-center rounded bg-text/[0.04]" in:fade|global={{ duration: 300, delay: 5 * (index + 1) }}>
