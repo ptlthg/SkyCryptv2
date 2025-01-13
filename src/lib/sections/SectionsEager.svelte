@@ -3,7 +3,7 @@
   import Accessories from "$lib/sections/stats/Accessories.svelte";
   import Bestiary from "$lib/sections/stats/Bestiary.svelte";
   import Collections from "$lib/sections/stats/Collections.svelte";
-  import Crimson_Isle from "$lib/sections/stats/CrimsonIsle.svelte";
+  import CrimsonIsle from "$lib/sections/stats/CrimsonIsle.svelte";
   import Dungeons from "$lib/sections/stats/Dungeons.svelte";
   import Inventory from "$lib/sections/stats/Inventory.svelte";
   import Minions from "$lib/sections/stats/Minions.svelte";
@@ -13,36 +13,57 @@
   import Skills from "$lib/sections/stats/SkillsSection.svelte";
   import Slayer from "$lib/sections/stats/Slayer.svelte";
   import Weapons from "$lib/sections/stats/Weapons.svelte";
-  import type { SectionComponentsEager, SectionName } from "$lib/sections/types";
+  import type { SectionName } from "$lib/sections/types";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import Armor from "./stats/Armor.svelte";
 
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
-  const sectionComponents: SectionComponentsEager = $derived({
-    Armor: profile.items && profile.items.armor && profile.items.equipment && profile.items.wardrobe ? Armor : null,
-    Weapons: profile.items && profile.items.weapons ? Weapons : null,
-    Accessories: profile.accessories ? Accessories : null,
-    Pets: profile.pets ? Pets : null,
-    Inventory: profile.items ? Inventory : null,
-    Skills: profile.skills ? Skills : null,
-    Dungeons: profile.dungeons ? Dungeons : null,
-    Slayer: profile.slayer ? Slayer : null,
-    Minions: profile.minions ? Minions : null,
-    Bestiary: profile.bestiary ? Bestiary : null,
-    Collections: profile.collections ? Collections : null,
-    Crimson_Isle: profile.crimson_isle ? Crimson_Isle : null,
-    Rift: profile.rift ? Rift : null,
-    Misc: profile.misc ? Misc : null
-  });
+  function findIndex(id: SectionName) {
+    return $sectionOrderPreferences.findIndex((section) => section.name === id);
+  }
 </script>
 
-{#each $sectionOrderPreferences as sectionId (sectionId.id)}
-  {@const Component = sectionComponents[sectionId.name as SectionName]}
-  {#if Component !== null}
-    <Component />
-  {:else}
-    <p>Something went wrong</p>
-  {/if}
-{/each}
+{#if profile.items && profile.items.armor && profile.items.equipment && profile.items.wardrobe}
+  <Armor order={findIndex("Armor")} />
+{/if}
+{#if profile.items && profile.items.weapons}
+  <Weapons order={findIndex("Weapons")} />
+{/if}
+{#if profile.accessories}
+  <Accessories order={findIndex("Accessories")} />
+{/if}
+{#if profile.pets}
+  <Pets order={findIndex("Pets")} />
+{/if}
+{#if profile.items}
+  <Inventory order={findIndex("Inventory")} />
+{/if}
+{#if profile.skills}
+  <Skills order={findIndex("Skills")} />
+{/if}
+{#if profile.dungeons}
+  <Dungeons order={findIndex("Dungeons")} />
+{/if}
+{#if profile.slayer}
+  <Slayer order={findIndex("Slayer")} />
+{/if}
+{#if profile.minions}
+  <Minions order={findIndex("Minions")} />
+{/if}
+{#if profile.bestiary}
+  <Bestiary order={findIndex("Bestiary")} />
+{/if}
+{#if profile.collections}
+  <Collections order={findIndex("Collections")} />
+{/if}
+{#if profile.crimson_isle}
+  <CrimsonIsle order={findIndex("Crimson_Isle")} />
+{/if}
+{#if profile.rift}
+  <Rift order={findIndex("Rift")} />
+{/if}
+{#if profile.misc}
+  <Misc order={findIndex("Misc")} />
+{/if}

@@ -12,13 +12,15 @@
   import { Collapsible } from "bits-ui";
   import ChevronDown from "lucide-svelte/icons/chevron-down";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
   const accessories = $derived(profile.accessories);
 </script>
 
 {#if accessories.magicalPower?.total}
-  <CollapsibleSection id="Accessories">
+  <CollapsibleSection id="Accessories" {order}>
     <Items>
       {#snippet text()}
         <div>

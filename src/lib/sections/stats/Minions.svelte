@@ -9,6 +9,8 @@
   import { Avatar, Button } from "bits-ui";
   import ExternalLink from "lucide-svelte/icons/external-link";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
@@ -18,7 +20,7 @@
   const arabicTiers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 </script>
 
-<CollapsibleSection id="Minions">
+<CollapsibleSection id="Minions" {order}>
   <Items class="flex-col">
     {#snippet text()}
       <div>

@@ -9,7 +9,15 @@
   import type { Snippet } from "svelte";
   import { slide } from "svelte/transition";
 
-  let { id, class: className, children, subtitle }: { id: string; class?: string; children?: Snippet; subtitle?: Snippet } = $props();
+  type Props = {
+    id: string;
+    class?: string;
+    order?: number;
+    children?: Snippet;
+    subtitle?: Snippet;
+  };
+
+  let { id, class: className, order, children, subtitle }: Props = $props();
   let sectionElement = $state<HTMLElement>();
 
   let transormedID = $derived.by(() => {
@@ -31,7 +39,7 @@
 </script>
 
 <Collapsible.Root asChild let:builder bind:open={() => $collapsePreferences[transormedID.toLowerCase()] ?? true, (v) => ($collapsePreferences[transormedID.toLowerCase()] = v)}>
-  <section bind:this={sectionElement} id={transormedID} use:builder.action {...builder} class={cn("scroll-m-32", className)}>
+  <section id={transormedID} class={cn("order-[--order] scroll-m-32", className)} style="--order: {order};" bind:this={sectionElement} use:builder.action {...builder}>
     <Collapsible.Trigger class="flex items-center justify-between">
       {#if !subtitle}
         <SectionTitle>{id}</SectionTitle>

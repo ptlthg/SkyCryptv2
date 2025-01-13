@@ -9,13 +9,15 @@
   import { formatDate, formatDistanceToNowStrict } from "date-fns";
   import { format } from "numerable";
 
+  let { order }: { order: number } = $props();
+
   const ctx = getProfileCtx();
   const profile = $derived(ctx.profile);
 
   const rift = $derived(profile.rift);
 </script>
 
-<CollapsibleSection id="Rift">
+<CollapsibleSection id="Rift" {order}>
   <Items class="flex-col">
     {#snippet text()}
       <div>

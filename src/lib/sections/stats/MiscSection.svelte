@@ -15,9 +15,11 @@
   import Races from "./misc/races.svelte";
   import Uncategorized from "./misc/uncategorized.svelte";
   import Upgrades from "./misc/upgrades.svelte";
+
+  let { order }: { order: number } = $props();
 </script>
 
-<CollapsibleSection id="Miscellaneous" class="mb-4">
+<CollapsibleSection id="Miscellaneous" class="mb-4" {order}>
   <Essence />
   <!-- TODO: Essence Shop -->
   <Kills />
