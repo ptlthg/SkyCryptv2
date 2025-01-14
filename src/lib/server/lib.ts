@@ -101,7 +101,7 @@ export async function getUsername(paramPlayer: string, options = { cache: false 
 
 async function resolveUsernameOrUUID(paramPlayer: string) {
   const response = await fetch(`https://mowojang.matdoes.dev/${paramPlayer}`);
-  if (response.status === 204) {
+  if (response.status === 204 || response.status === 404) {
     throw new SkyCryptError("Player not found");
   }
 
