@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ params, cookies, fetch }) => {
     const packs = JSON.parse(cookies.get("disabledPacks") || "[]");
     const attachment = await renderItem(newId, { damage: isNaN(parseInt(damage)) ? 0 : parseInt(damage), packs });
 
-    if (typeof attachment.image === "string" && attachment.image.startsWith("/api/")) {
+    if (typeof attachment.image === "string" && attachment.image.startsWith("/api/") && attachment.image.includes("/item/") === false) {
       const imageResponse = await fetch(attachment.image);
       if (!imageResponse.ok) {
         throw new Error("Failed to fetch image from API");
