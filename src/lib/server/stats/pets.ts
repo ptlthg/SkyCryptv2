@@ -59,7 +59,7 @@ function getPetSkins() {
 function replaceVariables(template: string, variables: Record<string, string>) {
   return template.replace(/\{(\w+)\}/g, (match, name) => {
     // ? NOTE: Needed because NEU doesn't return + in front of stats
-    if (isNaN(parseFloat(name)) === true) {
+    if (isNaN(parseFloat(name)) === true && parseInt(variables[name]) > 0) {
       return `+${variables[name] ?? match}`;
     }
 
