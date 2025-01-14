@@ -14,6 +14,7 @@
 
   // Update the profile context when the data changes
   $effect(() => {
+    const abortController = new AbortController();
     setProfileCtx(data.user as unknown as ValidStats);
 
     untrack(() => {
@@ -28,10 +29,23 @@
       // Update the URL to match the username and cute name
       if (current !== wanted) {
         const newUrl = page.url.toString().replace(current, wanted);
-        // Tick to wait for the router to initialize
-        tick().then(() => replaceState(newUrl, page.state));
+
+        // Only proceed if not aborted
+        if (!abortController.signal.aborted) {
+          tick()
+            .then(() => {
+              if (!abortController.signal.aborted) {
+                replaceState(newUrl, page.state);
+              }
+            })
+            .catch(() => {});
+        }
       }
     });
+
+    return () => {
+      abortController.abort();
+    };
   });
 </script>
 

@@ -7,7 +7,7 @@
   import PlayerProfile from "$lib/layouts/stats/PlayerProfile.svelte";
   import Skills from "$lib/layouts/stats/Skills.svelte";
   import Stats from "$lib/layouts/stats/Stats.svelte";
-  import SectionsEager from "$lib/sections/SectionsEager.svelte";
+  import Sections from "$lib/sections/Sections.svelte";
   import { flyAndScale } from "$lib/shared/utils";
   import { itemContent, showItem } from "$lib/stores/internal";
   import { Dialog } from "bits-ui";
@@ -49,7 +49,7 @@
         <Notice />
       {/await}
 
-      <SectionsEager />
+      <Sections />
     </div>
   </main>
 </div>

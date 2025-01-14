@@ -99,7 +99,7 @@ function getMissing(items: ProcessedItem[], accessories: Accessory[]) {
       display_name: ACCESSORY.name ?? null
     };
 
-    if ((constants.getUpgradeList(id) && constants.getUpgradeList(id)[0] !== id) || (ACCESSORY as SpecialAccessory).rarities) {
+    if ((constants.getUpgradeList(id).length && constants.getUpgradeList(id)[0] !== id) || (ACCESSORY as SpecialAccessory).rarities) {
       upgrades.push(object);
     } else {
       other.push(object);
@@ -140,6 +140,8 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
         price = await helper.getItemPrice(item.id);
       }
 
+      item.extra ??= {};
+      item.extra.price = price;
       if (price > 0) {
         helper.addToItemLore(item, `§7Price: §6${Math.round(price).toLocaleString()} Coins §7(§6${formatNumber(Math.floor(price / helper.getMagicalPower(item.rarity, item.id)))} §7per MP)`);
       }
@@ -150,7 +152,12 @@ export async function getMissingAccessories(items: Accessories, userProfile: Mem
       item.Damage ??= item.damage;
       // item.id ??= item.item_id;
 
+      const oldTexture = item.texture_path;
+      item.texture_path = null;
       helper.applyResourcePack(item, packs);
+      if (item.texture_path === null) {
+        item.texture_path = oldTexture;
+      }
     }
 
     (output[key as keyof typeof output] as unknown as ProcessedItem[]).sort((a: ProcessedItem, b: ProcessedItem) => {
