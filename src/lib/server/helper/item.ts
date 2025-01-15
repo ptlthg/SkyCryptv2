@@ -1,7 +1,17 @@
 import type { DatabaseItem, Item, ItemQuery } from "$types/stats";
 import sanitize from "mongo-sanitize";
 import * as constants from "../constants/constants";
-import * as helper from "../helper";
+
+/**
+ * Converts an RGB color value to its corresponding hexadecimal representation.
+ * @param rgb - The RGB color value in the format "r, g, b".
+ * @returns The hexadecimal representation of the RGB color value.
+ */
+function rgbToHex(rgb: string) {
+  const [r, g, b] = rgb.split(",").map((c) => parseInt(c.trim()));
+
+  return [r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("");
+}
 
 /**
  * Gathers Item Data visualized similarily to in-game NBT format based on a query
@@ -72,7 +82,7 @@ export function getItemData(query: ItemQuery) {
     const type = ["helmet", "chestplate", "leggings", "boots"][dbItem.item_id - 298];
 
     if (dbItem.color !== undefined) {
-      const color = helper.rgbToHex(dbItem.color) ?? "955e3b";
+      const color = rgbToHex(dbItem.color) ?? "955e3b";
 
       item.texture_path = `/api/leather/${type}/${color}`;
     }

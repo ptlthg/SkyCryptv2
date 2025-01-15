@@ -1,4 +1,4 @@
-import { getHeadTextureUUID } from "$lib/server/helper";
+import { getHeadTextureUUID, getItemTextureString } from "$lib/server/helper";
 import type { NotEnoughUpdatesBestiaryConstants } from "$types/processed/NotEnoughUpdates/bestiary";
 import type { IslandData, Mob, NotEnoughUpdatesBestiary } from "$types/raw/NotEnoughUpdates/bestiary";
 
@@ -7,7 +7,7 @@ function formatBestiaryMobs(mobs: Mob[]) {
   for (const mob of mobs) {
     output.push({
       name: mob.name.replace(/§./g, ""),
-      texture: mob.texture ? `/api/head/${getHeadTextureUUID(mob.texture)}` : `/api/item/${mob.item}`,
+      texture: mob.texture ? `/api/head/${getHeadTextureUUID(mob.texture)}` : getItemTextureString((mob.item as string).toUpperCase()),
       cap: mob.cap,
       mobs: mob.mobs,
       bracket: mob.bracket

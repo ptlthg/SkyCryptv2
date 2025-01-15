@@ -7,7 +7,7 @@ Modified and Improved by @DuckySoLucky
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-export const CACHE_PATH = helper.getCacheFolderPath();
+export const CACHE_PATH = getCacheFolderPath();
 
 import { base } from "$app/paths";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
@@ -18,6 +18,7 @@ import path from "path";
 import type { ItemQuery } from "$types/global";
 import minecraftData from "minecraft-data";
 import * as helper from "../helper";
+import { getCacheFilePath, getCacheFolderPath } from "./cache";
 import { getItemData } from "./item";
 const mcData = minecraftData("1.8.9");
 
@@ -184,7 +185,7 @@ async function renderColoredItem(color: string, baseImage: Canvas, overlayImage:
  * @returns Image of a rendered head
  */
 export async function getHead(textureId: string, scale = 6.4) {
-  const filePath = helper.getCacheFilePath(CACHE_PATH, "head", textureId);
+  const filePath = getCacheFilePath(CACHE_PATH, "head", textureId);
   let file;
 
   try {
@@ -361,7 +362,7 @@ async function renderHead(textureId: string, scale: number) {
  * @returns Image of a rendered armor piece
  */
 export async function getArmor(type: string, color: string) {
-  const filePath = helper.getCacheFilePath(CACHE_PATH, `leather`, `${type}_${color}`);
+  const filePath = getCacheFilePath(CACHE_PATH, `leather`, `${type}_${color}`);
   let file;
 
   try {
@@ -402,7 +403,7 @@ async function renderArmor(type: string, color: string) {
  * @returns Image of a rendered potion
  */
 export async function getPotion(type: string, color: string) {
-  const filePath = helper.getCacheFilePath(CACHE_PATH, `potion`, `${type}_${color}`);
+  const filePath = getCacheFilePath(CACHE_PATH, `potion`, `${type}_${color}`);
   let file;
 
   try {

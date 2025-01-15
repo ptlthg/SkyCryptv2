@@ -1,5 +1,6 @@
 import { building } from "$app/environment";
 import type { Collection } from "$lib/server/constants/collections";
+import { getItemTextureString } from "$lib/server/helper";
 import MONGO from "../mongo";
 
 const headers = { Accept: "application/json", "User-Agent": "SkyCrypt" };
@@ -48,7 +49,7 @@ export async function updateCollections() {
           return {
             id,
             name: collection.items[id].name,
-            texture: `/api/item/${id}`,
+            texture: getItemTextureString(id),
             maxTier: collection.items[id].maxTiers,
             tiers: collection.items[id].tiers
           };

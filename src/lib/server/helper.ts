@@ -4,20 +4,8 @@ import { getPrices } from "skyhelper-networth";
 import * as constants from "./constants/constants";
 import { getTexture } from "./custom_resources";
 
-export * from "$lib/server/helper/cache";
 export * from "$lib/server/helper/item";
 export * from "$lib/shared/helper";
-
-/**
- * Converts an RGB color value to its corresponding hexadecimal representation.
- * @param rgb - The RGB color value in the format "r, g, b".
- * @returns The hexadecimal representation of the RGB color value.
- */
-export function rgbToHex(rgb: string) {
-  const [r, g, b] = rgb.split(",").map((c) => parseInt(c.trim()));
-
-  return [r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("");
-}
 
 /**
  * Converts a string to a number if it can be converted.
@@ -182,7 +170,7 @@ export function addToItemLore(item: Partial<ProcessedItem>, lore: string | strin
  * @param {string[]} packs - The ID or array of IDs of the resource pack(s) to search for the custom texture.
  * @returns {Promise<Item>} A Promise that resolves with the modified item.
  */
-export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
+export function applyResourcePack(item: ProcessedItem, packs: string[]) {
   if (item.texture_path) {
     return item;
   }
@@ -230,6 +218,21 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
   }
 
   return item;
+}
+
+/**
+ * Returns the texture of an item based on its ID.
+ * @param {string} id - The ID of the item.
+ * @returns {string} The texture of the item.
+ */
+export function getItemTextureString(id: string) {
+  const itemData = getItemData({ skyblockId: id }) as ProcessedItem;
+  const texture = applyResourcePack(itemData, []).texture_path;
+  const isValid = texture && texture.startsWith("/resourcepacks/Vanilla/assets/minecraft/mcpatcher/cit/textures/") && texture.endsWith("/skull-3.png") === false;
+
+  console.log(id, texture, isValid);
+
+  return isValid ? texture : `/api/item/${id}`;
 }
 
 /**
