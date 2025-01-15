@@ -8,7 +8,7 @@ import path from "path";
 import RJSON from "relaxed-json";
 import UPNG from "upng-js";
 import util from "util";
-import { getId, getPath, getTextureValue, hasPath } from "./helper";
+import { getCacheFilePath, getCacheFolderPath, getFolderPath, getId, getPath, getTextureValue, hasPath } from "./helper";
 const mcData = minecraftData("1.8.9");
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -23,7 +23,6 @@ import type { ItemTexture, OutputResourcePack, OutputTexture, ResourcePack, Text
 import type { Item, ProcessedItem, getTextureParams } from "$types/processed/profile/items";
 import child_process from "child_process";
 import { format } from "numerable";
-import { getCacheFilePath, getCacheFolderPath, getFolderPath } from "./helper/cache";
 const execFile = util.promisify(child_process.execFile);
 
 const NORMALIZED_SIZE = 128;
