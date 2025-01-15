@@ -8,7 +8,7 @@ import path from "path";
 import RJSON from "relaxed-json";
 import UPNG from "upng-js";
 import util from "util";
-import { getCacheFilePath, getCacheFolderPath, getFolderPath, getId, getPath, getTextureValue, hasPath } from "./helper";
+import { getCacheFilePath, getCacheFolderPath, getFolderPath, getId, getTextureValue } from "./helper";
 const mcData = minecraftData("1.8.9");
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -43,6 +43,60 @@ const readyPromise = new Promise((resolve) => {
     }
   }, 1000);
 });
+
+function getKey(key: string): string | number {
+  const intKey = Number(key);
+
+  if (!isNaN(intKey)) {
+    return intKey;
+  }
+
+  return key;
+}
+
+function hasPath<T extends object>(obj: T, ...keys: (string | number)[]): boolean {
+  if (obj == null) {
+    return false;
+  }
+
+  let loc: unknown = obj;
+
+  for (let i = 0; i < keys.length; i++) {
+    if (typeof loc === "object" && loc !== null) {
+      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
+    } else {
+      return false;
+    }
+
+    if (loc === undefined) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getPath<T extends object, K = unknown>(obj: T, ...keys: (string | number)[]): K | undefined {
+  if (obj == null) {
+    return undefined;
+  }
+
+  let loc: unknown = obj;
+
+  for (let i = 0; i < keys.length; i++) {
+    if (typeof loc === "object" && loc !== null) {
+      loc = (loc as Record<string, unknown>)[getKey(keys[i] as string)];
+    } else {
+      return undefined;
+    }
+
+    if (loc === undefined) {
+      return undefined;
+    }
+  }
+
+  return loc as K;
+}
 
 async function getFiles(dir: string, fileList: string[]) {
   const files = await fs.readdir(dir);
