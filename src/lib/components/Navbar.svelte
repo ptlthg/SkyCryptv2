@@ -36,7 +36,7 @@
   }
 
   function observerCleanup() {
-    observer.disconnect();
+    if (observer) observer.disconnect();
   }
 
   onMount(() => {
