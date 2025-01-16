@@ -108,7 +108,7 @@ export async function applyResourcePack(item: ProcessedItem, packs: string[]) {
     return item;
   }
 
-  // ? NOTE: we're ignoring enchanted books because they're quite expensive to render and not really useful the performance hit
+  // ? NOTE: we're ignoring enchanted books because they're quite expensive to render and not really worth the performance hit
   if (item.tag?.ExtraAttributes?.id === "ENCHANTED_BOOK") {
     const enchantedBookItem = getItemData({ id: 403 }) as ProcessedItem;
     const texture = getTexture(enchantedBookItem);

@@ -1,5 +1,4 @@
-import type { DatabaseItem, Item, ItemQuery } from "$types/stats";
-import sanitize from "mongo-sanitize";
+import type { Item, ItemQuery } from "$types/stats";
 import * as constants from "../constants/constants";
 
 /**
@@ -24,31 +23,8 @@ function rgbToHex(rgb: string) {
  */
 export function getItemData(query: ItemQuery) {
   query = Object.assign({ skyblockId: undefined, id: undefined, name: undefined, damage: undefined }, query);
+  const dbItem = query.skyblockId ? (constants.ITEMS.get(query.skyblockId) ?? {}) : {};
   const item: Item = { id: -1, Damage: 0, Count: 1, tag: { ExtraAttributes: {} } };
-  let dbItem: DatabaseItem = {};
-
-  if (query.skyblockId) {
-    query.skyblockId = sanitize(query.skyblockId);
-
-    if (query.skyblockId !== undefined && query.skyblockId.includes(":")) {
-      const split = query.skyblockId.split(":");
-
-      query.skyblockId = split[0];
-      query.damage = Number(split[1]);
-    }
-
-    dbItem = { ...(item as unknown as DatabaseItem), ...constants.ITEMS.get(query.skyblockId) };
-  }
-
-  if (query && query.name !== undefined) {
-    const results = Object.values(constants.ITEMS) as DatabaseItem[];
-
-    const filteredResults = results.filter((a) => a.name && a.name.toLowerCase() == (query.name ?? "").toLowerCase());
-
-    if (filteredResults.length > 0) {
-      dbItem = filteredResults[0] ?? {};
-    }
-  }
 
   if (query.id !== undefined) {
     item.id = query.id;
@@ -76,6 +52,10 @@ export function getItemData(query: ItemQuery) {
 
   if ("texture" in dbItem) {
     item.texture = dbItem.texture as string;
+  }
+
+  if ("glowing" in dbItem || "shiny" in dbItem) {
+    item.glowing = true;
   }
 
   if (dbItem.item_id && dbItem.item_id >= 298 && dbItem.item_id <= 301) {
