@@ -158,6 +158,20 @@
     await Promise.all(remainingComponents);
   }
 
+  async function scrollToSection(hash: string) {
+    const sectionId = hash.replace("#", "");
+
+    await loadComponent(sectionId);
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const element = document.querySelector(`[data-section="${sectionId}"]`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   onMount(() => {
     mounted = true;
 
@@ -165,10 +179,19 @@
       Object.entries(COMPONENTS)
         .filter(([, config]) => (config as { preload?: boolean }).preload)
         .map(([name]) => loadComponent(name))
-    ).then(() => {
+    ).then(async () => {
       preloadComplete = true;
-      loadRemainingComponents();
+
+      await loadRemainingComponents();
+
+      if (window.location.hash) {
+        await scrollToSection(window.location.hash);
+      }
     });
+
+    return () => {
+      mounted = false;
+    };
   });
 </script>
 
