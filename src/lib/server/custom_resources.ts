@@ -12,8 +12,6 @@ const mcData = minecraftData("1.8.9");
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import sharp from "sharp";
 
 import { getFileHash } from "$lib/server/helper/hashes";
@@ -431,6 +429,11 @@ async function loadResourcePacks() {
         if (regexString.startsWith("ipattern:")) {
           regex = mm.makeRe(regexString.substring(9), { nocase: true });
         } else if (regexString.startsWith("pattern:")) {
+          if (regexString === "pattern:*" || regexString.trim() === "pattern:") {
+            texture.match = [];
+            break;
+          }
+
           regex = mm.makeRe(regexString.substring(9));
         } else if (regexString.startsWith("iregex:")) {
           regex = new RegExp(regexString.substring(7), "i");
