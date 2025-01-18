@@ -150,6 +150,14 @@
     };
   }
 
+  async function loadRemainingComponents() {
+    const remainingComponents = Object.entries(COMPONENTS)
+      .filter(([, config]) => !(config as { preload?: boolean }).preload)
+      .map(([name]) => loadComponent(name));
+
+    await Promise.all(remainingComponents);
+  }
+
   onMount(() => {
     mounted = true;
 
@@ -159,6 +167,7 @@
         .map(([name]) => loadComponent(name))
     ).then(() => {
       preloadComplete = true;
+      loadRemainingComponents();
     });
   });
 </script>
