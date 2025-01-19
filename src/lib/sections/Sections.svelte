@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getProfileCtx } from "$ctx/profile.svelte";
   import type { SectionName } from "$lib/sections/types";
+  import { titleCase } from "$lib/shared/helper";
   import { sectionOrderPreferences } from "$lib/stores/preferences";
   import type { ValidStats } from "$types/global";
 
@@ -17,74 +18,59 @@
   const COMPONENTS = {
     Armor: {
       component: () => import("./stats/Armor.svelte"),
-      valid: (profile: ValidStats) => profile.items?.armor && profile.items?.equipment && profile.items?.wardrobe,
-      preload: true,
-      priority: 1
+      valid: (profile: ValidStats) => profile.items?.armor && profile.items?.equipment && profile.items?.wardrobe
     },
     Weapons: {
       component: () => import("$lib/sections/stats/Weapons.svelte"),
-      valid: (profile: ValidStats) => profile.items?.weapons,
-      priority: 2
+      valid: (profile: ValidStats) => profile.items?.weapons
     },
     Accessories: {
       component: () => import("$lib/sections/stats/Accessories.svelte"),
-      valid: (profile: ValidStats) => profile.accessories,
-      priority: 3
+      valid: (profile: ValidStats) => profile.accessories
     },
     Pets: {
       component: () => import("$lib/sections/stats/Pets.svelte"),
-      valid: (profile: ValidStats) => profile.pets,
-      priority: 4
+      valid: (profile: ValidStats) => profile.pets
     },
     Inventory: {
       component: () => import("$lib/sections/stats/Inventory.svelte"),
-      valid: (profile: ValidStats) => profile.items,
-      priority: 5
+      valid: (profile: ValidStats) => profile.items
     },
     Skills: {
       component: () => import("$lib/sections/stats/SkillsSection.svelte"),
-      valid: (profile: ValidStats) => profile.skills,
-      priority: 6
+      valid: (profile: ValidStats) => profile.skills
     },
     Dungeons: {
       component: () => import("$lib/sections/stats/Dungeons.svelte"),
-      valid: (profile: ValidStats) => profile.dungeons,
-      priority: 7
+      valid: (profile: ValidStats) => profile.dungeons
     },
     Slayer: {
       component: () => import("$lib/sections/stats/Slayer.svelte"),
-      valid: (profile: ValidStats) => profile.slayer,
-      priority: 8
+      valid: (profile: ValidStats) => profile.slayer
     },
     Minions: {
       component: () => import("$lib/sections/stats/Minions.svelte"),
-      valid: (profile: ValidStats) => profile.minions,
-      priority: 9
+      valid: (profile: ValidStats) => profile.minions
     },
     Bestiary: {
       component: () => import("$lib/sections/stats/Bestiary.svelte"),
-      valid: (profile: ValidStats) => profile.bestiary,
-      priority: 10
+      valid: (profile: ValidStats) => profile.bestiary
     },
     Collections: {
       component: () => import("$lib/sections/stats/Collections.svelte"),
-      valid: (profile: ValidStats) => profile.collections,
-      priority: 11
+      valid: (profile: ValidStats) => profile.collections
     },
-    CrimsonIsle: {
+    Crimson_Isle: {
       component: () => import("$lib/sections/stats/CrimsonIsle.svelte"),
-      valid: (profile: ValidStats) => profile.crimson_isle,
-      priority: 12
+      valid: (profile: ValidStats) => profile.crimson_isle
     },
     Rift: {
       component: () => import("$lib/sections/stats/Rift.svelte"),
-      valid: (profile: ValidStats) => profile.rift,
-      priority: 13
+      valid: (profile: ValidStats) => profile.rift
     },
     Misc: {
       component: () => import("$lib/sections/stats/MiscSection.svelte"),
-      valid: (profile: ValidStats) => profile.misc,
-      priority: 14
+      valid: (profile: ValidStats) => profile.misc
     }
   } as const;
 
@@ -151,9 +137,9 @@
   }
 
   async function loadRemainingComponents() {
-    const remainingComponents = Object.entries(COMPONENTS)
-      .filter(([, config]) => !(config as { preload?: boolean }).preload)
-      .map(([name]) => loadComponent(name));
+    const remainingComponents = Object.keys(COMPONENTS)
+      .filter((id) => findIndex(id as SectionName) !== 0)
+      .map((id) => loadComponent(id));
 
     await Promise.all(remainingComponents);
   }
@@ -176,9 +162,9 @@
     mounted = true;
 
     Promise.all(
-      Object.entries(COMPONENTS)
-        .filter(([, config]) => (config as { preload?: boolean }).preload)
-        .map(([name]) => loadComponent(name))
+      Object.keys(COMPONENTS)
+        .filter((id) => findIndex(id as SectionName) === 0)
+        .map((id) => loadComponent(id))
     ).then(async () => {
       preloadComplete = true;
 
@@ -197,7 +183,7 @@
 
 <div class="space-y-4">
   {#if preloadComplete}
-    {#each Object.entries(COMPONENTS).sort(([, a], [, b]) => (a.priority ?? 99) - (b.priority ?? 99)) as [section, { valid }]}
+    {#each Object.entries(COMPONENTS).sort(([a], [b]) => findIndex(a as SectionName) - findIndex(b as SectionName)) as [section, { valid }]}
       {#if valid(profile)}
         <div data-section={section} use:setupObserver>
           {#if renderedComponents.has(section)}
@@ -210,16 +196,16 @@
               {/if}
             {/key}
           {:else if loadingStates.has(section)}
-            <div class="rounded-lg bg-gray-800/50 p-6 shadow-lg backdrop-blur">
-              <div class="flex items-center space-x-3">
-                <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
-                <span>Loading {section}...</span>
+            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
+              <div class="flex items-center gap-2">
+                <div class="size-5 animate-spin rounded-full border-2 border-text/60 border-t-transparent"></div>
+                <span class="font-semibold text-text/80">Loading {titleCase(section)}...</span>
               </div>
             </div>
           {:else}
-            <div class="rounded-lg bg-gray-800/50 p-6 opacity-50 shadow-lg backdrop-blur">
-              <div class="text-sm text-gray-400">
-                {section} will load when visible
+            <div class="rounded-lg bg-text/[0.05] p-6 backdrop-blur">
+              <div class="font-medium text-text/60">
+                {titleCase(section)} will load when visible
               </div>
             </div>
           {/if}
