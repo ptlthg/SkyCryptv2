@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import ItemContent from "$lib/components/item/item-content.svelte";
+  import Navbar from "$lib/components/Navbar.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import { IsHover } from "$lib/hooks/is-hover.svelte";
   import AdditionalStats from "$lib/layouts/stats/AdditionalStats.svelte";
@@ -40,9 +41,7 @@
       <AdditionalStats />
     </div>
 
-    {#await import('$lib/components/Navbar.svelte') then { default: Navbar }}
-      <Navbar />
-    {/await}
+    <Navbar />
 
     <div class="flex flex-col flex-nowrap gap-y-5 p-4 @[75rem]/parent:p-8">
       {#await import('$lib/components/APINotice.svelte') then { default: Notice }}

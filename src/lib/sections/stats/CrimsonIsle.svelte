@@ -21,13 +21,9 @@
   <Items class="flex-col">
     {#snippet text()}
       <div>
-        {#if isle.factions.selectedFaction === "none"}
-          {profile.username} hasn't visited the Crimson Isle yet.
-        {:else}
-          <AdditionStat text="Selected Faction" class="capitalize" data={isle.factions.selectedFaction} />
-          <AdditionStat text="Mage Reputation" data={format(isle.factions.magesReputation)} maxed={isle.factions.magesReputation >= 12000} />
-          <AdditionStat text="Barbarian Reputation" data={format(isle.factions.barbariansReputation)} maxed={isle.factions.barbariansReputation >= 12000} />
-        {/if}
+        <AdditionStat text="Selected Faction" class="capitalize" data={isle.factions.selectedFaction} />
+        <AdditionStat text="Mage Reputation" data={format(isle.factions.magesReputation)} maxed={isle.factions.magesReputation >= 12000} />
+        <AdditionStat text="Barbarian Reputation" data={format(isle.factions.barbariansReputation)} maxed={isle.factions.barbariansReputation >= 12000} />
       </div>
     {/snippet}
 

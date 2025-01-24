@@ -7,6 +7,7 @@ import type { ServerInit } from "@sveltejs/kit";
 import { getPrices } from "skyhelper-networth";
 import { startMongo } from "./lib/server/db/mongo";
 import { startRedis } from "./lib/server/db/redis";
+import fs from "node:fs";
 
 export const init: ServerInit = async () => {
   console.log("[SkyCrypt] Starting...");
@@ -25,9 +26,13 @@ export const init: ServerInit = async () => {
     console.log("[REDIS] Redis succeesfully connected");
   });
 
-  await intializeNEURepository().then(async () => {
-    parseNEURepository();
-  });
+  if (!fs.existsSync("NotEnoughUpdates-REPO")) {
+    await intializeNEURepository().then(async () => {
+      parseNEURepository();
+    });
+  } else {
+    await parseNEURepository();
+  }
 
   await getPrices().then(() => {
     console.log("[NETWORTH] Prices sucessfully fetched!");
